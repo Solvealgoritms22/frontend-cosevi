@@ -1,0 +1,362 @@
+"use client"
+
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+
+type Language = 'en' | 'es';
+
+interface TranslationContextType {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    t: (key: string) => string;
+}
+
+const translations: Record<Language, Record<string, string>> = {
+    en: {
+        // Navigation
+        dashboard: 'Dashboard',
+        users: 'Users',
+        visitors: 'Visitors',
+        parking: 'Parking',
+        security: 'Security',
+        analytics: 'Analytics',
+        settings: 'Settings',
+        logout: 'Logout',
+        management: 'Management',
+        system: 'System',
+        searchPlaceholder: 'Search...',
+        searchVisitors: 'Search by visitor identity or host name...',
+        visitorLogs: 'Visitor Logs',
+        parkingControl: 'Parking Control',
+        safetyInductions: 'Safety Inductions',
+        lockdown: 'Lockdown',
+        state: 'State',
+        healthyIntegration: 'Healthy Integration',
+        currentStatus: 'Status',
+        authorizeVisit: 'Authorize Visit',
+        newVisit: 'New Visit',
+        exportData: 'Export Data',
+        visitorName: 'Visitor Name',
+        idNumber: 'ID Number',
+        licensePlate: 'License Plate',
+        validFrom: 'Valid From',
+        validUntil: 'Valid Until',
+        cancel: 'Cancel',
+        processing: 'Processing...',
+        host: 'Host',
+        authorizedAccess: 'Authorized Access',
+        statusFilter: 'Status Filter',
+        allActivity: 'All Activity',
+        deleteRecord: 'Delete Record',
+        confirmDelete: 'Are you sure you want to remove this entry?',
+        systemUsers: 'System Users',
+        accessLevels: 'Manage system users and their access levels',
+        createUser: 'Create User',
+        incidentReports: 'Incident Reports',
+        emergencies: 'Emergencies',
+        activityPulse: 'Activity Pulse',
+        recentAlerts: 'Recent Alerts',
+        newNotif: 'New',
+        archiveHistory: 'Archive History',
+        loggedRecently: 'Logged recently',
+        deleteVisitorRecord: 'Delete Visitor Record',
+        deleteConfirmMsg: 'Are you sure you want to remove this entry? This action is permanent and will delete the entry history for this visitor.',
+        adminUsers: 'Admin Users',
+        allRoles: 'All Roles',
+        adminRole: 'Admin',
+        residentRole: 'Resident',
+        securityRole: 'Security',
+        role: 'Role',
+        status: 'Status',
+        created: 'Created',
+        active: 'Active',
+        inactive: 'Inactive',
+        noUsersDetected: 'No users detected',
+        clearFiltersMsg: 'Clear your filters to see more results.',
+        searchUsers: 'Search users...',
+        welcomeBack: 'Welcome Back',
+        logInManage: 'Log in to manage your facility',
+        emailAddress: 'Email Address',
+        signIn: 'Sign In',
+        authenticating: 'Authenticating...',
+        noAccount: "Don't have an account?",
+        createOne: 'Create one',
+        visitDetails: 'Visit Details',
+        visitId: 'Visit ID',
+        companionCount: 'Companion Count',
+        guests: 'Guests',
+        parkingAssignment: 'Parking Assignment',
+        noParkingAssigned: 'No parking assigned',
+        entryTime: 'Entry Time',
+        exitTime: 'Exit Time',
+        identificationPhotos: 'Identification Photos',
+        close: 'Close',
+        noVehicle: 'No Vehicle',
+        facilityAccess: 'Manage facility access logs and authorized visitors',
+        systemHealthy: 'System Healthy',
+        noNewNotifications: 'No new notifications',
+        clearNotifications: 'Clear all notifications',
+        newBadge: 'New',
+        safety: 'Safety',
+
+        // Dashboard
+        centralDirector: 'Central Director',
+        environmentRealTime: 'Environment Real-time Stream',
+        activeNodes: 'Active Nodes',
+        assetLoad: 'Asset Load',
+        directoryCount: 'Directory Count',
+        logicalSlots: 'Logical Slots',
+        visualTelemetry: 'Visual Telemetry',
+        hardwareVerificationLog: 'Hardware Verification Log',
+        fullRegistry: 'Full Registry',
+        coreHealth: 'Core Health',
+        processingInfrastructure: 'Processing Infrastructure',
+        systemNodeLoad: 'System Node Load',
+        visionPrecision: 'Vision Precision',
+        temporalLatency: 'Temporal Latency',
+        healthReport: 'Health Report',
+
+        // Reports
+        analyticsReports: 'Analytics & Reports',
+        deepDiveAccess: 'Deep dive into patterns and occupancy',
+        downloadPDF: 'Download PDF',
+        visitorTrends: 'Visitor Trends',
+        occupancyStatus: 'Occupancy Status',
+        preAuthorized: 'Pre-Authorized',
+        smartPerception: 'Smart Perception',
+        reviewInsights: 'Review Insights',
+
+        // Settings
+        systemDirector: 'System Director',
+        coreConfiguration: 'Core Configuration & Security Policies',
+        applyChanges: 'Apply Changes',
+        localizationBranding: 'Localization & Branding',
+        globalIdentity: 'Global identity and region synchronization',
+        deploymentIdentity: 'Deployment Identity',
+        activeLogicLanguage: 'Active Logic Language',
+        englishUS: 'English (US Directive)',
+        spanishDR: 'Spanish (Dominican Local)',
+        securityProtocols: 'Security Protocols',
+        automatedProtocols: 'Automated hardware and software permissions',
+        lprAutonomous: 'LPR Autonomous Authorization',
+        lprAutonomousDesc: 'Predictive gate activation based on hardware vision match.',
+        badgingTunnel: 'Badging Virtual Tunnel',
+        badgingTunnelDesc: 'Requires multi-factor host validation before asset emission.',
+        systemPurgeDirective: 'System Purge Directive',
+        systemPurgeDesc: 'EXTREME CAUTION: This operation will permanently flush all logical directories, history logs, and session caches.',
+        executePurge: 'Execute Purge',
+        purgeConfirmTitle: 'Purge System Data',
+        purgeConfirmMsg: 'EXTREME CAUTION: You are about to delete ALL visits, logs, and temporary records. This action is irreversible.',
+        confirmPurge: 'Confirm Purge',
+        syncing: 'Syncing...',
+
+        // Safety
+        safetyAccessControl: 'Safety & Access Control',
+        manageAccessRecords: 'Manage access records and visitor authorizations.',
+        newAccessRecord: 'New Access Record',
+        completedVisits: 'Completed Visits',
+        activeNow: 'Active Now',
+        pendingApproval: 'Pending Approval',
+        accessRecords: 'Access Records',
+        noAccessRecordsFound: 'No access records found',
+        adjustSearchFilters: 'Try adjusting your search filters above.',
+        deleteSafetyRecord: 'Delete Safety Record',
+        deleteSafetyRecordMsg: 'Are you sure you want to permanently delete this access log?',
+        visitorNameRequired: 'Name is required',
+        idNumberRequired: 'ID Number is required',
+        licensePlateRequired: 'License plate is required',
+        creating: 'Creating...',
+        createRecord: 'Create Record',
+    },
+    es: {
+        // Navigation
+        dashboard: 'Tablero',
+        users: 'Usuarios',
+        visitors: 'Visitantes',
+        parking: 'Estacionamiento',
+        security: 'Seguridad',
+        analytics: 'Análisis',
+        settings: 'Configuración',
+        logout: 'Cerrar Sesión',
+        management: 'Gestión',
+        system: 'Sistema',
+        searchPlaceholder: 'Buscar...',
+        searchVisitors: 'Buscar por identidad o anfitrión...',
+        visitorLogs: 'Registros de Visitas',
+        parkingControl: 'Control de Parking',
+        safetyInductions: 'Inducciones de Seguridad',
+        lockdown: 'Bloqueo',
+        state: 'Estado',
+        healthyIntegration: 'Integración Saludable',
+        currentStatus: 'Estado',
+        authorizeVisit: 'Autorizar Visita',
+        newVisit: 'Nueva Visita',
+        exportData: 'Exportar Datos',
+        visitorName: 'Nombre del Visitante',
+        idNumber: 'Número de ID',
+        licensePlate: 'Placa / Matrícula',
+        validFrom: 'Válido Desde',
+        validUntil: 'Válido Hasta',
+        cancel: 'Cancelar',
+        processing: 'Procesando...',
+        host: 'Anfitrión',
+        authorizedAccess: 'Acceso Autorizado',
+        statusFilter: 'Filtro de Estado',
+        allActivity: 'Toda la Actividad',
+        deleteRecord: 'Eliminar Registro',
+        confirmDelete: '¿Está seguro de que desea eliminar esta entrada?',
+        systemUsers: 'Usuarios del Sistema',
+        accessLevels: 'Gestionar usuarios del sistema y sus niveles de acceso',
+        createUser: 'Crear Usuario',
+        incidentReports: 'Reportes de Incidentes',
+        emergencies: 'Emergencias',
+        activityPulse: 'Pulso de Actividad',
+        recentAlerts: 'Alertas Recientes',
+        newNotif: 'Nuevas',
+        archiveHistory: 'Archivar Historial',
+        loggedRecently: 'Registrado hace poco',
+        deleteVisitorRecord: 'Eliminar Registro de Visitante',
+        deleteConfirmMsg: '¿Está seguro de que desea eliminar esta entrada? Esta acción es permanente y eliminará el historial de ingreso para este visitante.',
+        adminUsers: 'Usuarios Admin',
+        allRoles: 'Todos los Roles',
+        adminRole: 'Administrador',
+        residentRole: 'Residente',
+        securityRole: 'Seguridad',
+        role: 'Rol',
+        status: 'Estado',
+        created: 'Creado',
+        active: 'Activo',
+        inactive: 'Inactivo',
+        noUsersDetected: 'No se detectaron usuarios',
+        clearFiltersMsg: 'Borre sus filtros para ver más resultados.',
+        searchUsers: 'Buscar usuarios...',
+        welcomeBack: 'Bienvenido',
+        logInManage: 'Inicie sesión para gestionar su instalación',
+        emailAddress: 'Correo Electrónico',
+        signIn: 'Iniciar Sesión',
+        authenticating: 'Autenticando...',
+        noAccount: "¿No tiene una cuenta?",
+        createOne: 'Cree una',
+        visitDetails: 'Detalles de la Visita',
+        visitId: 'ID de Visita',
+        companionCount: 'Cant. Acompañantes',
+        guests: 'Invitados',
+        parkingAssignment: 'Asignación de Parqueo',
+        noParkingAssigned: 'Sin parqueo asignado',
+        entryTime: 'Hora de Entrada',
+        exitTime: 'Hora de Salida',
+        identificationPhotos: 'Fotos de Identificación',
+        close: 'Cerrar',
+        noVehicle: 'Sin Vehículo',
+        facilityAccess: 'Gestione registros de acceso y visitantes autorizados',
+        systemHealthy: 'Sistema Saludable',
+        noNewNotifications: 'No hay notificaciones nuevas',
+        clearNotifications: 'Limpiar notificaciones',
+        newBadge: 'Nuevas',
+        safety: 'Seguridad',
+
+        // Dashboard
+        centralDirector: 'Director Central',
+        environmentRealTime: 'Flujo en Tiempo Real',
+        activeNodes: 'Nodos Activos',
+        assetLoad: 'Carga de Activos',
+        directoryCount: 'Conteo de Directorio',
+        logicalSlots: 'Espacios Lógicos',
+        visualTelemetry: 'Telemetría Visual',
+        hardwareVerificationLog: 'Log de Verificación de Hardware',
+        fullRegistry: 'Registro Completo',
+        coreHealth: 'Salud del Núcleo',
+        processingInfrastructure: 'Infraestructura de Procesamiento',
+        systemNodeLoad: 'Carga de Nodos del Sistema',
+        visionPrecision: 'Precisión de Visión',
+        temporalLatency: 'Latencia Temporal',
+        healthReport: 'Reporte de Salud',
+
+        // Reports
+        analyticsReports: 'Análisis y Reportes',
+        deepDiveAccess: 'Análisis profundo de patrones y ocupación',
+        downloadPDF: 'Descargar PDF',
+        visitorTrends: 'Tendencias de Visitantes',
+        occupancyStatus: 'Estado de Ocupación',
+        preAuthorized: 'Pre-Autorizado',
+        smartPerception: 'Percepción Inteligente',
+        reviewInsights: 'Revisar Insights',
+
+        // Settings
+        systemDirector: 'Director del Sistema',
+        coreConfiguration: 'Configuración Núcleo y Políticas',
+        applyChanges: 'Aplicar Cambios',
+        localizationBranding: 'Localización e Identidad',
+        globalIdentity: 'Identidad global y sincronización',
+        deploymentIdentity: 'Identidad de Despliegue',
+        activeLogicLanguage: 'Idioma de Lógica Activa',
+        englishUS: 'Inglés (Directiva EE.UU.)',
+        spanishDR: 'Español (Local Dominicano)',
+        securityProtocols: 'Protocolos de Seguridad',
+        automatedProtocols: 'Permisos de hardware y software',
+        lprAutonomous: 'Autorización Autónoma LPR',
+        lprAutonomousDesc: 'Activación predictiva de portón por visión.',
+        badgingTunnel: 'Túnel Virtual de Acreditación',
+        badgingTunnelDesc: 'Requiere validación multifactor.',
+        systemPurgeDirective: 'Directiva de Purga del Sistema',
+        systemPurgeDesc: 'PRECAUCIÓN EXTREMA: Esta operación eliminará registros permanentemente.',
+        executePurge: 'Ejecutar Purga',
+        purgeConfirmTitle: 'Purgar Datos del Sistema',
+        purgeConfirmMsg: 'PRECAUCIÓN EXTREMA: Está a punto de eliminar TODOS los registros. Esta acción es irreversible.',
+        confirmPurge: 'Confirmar Purga',
+        syncing: 'Sincronizando...',
+
+        // Safety
+        safetyAccessControl: 'Seguridad y Control de Acceso',
+        manageAccessRecords: 'Gestionar registros de acceso y autorizaciones.',
+        newAccessRecord: 'Nuevo Registro de Acceso',
+        completedVisits: 'Visitas Completadas',
+        activeNow: 'Activos Ahora',
+        pendingApproval: 'Pendiente de Aprobación',
+        accessRecords: 'Registros de Acceso',
+        noAccessRecordsFound: 'No se encontraron registros de acceso',
+        adjustSearchFilters: 'Intente ajustar sus filtros de búsqueda.',
+        deleteSafetyRecord: 'Eliminar Registro de Seguridad',
+        deleteSafetyRecordMsg: '¿Está seguro de que desea eliminar permanentemente este log de acceso?',
+        visitorNameRequired: 'El nombre es obligatorio',
+        idNumberRequired: 'La identificación es obligatoria',
+        licensePlateRequired: 'La placa es obligatoria',
+        creating: 'Creando...',
+        createRecord: 'Crear Registro',
+    }
+};
+
+const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
+
+export function TranslationProvider({ children }: { children: ReactNode }) {
+    const [language, setLanguageState] = useState<Language>('en');
+
+    useEffect(() => {
+        const savedLanguage = localStorage.getItem('language') as Language;
+        if (savedLanguage) {
+            setLanguageState(savedLanguage);
+        }
+    }, []);
+
+    const setLanguage = (lang: Language) => {
+        setLanguageState(lang);
+        localStorage.setItem('language', lang);
+    };
+
+    const t = (key: string): string => {
+        return translations[language][key] || key;
+    };
+
+    return (
+        <TranslationContext.Provider value={{ language, setLanguage, t }}>
+            {children}
+        </TranslationContext.Provider>
+    );
+}
+
+export function useTranslation() {
+    const context = useContext(TranslationContext);
+    if (context === undefined) {
+        throw new Error('useTranslation must be used within a TranslationProvider');
+    }
+    return context;
+}
