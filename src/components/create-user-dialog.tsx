@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import api, { uploadImage, API_BASE_URL } from '@/lib/api';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
@@ -11,7 +10,6 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -22,6 +20,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import api, { API_BASE_URL, uploadImage } from '@/lib/api';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 

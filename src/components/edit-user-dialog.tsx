@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
-import api, { uploadImage, API_BASE_URL } from '@/lib/api';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
     DialogContent,
@@ -10,7 +10,6 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -21,7 +20,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Checkbox } from '@/components/ui/checkbox';
+import api, { API_BASE_URL, uploadImage } from '@/lib/api';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 interface User {
@@ -143,9 +143,22 @@ const ActiveAccountSection = memo(({ isActive, onToggle }: {
 ));
 ActiveAccountSection.displayName = 'ActiveAccountSection';
 
+interface FormData {
+    name: string;
+    role: 'ADMIN' | 'RESIDENT' | 'SECURITY';
+    isActive: boolean;
+    password: string;
+    idNumber: string;
+    phone: string;
+    dateOfBirth: string;
+    unitNumber: string;
+    assignedSpaceIds: string[];
+    profileImage: string;
+}
+
 export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUserDialogProps) {
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         name: user.name,
         role: user.role,
         isActive: user.isActive,
@@ -154,7 +167,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
         phone: user.phone || '',
         dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '',
         unitNumber: user.residentProfile?.unitNumber || '',
-        assignedSpaceIds: user.residentProfile?.assignedSpaces?.map(s => s.id) || [] as string[],
+        assignedSpaceIds: user.residentProfile?.assignedSpaces?.map(s => s.id) || [],
         profileImage: user.profileImage || '',
     });
     const [spaces, setSpaces] = useState<Space[]>([]);
@@ -191,23 +204,23 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
     }, [user.id, open]);
 
     const handleToggleSpace = useCallback((spaceId: string) => {
-        setFormData(prev => {
+        setFormData((prev: FormData) => {
             const isSelected = prev.assignedSpaceIds.includes(spaceId);
             return {
                 ...prev,
                 assignedSpaceIds: isSelected
-                    ? prev.assignedSpaceIds.filter(id => id !== spaceId)
+                    ? prev.assignedSpaceIds.filter((id: string) => id !== spaceId)
                     : [...prev.assignedSpaceIds, spaceId]
             };
         });
     }, []);
 
     const handleChangeRole = useCallback((role: string) => {
-        setFormData(prev => ({ ...prev, role: role as any }));
+        setFormData((prev: FormData) => ({ ...prev, role: role as 'ADMIN' | 'RESIDENT' | 'SECURITY' }));
     }, []);
 
     const handleToggleActive = useCallback((checked: boolean) => {
-        setFormData(prev => ({ ...prev, isActive: checked }));
+        setFormData((prev: FormData) => ({ ...prev, isActive: checked }));
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -289,12 +302,12 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                     id="edit-profile-upload"
                                     className="hidden"
                                     accept="image/*"
-                                    onChange={async (e) => {
+                                    onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
                                         const file = e.target.files?.[0];
                                         if (file) {
                                             try {
                                                 const url = await uploadImage(file);
-                                                setFormData(prev => ({ ...prev, profileImage: url }));
+                                                setFormData((prev: FormData) => ({ ...prev, profileImage: url }));
                                             } catch (error) {
                                                 toast.error('Failed to upload image');
                                             }
@@ -309,7 +322,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                             <Input
                                 id="edit-name"
                                 value={formData.name}
-                                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, name: e.target.value }))}
                                 required
                                 className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"
                             />
@@ -321,7 +334,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 <Input
                                     id="edit-idNumber"
                                     value={formData.idNumber}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, idNumber: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, idNumber: e.target.value }))}
                                     placeholder="1-1234-5678"
                                     className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"
                                 />
@@ -331,7 +344,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 <Input
                                     id="edit-phone"
                                     value={formData.phone}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, phone: e.target.value }))}
                                     placeholder="8888-8888"
                                     className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"
                                 />
@@ -344,7 +357,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 id="edit-dob"
                                 type="date"
                                 value={formData.dateOfBirth}
-                                onChange={(e) => setFormData(prev => ({ ...prev, dateOfBirth: e.target.value }))}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, dateOfBirth: e.target.value }))}
                                 className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"
                             />
                         </div>
@@ -376,7 +389,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 id="edit-password"
                                 type="password"
                                 value={formData.password}
-                                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, password: e.target.value }))}
                                 placeholder="Leave empty to keep current"
                                 minLength={6}
                                 className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"
@@ -392,7 +405,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 <Input
                                     id="edit-unitNumber"
                                     value={formData.unitNumber}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, unitNumber: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev: FormData) => ({ ...prev, unitNumber: e.target.value }))}
                                     placeholder="e.g. A-101"
                                     required={formData.role === 'RESIDENT'}
                                     className="h-11 rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800"

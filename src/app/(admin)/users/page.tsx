@@ -43,15 +43,6 @@ export default function UsersPage() {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
-    const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
-
-    const getImageUrl = (path?: string) => {
-        if (!path) return null;
-        if (path.startsWith('http')) return path;
-        const baseUrl = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-        return `${baseUrl}${normalizedPath}`;
-    };
 
     useEffect(() => {
         fetchUsers();
@@ -234,12 +225,11 @@ export default function UsersPage() {
                                 >
                                     <div className="flex items-center gap-6">
                                         <div className="size-16 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-white dark:border-slate-700 flex items-center justify-center overflow-hidden text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110">
-                                            {user.profileImage && !imageErrors[user.id] ? (
+                                            {user.profileImage ? (
                                                 <img
-                                                    src={getImageUrl(user.profileImage) || ''}
+                                                    src={user.profileImage.startsWith('http') ? user.profileImage : `${API_BASE_URL}${user.profileImage}`}
                                                     alt={user.name}
                                                     className="w-full h-full object-cover"
-                                                    onError={() => setImageErrors(prev => ({ ...prev, [user.id]: true }))}
                                                 />
                                             ) : (
                                                 user.role === 'ADMIN' ? <Shield size={28} strokeWidth={1.5} /> : <User size={28} strokeWidth={1.5} />
