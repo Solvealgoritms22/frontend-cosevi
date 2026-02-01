@@ -3,20 +3,38 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import React from "react"
+import api from "@/lib/api"
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
     const router = useRouter()
     const [authorized, setAuthorized] = useState(false)
 
     useEffect(() => {
-        const checkAuth = () => {
+        const checkAuth = async () => {
             if (typeof window !== "undefined") {
                 const token = localStorage.getItem("token")
                 if (!token) {
                     setAuthorized(false)
                     router.push("/login")
-                } else {
+                    return
+                }
+
+                try {
+                    const response = await api.get('/auth/profile')
+                    const user = response.data
+
+                    if (user.role !== 'ADMIN') {
+                        setAuthorized(false)
+                        localStorage.removeItem('token')
+                        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax";
+                        router.push("/login?error=unauthorized")
+                        return
+                    }
+
                     setAuthorized(true)
+                } catch (error) {
+                    setAuthorized(false)
+                    router.push("/login")
                 }
             }
         }

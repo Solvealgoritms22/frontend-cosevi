@@ -26,8 +26,24 @@ export default function RegisterPage() {
         setError('');
         try {
             const res = await api.post('/auth/register', formData);
-            localStorage.setItem('token', res.data.access_token);
-            document.cookie = `token=${res.data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+            const token = res.data.access_token;
+
+            // Temporary storage to verify role
+            localStorage.setItem('token', token);
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            const profileRes = await api.get('/auth/profile');
+            const user = profileRes.data;
+
+            if (user.role !== 'ADMIN') {
+                localStorage.removeItem('token');
+                delete api.defaults.headers.common['Authorization'];
+                setError('Only administrators can access this panel. Your account has been created but does not have admin privileges.');
+                setLoading(false);
+                return;
+            }
+
+            document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
             router.push('/');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');

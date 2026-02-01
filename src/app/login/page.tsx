@@ -16,14 +16,33 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    const errorParam = searchParams?.get('error');
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
         try {
             const res = await api.post('/auth/login', { email, password });
-            localStorage.setItem('token', res.data.access_token);
-            document.cookie = `token=${res.data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+            const token = res.data.access_token;
+
+            // Temporary storage to verify role
+            localStorage.setItem('token', token);
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            const profileRes = await api.get('/auth/profile');
+            const user = profileRes.data;
+
+            if (user.role !== 'ADMIN') {
+                localStorage.removeItem('token');
+                delete api.defaults.headers.common['Authorization'];
+                setError('Only administrators can access this panel.');
+                setLoading(false);
+                return;
+            }
+
+            document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
             router.push('/');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
@@ -81,6 +100,11 @@ export default function LoginPage() {
                         </div>
 
                         {error && <p className="text-red-400 text-sm font-bold text-center">{error}</p>}
+                        {errorParam === 'unauthorized' && !error && (
+                            <p className="text-amber-400 text-sm font-bold text-center">
+                                Your account is not authorized to access the admin panel.
+                            </p>
+                        )}
 
                         <button
                             disabled={loading}
