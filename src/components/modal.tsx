@@ -3,6 +3,7 @@
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect } from "react"
+import { cn } from "@/lib/utils"
 
 interface ModalProps {
     isOpen: boolean
@@ -10,9 +11,10 @@ interface ModalProps {
     title: string
     children: React.ReactNode
     size?: "sm" | "md" | "lg" | "xl"
+    className?: string
 }
 
-export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, size = "md", className }: ModalProps) {
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose()
@@ -53,8 +55,7 @@ export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalPr
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className={sizeClasses[size]}
-                        style={{ width: "100%", zIndex: 60 }}
+                        className={cn(sizeClasses[size], "w-full z-60", className)}
                     >
                         <div className="bg-white rounded-4xl shadow-2xl max-h-[90vh] flex flex-col border border-white/40 overflow-hidden">
                             {/* Header */}
