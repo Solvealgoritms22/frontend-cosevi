@@ -21,6 +21,7 @@ import {
     UserCog,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface User {
     id: string;
@@ -241,21 +242,12 @@ export default function UsersPage() {
                                 >
                                     <div className="flex items-center gap-6">
                                         <div className="size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110">
-                                            {user.profileImage ? (
-                                                <img
-                                                    src={
-                                                        user.profileImage.startsWith("http")
-                                                            ? user.profileImage
-                                                            : `${API_BASE_URL}${user.profileImage}`
-                                                    }
-                                                    alt={user.name}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            ) : user.role === "ADMIN" ? (
-                                                <Shield size={28} strokeWidth={1.5} />
-                                            ) : (
-                                                <User size={28} strokeWidth={1.5} />
-                                            )}
+                                            <UserAvatar
+                                                src={user.profileImage}
+                                                name={user.name}
+                                                role={user.role}
+                                                iconSize={28}
+                                            />
                                         </div>
                                         <div>
                                             <p className="font-black text-xl text-slate-800 tracking-tight">

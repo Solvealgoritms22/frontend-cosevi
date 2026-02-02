@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import api, { API_BASE_URL } from "@/lib/api";
 import { useTranslation } from "@/context/translation-context";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface AdminSidebarProps {
     isOpen?: boolean;
@@ -214,19 +215,13 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                             className="size-9 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200 text-indigo-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
                             title={userName}
                         >
-                            {user?.profileImage ? (
-                                <img
-                                    src={
-                                        user.profileImage.startsWith("http")
-                                            ? user.profileImage
-                                            : `${API_BASE_URL}${user.profileImage}`
-                                    }
-                                    alt={userName}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                userInitials
-                            )}
+                            <UserAvatar
+                                src={user?.profileImage}
+                                name={userName}
+                                role={userRole}
+                                showInitials
+                                iconSize={16}
+                            />
                         </div>
                         {!collapsed && (
                             <div className="flex-1 min-w-0 overflow-hidden">

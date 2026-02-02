@@ -17,6 +17,7 @@ import useSWR from "swr"
 import api, { API_BASE_URL } from "@/lib/api"
 import { useSearchParams } from "next/navigation"
 import { useTranslation } from "@/context/translation-context"
+import { SafeImage } from "@/components/ui/safe-image"
 
 const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
@@ -456,7 +457,11 @@ export default function VisitorsPage() {
                                             const images = selectedVisit.images ? JSON.parse(selectedVisit.images) : [];
                                             return images.map((img: string, idx: number) => (
                                                 <div key={idx} className="aspect-4/3 rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative group">
-                                                    <img src={img.startsWith('data:') || img.startsWith('http') ? img : `${API_BASE_URL}${img}`} alt={`Visitor ID ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                    <SafeImage
+                                                        src={img.startsWith('data:') || img.startsWith('http') ? img : `${API_BASE_URL}${img}`}
+                                                        alt={`Visitor ID ${idx + 1}`}
+                                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    />
                                                 </div>
                                             ));
                                         } catch (e) {

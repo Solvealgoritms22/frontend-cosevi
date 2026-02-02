@@ -23,6 +23,7 @@ import { Switch } from '@/components/ui/switch';
 import api, { API_BASE_URL, uploadImage } from '@/lib/api';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { UserAvatar } from '@/components/user-avatar';
 
 interface User {
     id: string;
@@ -249,19 +250,12 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                     <div className="flex flex-col items-center justify-center gap-4 mb-8">
                         <div className="relative group">
                             <div className="size-24 rounded-full overflow-hidden border-4 border-slate-50 bg-slate-100 flex items-center justify-center shadow-lg">
-                                {formData.profileImage ? (
-                                    <img
-                                        src={formData.profileImage.startsWith('http') ? formData.profileImage : `${API_BASE_URL}${formData.profileImage}`}
-                                        alt="Profile"
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="size-full bg-slate-100 flex items-center justify-center text-slate-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="size-10" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                        </svg>
-                                    </div>
-                                )}
+                                <UserAvatar
+                                    src={formData.profileImage}
+                                    name={formData.name}
+                                    role={formData.role}
+                                    iconSize={40}
+                                />
                                 <div
                                     className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
                                     onClick={() => document.getElementById('edit-profile-upload')?.click()}
