@@ -1,1 +1,72 @@
-'use client' import { cn } from "@/lib/utils" import { LucideIcon } from "lucide-react" import { ButtonHTMLAttributes, ReactNode } from "react" interface GlassButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { children: ReactNode variant?: 'default' | 'primary' | 'secondary' | 'ghost' | 'danger' size?: 'sm' | 'md' | 'lg' icon?: LucideIcon loading?: boolean glow?: boolean } export function GlassButton({ children, variant = 'default', size = 'md', icon: Icon, loading = false, glow = false, className, disabled, ...props }: GlassButtonProps) { const variants = { default: 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm', primary: 'bg-indigo-600 text-white border border-transparent hover:bg-indigo-700 shadow-md shadow-indigo-500/20', secondary: 'bg-white/50 border border-slate-200 text-slate-600 hover:bg-white hover:text-indigo-600 hover:border-indigo-200 ', ghost: 'bg-transparent border-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900 ', danger: 'bg-red-50 text-red-600 border border-red-100 hover:bg-red-100/50 hover:border-red-200 ', } const sizes = { sm: 'px-3 h-9 text-xs font-medium', md: 'px-5 h-11 text-sm font-semibold tracking-wide', lg: 'px-8 h-14 text-base font-bold tracking-wide', } return ( <button className={cn( 'rounded-xl transition-all duration-200 cursor-pointer active:scale-95', 'flex items-center justify-center gap-2', 'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none', variants[variant], sizes[size], glow && variant === 'primary' && 'shadow-[0_0_20px_rgba(79,70,229,0.3)]', className )} disabled={disabled || loading} {...props} > {loading ? ( <div className="size-4 rounded-full border-2 border-current border-t-transparent animate-spin" /> ) : ( <> {Icon && <Icon className="size-4" />} {children} </> )} </button> ) } 
+"use client";
+
+import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+
+interface GlassButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    children: ReactNode;
+    variant?: "default" | "primary" | "secondary" | "ghost" | "danger";
+    size?: "sm" | "md" | "lg";
+    icon?: LucideIcon;
+    loading?: boolean;
+    glow?: boolean;
+}
+
+export function GlassButton({
+    children,
+    variant = "default",
+    size = "md",
+    icon: Icon,
+    loading = false,
+    glow = false,
+    className,
+    disabled,
+    ...props
+}: GlassButtonProps) {
+    const variants = {
+        default:
+            "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm",
+        primary:
+            "bg-indigo-600 text-white border border-transparent hover:bg-indigo-700 shadow-md shadow-indigo-500/20",
+        secondary:
+            "bg-white/50 border border-slate-200 text-slate-600 hover:bg-white hover:text-indigo-600 hover:border-indigo-200 ",
+        ghost:
+            "bg-transparent border-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900 ",
+        danger:
+            "bg-red-50 text-red-600 border border-red-100 hover:bg-red-100/50 hover:border-red-200 ",
+    };
+
+    const sizes = {
+        sm: "px-3 h-9 text-xs font-medium",
+        md: "px-5 h-11 text-sm font-semibold tracking-wide",
+        lg: "px-8 h-14 text-base font-bold tracking-wide",
+    };
+
+    return (
+        <button
+            className={cn(
+                "rounded-xl transition-all duration-200 cursor-pointer active:scale-95",
+                "flex items-center justify-center gap-2",
+                "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
+                variants[variant],
+                sizes[size],
+                glow &&
+                variant === "primary" &&
+                "shadow-[0_0_20px_rgba(79,70,229,0.3)]",
+                className
+            )}
+            disabled={disabled || loading}
+            {...props}
+        >
+            {loading ? (
+                <div className="size-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+            ) : (
+                <>
+                    {Icon && <Icon className="size-4" />}
+                    {children}
+                </>
+            )}
+        </button>
+    );
+}
