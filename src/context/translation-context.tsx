@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
@@ -97,7 +97,6 @@ const translations: Record<Language, Record<string, string>> = {
         clearNotifications: 'Clear all notifications',
         newBadge: 'New',
         safety: 'Safety',
-
         // Dashboard
         centralDirector: 'Central Director',
         environmentRealTime: 'Environment Real-time Stream',
@@ -114,7 +113,6 @@ const translations: Record<Language, Record<string, string>> = {
         visionPrecision: 'Vision Precision',
         temporalLatency: 'Temporal Latency',
         healthReport: 'Health Report',
-
         // Reports
         analyticsReports: 'Analytics & Reports',
         deepDiveAccess: 'Deep dive into patterns and occupancy',
@@ -124,7 +122,6 @@ const translations: Record<Language, Record<string, string>> = {
         preAuthorized: 'Pre-Authorized',
         smartPerception: 'Smart Perception',
         reviewInsights: 'Review Insights',
-
         // Settings
         systemDirector: 'System Director',
         coreConfiguration: 'Core Configuration & Security Policies',
@@ -148,7 +145,6 @@ const translations: Record<Language, Record<string, string>> = {
         purgeConfirmMsg: 'EXTREME CAUTION: You are about to delete ALL visits, logs, and temporary records. This action is irreversible.',
         confirmPurge: 'Confirm Purge',
         syncing: 'Syncing...',
-
         // Safety
         safetyAccessControl: 'Safety & Access Control',
         manageAccessRecords: 'Manage access records and visitor authorizations.',
@@ -253,7 +249,6 @@ const translations: Record<Language, Record<string, string>> = {
         clearNotifications: 'Limpiar notificaciones',
         newBadge: 'Nuevas',
         safety: 'Seguridad',
-
         // Dashboard
         centralDirector: 'Director Central',
         environmentRealTime: 'Flujo en Tiempo Real',
@@ -270,7 +265,6 @@ const translations: Record<Language, Record<string, string>> = {
         visionPrecision: 'Precisión de Visión',
         temporalLatency: 'Latencia Temporal',
         healthReport: 'Reporte de Salud',
-
         // Reports
         analyticsReports: 'Análisis y Reportes',
         deepDiveAccess: 'Análisis profundo de patrones y ocupación',
@@ -280,7 +274,6 @@ const translations: Record<Language, Record<string, string>> = {
         preAuthorized: 'Pre-Autorizado',
         smartPerception: 'Percepción Inteligente',
         reviewInsights: 'Revisar Insights',
-
         // Settings
         systemDirector: 'Director del Sistema',
         coreConfiguration: 'Configuración Núcleo y Políticas',
@@ -304,7 +297,6 @@ const translations: Record<Language, Record<string, string>> = {
         purgeConfirmMsg: 'PRECAUCIÓN EXTREMA: Está a punto de eliminar TODOS los registros. Esta acción es irreversible.',
         confirmPurge: 'Confirmar Purga',
         syncing: 'Sincronizando...',
-
         // Safety
         safetyAccessControl: 'Seguridad y Control de Acceso',
         manageAccessRecords: 'Gestionar registros de acceso y autorizaciones.',
