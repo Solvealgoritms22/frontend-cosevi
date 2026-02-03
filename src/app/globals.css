@@ -6,6 +6,21 @@
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-pulse-subtle: pulse-subtle 3s ease-in-out infinite;
+
+  @keyframes pulse-subtle {
+
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.8;
+      transform: scale(0.98);
+    }
+  }
 
   @keyframes accordion-down {
     from {
@@ -26,6 +41,12 @@
       height: 0;
     }
   }
+
+  /* Fluid Typography */
+  --font-size-fluid-h1: clamp(2.5rem, 8vw, 6rem);
+  --font-size-fluid-h2: clamp(2rem, 6vw, 4.5rem);
+  --font-size-fluid-h3: clamp(1.5rem, 4vw, 3rem);
+  --font-size-fluid-label: 0.625rem;
 }
 
 :root {
@@ -80,6 +101,11 @@
 
   --radius: 0.75rem;
   /* 12px - Smooth but professional */
+
+  --sidebar-border: rgba(148, 163, 184, 0.2);
+
+  --radius: 0.75rem;
+  /* 12px - Smooth but professional */
 }
 
 body {
@@ -120,16 +146,28 @@ body {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
 }
 
 .glass-input {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .glass-card {
   background: var(--card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.08);
 }

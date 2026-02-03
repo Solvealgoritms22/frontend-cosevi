@@ -24,6 +24,7 @@ import api, { API_BASE_URL, uploadImage } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { UserAvatar } from '@/components/user-avatar';
+import { useTranslation } from '@/context/translation-context';
 
 interface CreateUserDialogProps {
     open: boolean;
@@ -39,6 +40,7 @@ interface Space {
 }
 
 export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDialogProps) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -76,8 +78,8 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
         setLoading(true);
         try {
             await api.post(`/users`, formData);
-            toast.success('User created', {
-                description: `${formData.name} has been successfully created.`,
+            toast.success(t('userCreated'), {
+                description: `${formData.name} ${t('successCreateMsg')}`,
             });
             onSuccess();
             onOpenChange(false);
@@ -96,8 +98,8 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                 profileImage: '',
             });
         } catch (error: any) {
-            toast.error('Error', {
-                description: error.response?.data?.message || 'Failed to create user',
+            toast.error(t('error'), {
+                description: error.response?.data?.message || t('failedCreateUser'),
             });
         } finally {
             setLoading(false);
@@ -108,9 +110,9 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-y-auto">
                 <DialogHeader className="pb-4 border-b border-slate-100 mb-6">
-                    <DialogTitle className="text-2xl font-black text-slate-800 ">Create New User</DialogTitle>
+                    <DialogTitle className="text-2xl font-black text-slate-800 ">{t('createNewUser')}</DialogTitle>
                     <DialogDescription className="text-slate-500 font-medium">
-                        Add a new user to the system. They will be able to login with these credentials.
+                        {t('addUserSystemMsg')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -147,23 +149,23 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                             const url = await uploadImage(file);
                                             setFormData({ ...formData, profileImage: url });
                                         } catch (error) {
-                                            toast.error('Failed to upload image');
+                                            toast.error(t('failedUploadImage'));
                                         }
                                     }
                                 }}
                             />
                         </div>
-                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Profile Image</span>
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t('profileImage')}</span>
                     </div>
 
                     {/* Personal Information */}
                     <div className="space-y-4">
                         <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <span className="w-8 h-px bg-slate-100"></span> Personal Information <span className="flex-1 h-px bg-slate-100"></span>
+                            <span className="w-8 h-px bg-slate-100"></span> {t('personalInformation')} <span className="flex-1 h-px bg-slate-100"></span>
                         </h3>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="name" className="text-slate-600 font-bold ml-1">Full Name</Label>
+                            <Label htmlFor="name" className="text-slate-600 font-bold ml-1">{t('fullName')}</Label>
                             <Input
                                 id="name"
                                 value={formData.name}
@@ -176,7 +178,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="idNumber" className="text-slate-600 font-bold ml-1">ID Number</Label>
+                                <Label htmlFor="idNumber" className="text-slate-600 font-bold ml-1">{t('idNumber')}</Label>
                                 <Input
                                     id="idNumber"
                                     value={formData.idNumber}
@@ -186,7 +188,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="phone" className="text-slate-600 font-bold ml-1">Phone</Label>
+                                <Label htmlFor="phone" className="text-slate-600 font-bold ml-1">{t('phone')}</Label>
                                 <Input
                                     id="phone"
                                     value={formData.phone}
@@ -198,7 +200,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="dob" className="text-slate-600 font-bold ml-1">Date of Birth</Label>
+                            <Label htmlFor="dob" className="text-slate-600 font-bold ml-1">{t('dob')}</Label>
                             <Input
                                 id="dob"
                                 type="date"
@@ -212,11 +214,11 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                     {/* Account Details */}
                     <div className="space-y-4">
                         <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <span className="w-8 h-px bg-slate-100"></span> Account Details <span className="flex-1 h-px bg-slate-100"></span>
+                            <span className="w-8 h-px bg-slate-100"></span> {t('accountDetails')} <span className="flex-1 h-px bg-slate-100"></span>
                         </h3>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="email" className="text-slate-600 font-bold ml-1">Email</Label>
+                            <Label htmlFor="email" className="text-slate-600 font-bold ml-1">{t('email')}</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -229,13 +231,13 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password" className="text-slate-600 font-bold ml-1">Password</Label>
+                            <Label htmlFor="password" className="text-slate-600 font-bold ml-1">{t('password')}</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                placeholder="Min. 6 characters"
+                                placeholder={t('passwordPlaceholder')}
                                 minLength={6}
                                 required
                                 className="h-11 rounded-xl bg-slate-50 border-slate-200"
@@ -243,7 +245,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="role" className="text-slate-600 font-bold ml-1">Role</Label>
+                            <Label htmlFor="role" className="text-slate-600 font-bold ml-1">{t('role')}</Label>
                             <Select
                                 value={formData.role}
                                 onValueChange={(value: any) => setFormData({ ...formData, role: value })}
@@ -252,9 +254,9 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="ADMIN">Admin</SelectItem>
-                                    <SelectItem value="RESIDENT">Resident</SelectItem>
-                                    <SelectItem value="SECURITY">Security Guard</SelectItem>
+                                    <SelectItem value="ADMIN">{t('adminRole')}</SelectItem>
+                                    <SelectItem value="RESIDENT">{t('residentRole')}</SelectItem>
+                                    <SelectItem value="SECURITY">{t('securityRole')}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -263,11 +265,11 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                     {formData.role === 'RESIDENT' && (
                         <div className="space-y-4">
                             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                                <span className="w-8 h-px bg-slate-100"></span> Residency <span className="flex-1 h-px bg-slate-100"></span>
+                                <span className="w-8 h-px bg-slate-100"></span> {t('residency')} <span className="flex-1 h-px bg-slate-100"></span>
                             </h3>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="unitNumber" className="text-slate-600 font-bold ml-1">Unit Number</Label>
+                                <Label htmlFor="unitNumber" className="text-slate-600 font-bold ml-1">{t('unitNumber')}</Label>
                                 <Input
                                     id="unitNumber"
                                     value={formData.unitNumber}
@@ -279,7 +281,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                             </div>
 
                             <div className="grid gap-2">
-                                <Label className="text-slate-600 font-bold ml-1">Assign Parking Spots</Label>
+                                <Label className="text-slate-600 font-bold ml-1">{t('assignParkingSpots')}</Label>
                                 <div className="grid grid-cols-2 gap-2 p-1">
                                     {spaces
                                         .filter((s) => s.type === 'PARKING' && !s.residentProfileId)
@@ -311,7 +313,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                         ))}
                                     {spaces.filter((s) => s.type === 'PARKING' && !s.residentProfileId).length === 0 && (
                                         <p className="col-span-2 text-sm text-slate-400 italic text-center py-4 bg-slate-50 rounded-xl">
-                                            No available spots
+                                            {t('noAvailableSpots')}
                                         </p>
                                     )}
                                 </div>
@@ -321,8 +323,8 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
 
                     <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100 ">
                         <div className="flex flex-col gap-0.5">
-                            <Label htmlFor="active" className="text-base font-bold text-slate-700 ">Active Account</Label>
-                            <span className="text-xs text-slate-500 font-medium">Allow user to log in</span>
+                            <Label htmlFor="active" className="text-base font-bold text-slate-700 ">{t('activeAccount')}</Label>
+                            <span className="text-xs text-slate-500 font-medium">{t('allowLoginMsg')}</span>
                         </div>
                         <Switch
                             id="active"
@@ -333,10 +335,10 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
 
                     <DialogFooter className="pt-6">
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="rounded-xl h-11">
-                            Cancel
+                            {t('cancel')}
                         </Button>
                         <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-indigo-600 hover:bg-indigo-700">
-                            Create User
+                            {t('createUser')}
                         </Button>
                     </DialogFooter>
                 </form>

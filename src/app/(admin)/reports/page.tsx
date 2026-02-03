@@ -62,10 +62,12 @@ export default function ReportsPage() {
             animate={{ opacity: 1, x: 0 }}
             className="flex flex-col gap-6 lg:gap-10 h-full pb-10 p-2 sm:p-4 lg:p-8 print:bg-white print:text-black"
         >
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
-                <div className="space-y-1">
-                    <h2 className="text-3xl lg:text-4xl font-black tracking-tighter text-slate-800 ">{t('analyticsReports')}</h2>
-                    <p className="text-slate-400 mt-2 text-sm lg:text-lg font-medium tracking-tight leading-tight lg:leading-normal">{t('deepDiveAccess')}</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
+                <div className="space-y-4">
+                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
+                        Analytics <span className="text-indigo-500">Reports</span>
+                    </h2>
+                    <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('deepDiveAccess')}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
                     <div className="hidden sm:flex items-center gap-3 px-6 py-3 bg-white/40 border border-white/60 rounded-2xl shadow-sm">
@@ -85,19 +87,19 @@ export default function ReportsPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:px-4">
                 <GlassCard elevation="sm" className="p-4 sm:p-6 lg:p-10 border-white/40 flex flex-col gap-8 relative overflow-hidden">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-black tracking-tighter text-slate-800 flex items-center gap-4">
+                    <div className="flex items-center justify-between gap-4">
+                        <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-slate-800 flex items-center gap-3">
                             <TrendingUp className="text-indigo-500" size={28} />
                             {t('visitorTrends')}
                         </h3>
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50/50 border border-indigo-100/50 rounded-full">
-                                <span className="size-2 rounded-full bg-indigo-500 shadow-sm" />
-                                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Active</span>
+                        <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+                            <div className="flex items-center gap-2 px-2 sm:px-3 py-1 bg-indigo-50/50 border border-indigo-100/50 rounded-full">
+                                <span className="size-1.5 sm:size-2 rounded-full bg-indigo-500 shadow-sm" />
+                                <span className="text-fluid-label font-black text-indigo-600 uppercase tracking-widest">Active</span>
                             </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50/50 border border-slate-100/50 rounded-full">
+                            <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-slate-50/50 border border-slate-100/50 rounded-full">
                                 <span className="size-2 rounded-full bg-slate-300 shadow-sm" />
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Target</span>
+                                <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">Target</span>
                             </div>
                         </div>
                     </div>
@@ -129,32 +131,32 @@ export default function ReportsPage() {
                         {t('occupancyStatus')}
                     </h3>
 
-                    <div className="flex-1 flex items-center justify-center relative">
+                    <div className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-10 relative">
                         {/* High-Fidelity Donut */}
-                        <div className="size-60 rounded-full border-16 border-slate-50/80 shadow-inner flex items-center justify-center relative">
-                            <div className="absolute inset-0 rounded-full border-16 border-emerald-500/10" />
+                        <div className="size-48 sm:size-60 rounded-full border-12 sm:border-16 border-slate-50/80 shadow-inner flex items-center justify-center relative shrink-0">
+                            <div className="absolute inset-0 rounded-full border-12 sm:border-16 border-emerald-500/10" />
                             <div
-                                className="absolute inset-0 rounded-full border-16 border-emerald-500 shadow-xl shadow-emerald-500/10"
+                                className="absolute inset-0 rounded-full border-12 sm:border-16 border-emerald-500 shadow-xl shadow-emerald-500/10"
                                 style={{ clipPath: `inset(0 0 ${100 - residentPercent}% 0)` }}
                             />
-                            <div className="size-40 rounded-full bg-white/60 backdrop-blur-md shadow-2xl border border-white flex flex-col items-center justify-center animate-pulse-subtle">
-                                <span className="text-5xl font-black text-slate-800 tracking-tighter tabular-nums">{residentPercent}%</span>
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">{t('preAuthorized')}</span>
+                            <div className="size-32 sm:size-40 rounded-full bg-white/60 backdrop-blur-md shadow-2xl border border-white flex flex-col items-center justify-center animate-pulse-subtle">
+                                <span className="text-3xl sm:text-5xl font-black text-slate-800 tracking-tighter tabular-nums">{residentPercent}%</span>
+                                <span className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mt-1">{t('preAuthorized')}</span>
                             </div>
                         </div>
 
                         {/* Legend */}
-                        <div className="absolute right-0 flex flex-col gap-4">
+                        <div className="flex flex-row sm:flex-col gap-3 sm:gap-4 overflow-x-auto sm:overflow-visible w-full sm:w-auto px-4 sm:px-0">
                             {[
                                 { label: 'Active', value: residentPercent, color: 'bg-emerald-500' },
                                 { label: 'Pending', value: guestPercent, color: 'bg-indigo-500' },
                                 { label: 'Other', value: staffPercent, color: 'bg-indigo-300' }
                             ].map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-4 px-4 py-2 bg-white/40 border border-white/60 rounded-2xl shadow-sm hover:scale-105 transition-transform cursor-default">
+                                <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/40 border border-white/60 rounded-2xl shadow-sm hover:scale-105 transition-transform cursor-default shrink-0">
                                     <span className={cn("size-2.5 rounded-full shadow-sm", item.color)} />
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
-                                        <span className="text-sm font-black text-slate-800 tabular-nums">{item.value}%</span>
+                                        <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
+                                        <span className="text-xs sm:text-sm font-black text-slate-800 tabular-nums">{item.value}%</span>
                                     </div>
                                 </div>
                             ))}
@@ -163,17 +165,17 @@ export default function ReportsPage() {
                 </GlassCard>
             </div>
 
-            <div className="glass-panel border-white/60 bg-linear-to-br from-indigo-500/10 to-indigo-600/5 rounded-4xl p-4 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
-                <div className="flex items-center gap-8">
-                    <div className="size-20 rounded-3xl bg-indigo-500 flex items-center justify-center text-white shadow-2xl shadow-indigo-500/30">
+            <div className="glass-panel border-white/60 bg-linear-to-br from-indigo-500/10 to-indigo-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
+                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                    <div className="size-16 sm:size-20 rounded-3xl bg-indigo-500 flex items-center justify-center text-white shadow-2xl shadow-indigo-500/30 shrink-0">
                         <Activity size={40} />
                     </div>
-                    <div>
-                        <h4 className="text-3xl font-black tracking-tighter text-slate-800 flex items-center gap-3">
+                    <div className="text-center sm:text-left">
+                        <h4 className="text-2xl sm:text-3xl font-black tracking-tighter text-slate-800 flex items-center justify-center sm:justify-start gap-3">
                             {t('smartPerception')}
                             <ArrowUpRight className="text-emerald-500" size={24} />
                         </h4>
-                        <p className="text-slate-400 max-w-lg font-medium tracking-tight text-lg mt-1">
+                        <p className="text-slate-500 max-w-lg font-medium tracking-tight text-base sm:text-lg mt-1">
                             Current occupancy analysis: <strong>{visitsArray.length}</strong> total interactions recorded with <strong>{spacesArray.length}</strong> active parking nodes.
                         </p>
                     </div>
@@ -182,7 +184,7 @@ export default function ReportsPage() {
                     onClick={() => addNotification({ title: 'System Insight', message: 'Action plan generated based on current occupancy data. Forwarding to security supervisor...', type: 'success' })}
                     variant="primary"
                     glow
-                    className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20"
+                    className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20 w-full xl:w-auto"
                 >
                     {t('reviewInsights')}
                 </GlassButton>

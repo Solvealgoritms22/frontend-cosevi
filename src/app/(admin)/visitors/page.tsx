@@ -163,8 +163,8 @@ export default function VisitorsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-indigo-500">Logs</span></h2>
-                    <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight opacity-90">{t('facilityAccess')}</p>
+                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-indigo-500">Logs</span></h2>
+                    <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('facilityAccess')}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                     <GlassButton onClick={handleExportCSV} variant="secondary" icon={Download}>
@@ -245,42 +245,41 @@ export default function VisitorsPage() {
                             <GlassCard interactive elevation="sm" className="p-3 sm:p-8 border-white/40 cursor-pointer">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
                                     <div className="flex items-center gap-4 sm:gap-8">
-                                        <div className="size-16 sm:size-20 rounded-2xl sm:rounded-3xl bg-indigo-50 border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shadow-sm shrink-0">
+                                        <div className="size-14 sm:size-20 rounded-2xl sm:rounded-3xl bg-white shadow-sm border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shrink-0">
                                             <User size={32} strokeWidth={2} className="text-indigo-500 z-10" />
                                             <div className="absolute inset-0 bg-indigo-500/5 blur-xl group-hover:bg-indigo-500/10 transition-colors" />
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-lg sm:text-2xl font-black tracking-tighter text-slate-800 leading-none mb-2 sm:mb-3 truncate">{visit.visitorName}</p>
-                                            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                                            <p className="text-lg sm:text-2xl font-black tracking-tighter text-slate-800 leading-none mb-2 sm:mb-3 truncate max-w-[150px] sm:max-w-none">{visit.visitorName}</p>
+                                            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                                                 <span className={cn(
-                                                    "text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border shadow-sm",
+                                                    "text-fluid-label font-black uppercase tracking-widest px-3 py-1 rounded-full border shadow-sm",
                                                     visit.status === 'CHECKED_IN' ? "bg-emerald-50 text-emerald-700 border-emerald-100 " :
                                                         visit.status === 'CHECKED_OUT' ? "bg-slate-50 text-slate-600 border-slate-100 " :
                                                             visit.status === 'PENDING' ? "bg-amber-50 text-amber-700 border-amber-100 " :
                                                                 "bg-red-50 text-red-700 border-red-100 "
                                                 )}>
-                                                    {visit.status}
+                                                    {visit.status.replace('_', ' ')}
                                                 </span>
-                                                <div className="h-4 w-px bg-slate-200 hidden sm:block" />
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-widest">{t('host')}:</span>
-                                                    <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-tight truncate max-w-[100px]">{visit.host?.name || "Self-check"}</span>
+                                                <div className="flex items-center gap-2 px-3 py-1 bg-slate-50/50 rounded-lg border border-slate-100/50">
+                                                    <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{t('host')}:</span>
+                                                    <span className="text-fluid-label font-bold text-slate-600 uppercase tracking-tight truncate max-w-[80px] sm:max-w-none">{visit.host?.name || "Self-check"}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-12 w-full sm:w-auto">
-                                        <div className="text-right">
-                                            <div className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em] mb-1 sm:mb-2 opacity-95">{t('authorizedAccess')}</div>
-                                            <div className="text-base sm:text-xl font-black text-slate-800 tabular-nums tracking-tighter">{new Date(visit.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div className="flex flex-wrap items-center justify-between lg:justify-end gap-6 sm:gap-12 w-full lg:w-auto mt-4 lg:mt-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-50">
+                                        <div className="text-left lg:text-right">
+                                            <div className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 sm:mb-2 opacity-60">{t('authorizedAccess')}</div>
+                                            <div className="text-lg sm:text-xl font-black text-slate-800 tabular-nums tracking-tighter">{new Date(visit.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                                         </div>
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-4 ml-auto lg:ml-0">
                                             <div className={cn(
-                                                "min-w-0 sm:min-w-[140px] px-4 sm:px-6 py-2 sm:py-4 rounded-xl sm:rounded-[1.25rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest sm:tracking-[0.2em] text-center shadow-md",
-                                                visit.status === 'CHECKED_IN' ? "bg-emerald-500 text-white shadow-emerald-500/20" :
-                                                    visit.status === 'CHECKED_OUT' ? "bg-slate-100 text-slate-500 border border-slate-200 " :
-                                                        visit.status === 'PENDING' ? "bg-amber-500 text-white shadow-amber-500/20" :
-                                                            "bg-red-500 text-white shadow-red-500/20"
+                                                "px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-black text-fluid-label uppercase tracking-widest sm:tracking-[0.2em] text-center shadow-sm border",
+                                                visit.status === 'CHECKED_IN' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                                                    visit.status === 'CHECKED_OUT' ? "bg-slate-50 text-slate-400 border-slate-100" :
+                                                        visit.status === 'PENDING' ? "bg-amber-50 text-amber-600 border-amber-100" :
+                                                            "bg-red-50 text-red-600 border-red-100"
                                             )}>
                                                 {visit.status.replace('_', ' ')}
                                             </div>
@@ -289,7 +288,7 @@ export default function VisitorsPage() {
                                                     e.stopPropagation()
                                                     setVisitToDelete(visit.id)
                                                 }}
-                                                className="size-10 sm:size-14 rounded-xl sm:rounded-2xl bg-red-50/20 border border-transparent hover:border-red-100 hover:bg-red-50 flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500 group-hover:shadow-lg shrink-0"
+                                                className="size-12 rounded-2xl bg-white shadow-sm border border-slate-100 hover:bg-red-50 flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500 hover:shadow-lg shrink-0"
                                             >
                                                 <Trash2 size={18} />
                                             </button>
@@ -304,7 +303,7 @@ export default function VisitorsPage() {
 
             {totalPages > 1 && (
                 <div className="flex items-center justify-between pt-10 px-8 border-t border-white/20 mt-10">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                    <p className="text-fluid-label font-black uppercase tracking-[0.2em] text-slate-400">
                         {t('showing')} <span className="text-slate-800">{paginatedVisits.length}</span> {t('of')} <span className="text-slate-800">{filteredVisits.length}</span> {t('resultsFound')}
                     </p>
                     <div className="flex items-center gap-2">
@@ -355,7 +354,7 @@ export default function VisitorsPage() {
                 <form onSubmit={handleSubmit(handleCreateVisit)} className="space-y-8 p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
-                            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('visitorName')}</label>
+                            <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('visitorName')}</label>
                             <input {...register("visitorName")} className={cn(
                                 "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
                                 errors.visitorName && "ring-2 ring-red-500/20 border-red-200"
@@ -363,7 +362,7 @@ export default function VisitorsPage() {
                             {errors.visitorName && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.visitorName.message}</p>}
                         </div>
                         <div className="space-y-3">
-                            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('idNumber')}</label>
+                            <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('idNumber')}</label>
                             <input {...register("visitorIdNumber")} className={cn(
                                 "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
                                 errors.visitorIdNumber && "ring-2 ring-red-500/20 border-red-200"
@@ -372,7 +371,7 @@ export default function VisitorsPage() {
                         </div>
                     </div>
                     <div className="space-y-3">
-                        <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('licensePlate')}</label>
+                        <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('licensePlate')}</label>
                         <input {...register("licensePlate")} className={cn(
                             "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
                             errors.licensePlate && "ring-2 ring-red-500/20 border-red-200 "
@@ -381,7 +380,7 @@ export default function VisitorsPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
-                            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('validFrom')}</label>
+                            <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('validFrom')}</label>
                             <input type="date" {...register("validFrom")} className={cn(
                                 "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
                                 errors.validFrom && "ring-2 ring-red-500/20 border-red-200"
@@ -389,7 +388,7 @@ export default function VisitorsPage() {
                             {errors.validFrom && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.validFrom.message}</p>}
                         </div>
                         <div className="space-y-3">
-                            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('validUntil')}</label>
+                            <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('validUntil')}</label>
                             <input type="date" {...register("validUntil")} className={cn(
                                 "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
                                 errors.validUntil && "ring-2 ring-red-500/20 border-red-200"

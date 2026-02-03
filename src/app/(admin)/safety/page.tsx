@@ -134,20 +134,19 @@ export default function SafetyPage() {
             animate={{ opacity: 1, scale: 1 }}
             className="flex flex-col gap-8 h-full"
         >
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
-                <div>
-                    <h2 className="text-4xl font-black tracking-tighter text-slate-800 flex items-center gap-4">
-                        <ShieldCheck className="text-indigo-500" size={36} />
-                        {t('safetyAccessControl')}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
+                <div className="space-y-4">
+                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
+                        Safety <span className="text-indigo-500">Records</span>
                     </h2>
-                    <p className="text-slate-400 mt-2 text-lg font-medium">{t('manageAccessRecords')}</p>
+                    <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageAccessRecords')}</p>
                 </div>
-                <GlassButton onClick={() => setIsCreateModalOpen(true)} variant="primary" icon={Plus} glow className="h-14 px-8" >
+                <GlassButton onClick={() => setIsCreateModalOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20" >
                     {t('newAccessRecord')}
                 </GlassButton>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                 {isLoading ? (
                     <>
                         <Skeleton className="h-32 rounded-3xl" />
@@ -157,16 +156,16 @@ export default function SafetyPage() {
                 ) : (
                     <>
                         <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-3xl shadow-lg shadow-emerald-500/5 group hover:bg-emerald-500/15 transition-all">
-                            <p className="text-emerald-500 font-black text-[10px] uppercase tracking-[0.2em]">{t('completedVisits')}</p>
-                            <h3 className="text-6xl font-black mt-3 tracking-tighter text-emerald-600 tabular-nums">{completed}</h3>
+                            <p className="text-emerald-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('completedVisits')}</p>
+                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-emerald-600 tabular-nums">{completed}</h3>
                         </div>
                         <div className="bg-orange-500/10 border border-orange-500/20 p-8 rounded-3xl shadow-lg shadow-orange-500/5 group hover:bg-orange-500/15 transition-all">
-                            <p className="text-orange-500 font-black text-[10px] uppercase tracking-[0.2em]">{t('activeNow')}</p>
-                            <h3 className="text-6xl font-black mt-3 tracking-tighter text-orange-600 tabular-nums">{active}</h3>
+                            <p className="text-orange-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('activeNow')}</p>
+                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-orange-600 tabular-nums">{active}</h3>
                         </div>
                         <div className="bg-indigo-500/10 border border-indigo-500/20 p-8 rounded-3xl shadow-lg shadow-indigo-500/5 group hover:bg-indigo-500/15 transition-all">
-                            <p className="text-indigo-500 font-black text-[10px] uppercase tracking-[0.2em]">{t('pendingApproval')}</p>
-                            <h3 className="text-6xl font-black mt-3 tracking-tighter text-indigo-600 tabular-nums">{pending}</h3>
+                            <p className="text-indigo-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('pendingApproval')}</p>
+                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-indigo-600 tabular-nums">{pending}</h3>
                         </div>
                     </>
                 )}
@@ -203,51 +202,53 @@ export default function SafetyPage() {
                         paginatedInductions.map((ind) => (
                             <motion.div
                                 layout
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 key={ind.id}
-                                className="flex flex-col sm:flex-row sm:items-center justify-between p-7 rounded-3xl bg-white/40 border border-white/60 hover:bg-white/60 hover:border-white transition-all group relative duration-500"
+                                className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-indigo-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
                             >
-                                <div className="flex items-center gap-6">
-                                    <div className="size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110">
+                                <div className="flex items-center gap-4 sm:gap-6">
+                                    <div className="size-14 sm:size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110 shrink-0">
                                         <FileText size={28} strokeWidth={1.5} />
                                     </div>
-                                    <div>
-                                        <p className="font-black text-xl text-slate-800 tracking-tight">{ind.type}</p>
-                                        <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1 opacity-80">{ind.contractor}</p>
+                                    <div className="min-w-0">
+                                        <p className="font-black text-lg sm:text-xl text-slate-800 tracking-tight truncate max-w-[180px] sm:max-w-none">{ind.type}</p>
+                                        <div className="flex flex-wrap items-center gap-2 mt-1 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm w-fit">
+                                            <span className="text-fluid-label font-black text-slate-500 uppercase tracking-widest truncate max-w-[120px] sm:max-w-none">{ind.contractor}</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-10 mt-6 sm:mt-0">
-                                    <div className="hidden lg:block text-right">
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">Created</p>
+                                <div className="flex flex-wrap items-center justify-between lg:justify-end gap-6 sm:gap-10 mt-2 lg:mt-0 pt-6 lg:pt-0 border-t lg:border-t-0 border-slate-50 w-full lg:w-auto">
+                                    <div className="hidden xl:block text-right">
+                                        <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">Created</p>
                                         <p className="text-sm font-black text-slate-800 ">{ind.date}</p>
                                     </div>
-                                    <div className="w-48">
-                                        <div className="flex items-center justify-between text-[10px] mb-2 px-1">
+                                    <div className="w-full sm:w-48">
+                                        <div className="flex items-center justify-between text-fluid-label mb-2 px-1">
                                             <span className="font-black text-slate-400 uppercase tracking-widest">Progress</span>
                                             <span className="font-black text-slate-800 tabular-nums">{ind.progress}%</span>
                                         </div>
-                                        <div className="w-full bg-white/50 h-2.5 rounded-full overflow-hidden border border-white/60 p-0.5">
+                                        <div className="w-full bg-slate-50 h-2.5 rounded-full overflow-hidden border border-slate-100 p-0.5">
                                             <motion.div
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${ind.progress}%` }}
                                                 transition={{ duration: 1.5, ease: "circOut" }}
                                                 className={cn(
                                                     "h-full rounded-full transition-colors shadow-sm",
-                                                    ind.progress === 100 ? "bg-emerald-400" : "bg-indigo-500"
+                                                    ind.progress === 100 ? "bg-emerald-400 shadow-emerald-400/20" : "bg-indigo-500 shadow-indigo-500/20"
                                                 )}
                                             />
                                         </div>
                                     </div>
                                     <div className={cn(
-                                        "px-6 py-3 rounded-2xl border font-black text-[10px] uppercase tracking-[0.2em] shadow-sm min-w-[140px] text-center",
+                                        "px-4 py-2 rounded-xl border font-black text-fluid-label uppercase tracking-[0.2em] shadow-sm min-w-[130px] text-center",
                                         ind.status === 'CHECKED_IN' ? "bg-emerald-50 text-emerald-600 border-emerald-100 " :
                                             ind.status === 'CHECKED_OUT' ? "bg-slate-50 text-slate-500 border-slate-100 " :
                                                 "bg-amber-50 text-amber-600 border-amber-100 "
                                     )}>
                                         {ind.status.replace('_', ' ')}
                                     </div>
-                                    <button onClick={() => setRecordToDelete(ind.id)} className="size-12 rounded-xl bg-red-50/20 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500" >
+                                    <button onClick={() => setRecordToDelete(ind.id)} className="size-12 rounded-2xl bg-white shadow-sm border border-slate-100 hover:bg-red-50 flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500 hover:shadow-lg shrink-0" >
                                         <Trash2 size={18} />
                                     </button>
                                 </div>
@@ -259,7 +260,7 @@ export default function SafetyPage() {
                 {/* Pagination UI */}
                 {totalPages > 1 && (
                     <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4 px-4">
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                        <p className="text-fluid-label font-black uppercase tracking-[0.4em] text-slate-400 ">
                             Showing <span className="text-slate-800">{paginatedInductions.length}</span> of <span className="text-slate-800">{inductions.length}</span> records
                         </p>
                         <div className="flex items-center gap-2">

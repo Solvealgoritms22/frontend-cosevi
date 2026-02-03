@@ -102,14 +102,14 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-60"
+                        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-30"
                     />
                 )}
             </AnimatePresence>
 
             <aside
                 className={cn(
-                    "fixed lg:sticky top-0 left-0 h-full transition-all duration-300 z-70 flex flex-col shrink-0",
+                    "fixed lg:sticky top-0 left-0 h-full transition-all duration-300 z-40 flex flex-col shrink-0",
                     "bg-white border-r border-slate-200",
                     collapsed ? "w-20" : "w-72",
                     "lg:rounded-3xl lg:h-[calc(100vh-2rem)] lg:top-4 lg:ml-4 shadow-xl shadow-slate-200/50",

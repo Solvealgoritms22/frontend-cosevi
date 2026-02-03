@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { User, Shield } from "lucide-react";
 import { API_BASE_URL } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/context/translation-context";
 
 interface UserAvatarProps {
     src?: string | null;
@@ -22,6 +23,7 @@ export function UserAvatar({
     iconSize = 24,
     showInitials = false,
 }: UserAvatarProps) {
+    const { t } = useTranslation();
     const [error, setError] = useState(false);
 
     // Reset error state if src changes
@@ -45,7 +47,7 @@ export function UserAvatar({
         return (
             <img
                 src={getImageUrl(src)}
-                alt={name || "User avatar"}
+                alt={name || t('userAvatar')}
                 className={cn("w-full h-full object-cover", className)}
                 onError={() => setError(true)}
             />

@@ -166,28 +166,20 @@ export default function UsersPage() {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col gap-4 sm:gap-6 lg:gap-12 h-full pb-10 px-2 sm:px-4"
+            className="flex flex-col gap-4 sm:gap-6 lg:gap-10 h-full pb-10 px-2 sm:px-4"
         >
             {/* Header Section */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 px-4">
-                <div className="space-y-1">
-                    <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black tracking-tighter text-slate-800 ">
-                        {t("adminUsers")}
-                    </h1>
-                    <p className="text-slate-600 font-medium tracking-tight text-base sm:text-lg">
-                        {t("accessLevels")}
-                    </p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
+                <div className="space-y-4">
+                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
+                        {t('userManagement').split(' ')[0]} <span className="text-indigo-500">{t('userManagement').split(' ')[1]}</span>
+                    </h2>
+                    <p className="text-slate-500 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageSystemUsers')}</p>
                 </div>
-                <GlassButton
-                    onClick={() => setCreateDialogOpen(true)}
-                    variant="primary"
-                    icon={Plus}
-                    glow
-                    className="h-12 sm:h-14 px-6 sm:px-8 w-full sm:w-auto"
-                >
-                    {t("createUser")}
+                <GlassButton onClick={() => setCreateDialogOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20" >
+                    {t('createUser')}
                 </GlassButton>
             </div>
 
@@ -227,11 +219,11 @@ export default function UsersPage() {
             {/* Users List - Spatial UI */}
             <div className="space-y-6">
                 {loading ? (
-                    <>
+                    <div className="space-y-4">
                         <Skeleton className="h-28 rounded-3xl w-full" />
                         <Skeleton className="h-28 rounded-3xl w-full" />
                         <Skeleton className="h-28 rounded-3xl w-full" />
-                    </>
+                    </div>
                 ) : filteredUsers.length === 0 ? (
                     <div className="glass-panel p-20 rounded-4xl border border-white/60 text-center">
                         <div className="size-20 rounded-full bg-white shadow-inner flex items-center justify-center mx-auto mb-6 text-slate-500 ">
@@ -245,7 +237,7 @@ export default function UsersPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="glass-panel rounded-3xl sm:rounded-4xl border border-white/60 p-2 sm:p-10 flex flex-col gap-4 sm:gap-6 shadow-2xl elevation-3 relative">
+                    <div className="glass-panel rounded-3xl sm:rounded-4xl border border-white/60 p-2 sm:p-10 flex flex-col gap-4 sm:gap-6 shadow-2xl relative overflow-hidden">
                         <AnimatePresence mode="popLayout">
                             {paginatedUsers.map((user) => (
                                 <motion.div
@@ -254,7 +246,7 @@ export default function UsersPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     key={user.id}
-                                    className="flex flex-col md:flex-row md:items-center justify-between p-3 sm:p-5 lg:p-7 rounded-2xl sm:rounded-3xl bg-white/45 border border-white/60 hover:bg-white/60 hover:border-white transition-all group elevation-1 hover:elevation-2 duration-500 gap-4 sm:gap-6"
+                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-indigo-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
                                 >
                                     <div className="flex items-center gap-4 sm:gap-6">
                                         <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110 shrink-0">
@@ -266,30 +258,30 @@ export default function UsersPage() {
                                             />
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="font-black text-lg sm:text-xl text-slate-800 tracking-tight truncate">
+                                            <p className="font-black text-lg sm:text-xl text-slate-800 tracking-tight truncate max-w-[200px] sm:max-w-none">
                                                 {user.name}
                                             </p>
-                                            <p className="text-sm font-bold text-slate-400 mt-1 opacity-80">
+                                            <p className="text-xs sm:text-sm font-bold text-slate-400 mt-1 opacity-80 break-all">
                                                 {user.email}
                                             </p>
-                                            <div className="flex flex-wrap gap-2 mt-3">
+                                            <div className="flex flex-wrap gap-2 mt-4">
                                                 {user.idNumber && (
-                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
-                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                                            ID: {user.idNumber}
+                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
+                                                        <span className="text-fluid-label font-black text-slate-500 uppercase tracking-widest break-all">
+                                                            {t('identification')}: {user.idNumber}
                                                         </span>
                                                     </div>
                                                 )}
                                                 {user.phone && (
-                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
-                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                                            Tel: {user.phone}
+                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
+                                                        <span className="text-fluid-label font-black text-slate-500 uppercase tracking-widest">
+                                                            {t('telephone')}: {user.phone}
                                                         </span>
                                                     </div>
                                                 )}
                                                 {user.residentProfile?.unitNumber && (
-                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 rounded-full border border-indigo-100 shadow-sm">
-                                                        <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">
+                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 rounded-lg border border-indigo-100 shadow-sm">
+                                                        <span className="text-fluid-label font-black text-indigo-500 uppercase tracking-widest">
                                                             Unit: {user.residentProfile.unitNumber}
                                                         </span>
                                                     </div>
@@ -297,22 +289,22 @@ export default function UsersPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-10 mt-6 md:mt-0">
-                                        <div className="hidden lg:block text-right">
-                                            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-1 opacity-95">
+                                    <div className="flex flex-wrap items-center justify-between lg:justify-end gap-6 sm:gap-10 mt-2 lg:mt-0 pt-6 lg:pt-0 border-t lg:border-t-0 border-slate-50 w-full lg:w-auto">
+                                        <div className="text-left lg:text-right">
+                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
                                                 {t("role")}
                                             </p>
-                                            <div className="flex justify-end">
+                                            <div className="flex lg:justify-end">
                                                 {getRoleBadge(user.role)}
                                             </div>
                                         </div>
-                                        <div className="hidden lg:block text-right">
-                                            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-1 opacity-95">
+                                        <div className="text-left lg:text-right">
+                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
                                                 {t("status")}
                                             </p>
                                             <div
                                                 className={cn(
-                                                    "px-4 py-1.5 rounded-xl border font-black text-[10px] uppercase tracking-[0.15em] shadow-sm text-center",
+                                                    "px-4 py-1.5 rounded-xl border font-black text-fluid-label uppercase tracking-[0.15em] shadow-sm text-center",
                                                     user.isActive
                                                         ? "bg-emerald-50 text-emerald-600 border-emerald-100 "
                                                         : "bg-slate-50 text-slate-500 border-slate-100 "
@@ -322,23 +314,23 @@ export default function UsersPage() {
                                             </div>
                                         </div>
                                         <div className="hidden xl:block text-right">
-                                            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-1 opacity-95">
+                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
                                                 {t("created")}
                                             </p>
                                             <p className="text-sm font-black text-slate-800 ">
                                                 {formatDate(user.createdAt)}
                                             </p>
                                         </div>
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-3 ml-auto lg:ml-0">
                                             <button
                                                 onClick={() => handleEdit(user)}
-                                                className="size-12 rounded-xl bg-white shadow-sm border border-white hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-indigo-500 transition-all duration-500 group-hover:scale-105"
+                                                className="size-12 rounded-2xl bg-slate-50 shadow-sm border border-slate-100 hover:bg-white flex items-center justify-center text-slate-500 hover:text-indigo-500 transition-all duration-500 hover:shadow-lg"
                                             >
                                                 <Edit size={18} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(user)}
-                                                className="size-12 rounded-xl bg-red-50/20 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 transition-all duration-500 group-hover:scale-105"
+                                                className="size-12 rounded-2xl bg-red-50 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 transition-all duration-500 hover:shadow-lg"
                                             >
                                                 <Trash2 size={18} />
                                             </button>
@@ -350,8 +342,8 @@ export default function UsersPage() {
 
                         {/* Pagination UI */}
                         {totalPages > 1 && (
-                            <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                            <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4 px-4">
+                                <p className="text-fluid-label font-black uppercase tracking-[0.2em] text-slate-400">
                                     {t("showing")} <span className="text-slate-800">{paginatedUsers.length}</span> {t("of")} <span className="text-slate-800">{filteredUsers.length}</span> {t("users")}
                                 </p>
                                 <div className="flex items-center gap-2">

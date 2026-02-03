@@ -142,13 +142,13 @@ export default function DashboardPage() {
             {/* Immersive Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tighter text-slate-800 leading-none">
+                    <h1 className="text-fluid-h1 font-black tracking-tighter text-slate-800 leading-[0.9] lg:leading-none">
                         {t("centralDirector").split(" ")[0]}{" "}
                         <span className="text-indigo-500 opacity-80">
                             {t("centralDirector").split(" ")[1]}
                         </span>
                     </h1>
-                    <p className="text-slate-500 text-lg sm:text-xl font-medium tracking-tight opacity-70">
+                    <p className="text-slate-500 text-base sm:text-lg lg:text-xl font-medium tracking-tight opacity-70">
                         {t("environmentRealTime")} •{" "}
                         <span className="text-slate-800 font-bold">
                             {new Date().toLocaleDateString("en-US", {
@@ -185,9 +185,12 @@ export default function DashboardPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         key={stat.label}
-                        className={i % 2 === 0 ? "xl:-translate-y-4" : "xl:translate-y-4"}
+                        className={cn(
+                            "w-full",
+                            i % 2 === 0 ? "xl:-translate-y-4" : "xl:translate-y-4"
+                        )}
                     >
-                        <GlassCard interactive elevation="sm" className="group p-4 sm:p-8 lg:p-10 border-white/40">
+                        <GlassCard interactive elevation="sm" className="group p-6 sm:p-8 lg:p-10 border-white/40">
                             <div className="flex items-center justify-between mb-8 sm:mb-12">
                                 <div
                                     className={cn(
@@ -219,13 +222,13 @@ export default function DashboardPage() {
                                 </div>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] opacity-60 ml-1">
+                                <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.4em] opacity-60 ml-1">
                                     {stat.label}
                                 </p>
-                                <h4 className="text-2xl sm:text-4xl lg:text-6xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
+                                <h4 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
                                     {stat.value}
                                     <ArrowRight
-                                        size={24}
+                                        size={20}
                                         className="text-indigo-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"
                                     />
                                 </h4>
@@ -240,13 +243,13 @@ export default function DashboardPage() {
                 <div className="lg:col-span-2 space-y-10">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 gap-4">
                         <div className="space-y-1">
-                            <h3 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-800 ">
+                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter text-slate-800 ">
                                 {t("visualTelemetry").split(" ")[0]}{" "}
                                 <span className="text-indigo-500 opacity-80">
                                     {t("visualTelemetry").split(" ")[1]}
                                 </span>
                             </h3>
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ">
+                            <p className="text-fluid-label font-black uppercase tracking-[0.4em] text-slate-400 ">
                                 {t("hardwareVerificationLog")}
                             </p>
                         </div>
@@ -321,13 +324,13 @@ export default function DashboardPage() {
                 {/* System Integrity Engine */}
                 <div className="space-y-10">
                     <div className="space-y-1 px-6">
-                        <h3 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-800 ">
+                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter text-slate-800 ">
                             {t("coreHealth").split(" ")[0]}{" "}
                             <span className="text-indigo-500 opacity-80">
                                 {t("coreHealth").split(" ")[1]}
                             </span>
                         </h3>
-                        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ">
+                        <p className="text-fluid-label font-black uppercase tracking-[0.4em] text-slate-400 ">
                             {t("processingInfrastructure")}
                         </p>
                     </div>
@@ -354,10 +357,10 @@ export default function DashboardPage() {
                                 </div>
                             </div>
                             <div className="text-center space-y-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em]">
+                                <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.5em]">
                                     {t("systemNodeLoad")}
                                 </p>
-                                <p className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-800 tabular-nums leading-none tracking-tighter">
+                                <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-800 tabular-nums leading-none tracking-tighter">
                                     {systemEfficiency.toFixed(1)}
                                     <span className="text-xl sm:text-2xl text-indigo-500 opacity-40 ml-1">%</span>
                                 </p>

@@ -50,18 +50,18 @@ export function GlassCard({
     const content = (
         <div
             className={cn(
-                "relative rounded-xl border p-6 transition-all",
+                "relative rounded-3xl border border-white/60 p-5 sm:p-7 md:p-8 transition-all",
                 variantStyles[variant],
                 elevationStyles[elevation],
                 blurStyles[blur],
                 glow &&
-                "ring-1 ring-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.1)]",
+                "ring-1 ring-white/20 shadow-[0_0_20px_rgba(99,102,241,0.1)]",
                 interactive &&
-                "cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-indigo-200 transition-all duration-300",
+                "cursor-pointer hover:-translate-y-1 hover:shadow-2xl hover:bg-white/90 hover:border-white transition-all duration-500",
                 className
             )}
         >
-            <div className="absolute inset-0 rounded-xl bg-linear-to-br from-white/40 to-transparent pointer-events-none opacity-50" />
+            <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/40 to-transparent pointer-events-none opacity-50" />
             <div className="relative z-10">{children}</div>
         </div>
     );

@@ -24,6 +24,7 @@ import api, { API_BASE_URL, uploadImage } from '@/lib/api';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { UserAvatar } from '@/components/user-avatar';
+import { useTranslation } from '@/context/translation-context';
 
 interface User {
     id: string;
@@ -56,72 +57,81 @@ interface EditUserDialogProps {
     onSuccess: () => void;
 }
 
-const RoleSection = memo(({ role, onRoleChange }: { role: string, onRoleChange: (val: string) => void }) => (
-    <div className="grid gap-2">
-        <Label htmlFor="edit-role" className="text-slate-600 font-bold ml-1">Role</Label>
-        <Select value={role} onValueChange={onRoleChange}>
-            <SelectTrigger className="h-11 rounded-xl bg-slate-50 border-slate-200">
-                <SelectValue placeholder="Select role" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem value="ADMIN">Admin</SelectItem>
-                <SelectItem value="RESIDENT">Resident</SelectItem>
-                <SelectItem value="SECURITY">Security Guard</SelectItem>
-            </SelectContent>
-        </Select>
-    </div>
-));
+const RoleSection = memo(({ role, onRoleChange }: { role: string, onRoleChange: (val: string) => void }) => {
+    const { t } = useTranslation();
+    return (
+        <div className="grid gap-2">
+            <Label htmlFor="edit-role" className="text-slate-600 font-bold ml-1">{t('role')}</Label>
+            <Select value={role} onValueChange={onRoleChange}>
+                <SelectTrigger className="h-11 rounded-xl bg-slate-50 border-slate-200">
+                    <SelectValue placeholder={t('selectRole')} />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="ADMIN">{t('adminRole')}</SelectItem>
+                    <SelectItem value="RESIDENT">{t('residentRole')}</SelectItem>
+                    <SelectItem value="SECURITY">{t('securityRole')}</SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
+    );
+});
 RoleSection.displayName = 'RoleSection';
 
-const ParkingSection = memo(({ spaces, selectedIds, currentResidentId, onToggle }: { spaces: Space[], selectedIds: string[], currentResidentId?: string, onToggle: (id: string) => void }) => (
-    <div className="space-y-4">
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-            <span className="w-8 h-px bg-slate-100"></span> Residency <span className="flex-1 h-px bg-slate-100"></span>
-        </h3>
-        <div className="grid gap-2">
-            <Label className="text-slate-600 font-bold ml-1">Assigned Parking Spots</Label>
-            <div className="grid grid-cols-2 gap-2 p-1">
-                {spaces
-                    .filter(s => s.type === 'PARKING' && (!s.residentProfileId || s.residentProfileId === currentResidentId))
-                    .map(space => {
-                        const isSelected = selectedIds.includes(space.id);
-                        const isCurrentlyAssigned = space.residentProfileId === currentResidentId;
-                        return (
-                            <div
-                                key={space.id}
-                                onClick={() => onToggle(space.id)}
-                                className={`cursor-pointer rounded-xl border p-3 flex items-center gap-3 transition-all duration-200 relative ${isSelected ? 'bg-indigo-50 border-indigo-200 ring-1 ring-indigo-500/20' : 'bg-white border-slate-200 hover:border-indigo-300'
-                                    }`}
-                            >
-                                <Checkbox
-                                    id={`edit-space-${space.id}`}
-                                    checked={isSelected}
-                                    onCheckedChange={() => { }}
-                                />
-                                <div className="flex flex-col">
-                                    <span className={`text-sm font-bold ${isSelected ? 'text-indigo-700' : 'text-slate-600'}`}>
-                                        {space.name}
-                                    </span>
-                                    {isCurrentlyAssigned && <span className="text-[10px] text-emerald-500 font-bold">Current</span>}
+const ParkingSection = memo(({ spaces, selectedIds, currentResidentId, onToggle }: { spaces: Space[], selectedIds: string[], currentResidentId?: string, onToggle: (id: string) => void }) => {
+    const { t } = useTranslation();
+    return (
+        <div className="space-y-4">
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                <span className="w-8 h-px bg-slate-100"></span> {t('residency')} <span className="flex-1 h-px bg-slate-100"></span>
+            </h3>
+            <div className="grid gap-2">
+                <Label className="text-slate-600 font-bold ml-1">{t('assignedParkingSpots')}</Label>
+                <div className="grid grid-cols-2 gap-2 p-1">
+                    {spaces
+                        .filter(s => s.type === 'PARKING' && (!s.residentProfileId || s.residentProfileId === currentResidentId))
+                        .map(space => {
+                            const isSelected = selectedIds.includes(space.id);
+                            const isCurrentlyAssigned = space.residentProfileId === currentResidentId;
+                            return (
+                                <div
+                                    key={space.id}
+                                    onClick={() => onToggle(space.id)}
+                                    className={`cursor-pointer rounded-xl border p-3 flex items-center gap-3 transition-all duration-200 relative ${isSelected ? 'bg-indigo-50 border-indigo-200 ring-1 ring-indigo-500/20' : 'bg-white border-slate-200 hover:border-indigo-300'
+                                        }`}
+                                >
+                                    <Checkbox
+                                        id={`edit-space-${space.id}`}
+                                        checked={isSelected}
+                                        onCheckedChange={() => { }}
+                                    />
+                                    <div className="flex flex-col">
+                                        <span className={`text-sm font-bold ${isSelected ? 'text-indigo-700' : 'text-slate-600'}`}>
+                                            {space.name}
+                                        </span>
+                                        {isCurrentlyAssigned && <span className="text-[10px] text-emerald-500 font-bold">{t('current')}</span>}
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                </div>
             </div>
         </div>
-    </div>
-));
+    );
+});
 ParkingSection.displayName = 'ParkingSection';
 
-const ActiveAccountSection = memo(({ isActive, onToggle }: { isActive: boolean, onToggle: (checked: boolean) => void }) => (
-    <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
-        <div className="flex flex-col gap-0.5">
-            <Label htmlFor="edit-active" className="text-base font-bold text-slate-700">Active Account</Label>
-            <span className="text-xs text-slate-500 font-medium">Allow user to log in</span>
+const ActiveAccountSection = memo(({ isActive, onToggle }: { isActive: boolean, onToggle: (checked: boolean) => void }) => {
+    const { t } = useTranslation();
+    return (
+        <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col gap-0.5">
+                <Label htmlFor="edit-active" className="text-base font-bold text-slate-700">{t('activeAccount')}</Label>
+                <span className="text-xs text-slate-500 font-medium">{t('allowLoginMsg')}</span>
+            </div>
+            <Switch id="edit-active" checked={isActive} onCheckedChange={onToggle} />
         </div>
-        <Switch id="edit-active" checked={isActive} onCheckedChange={onToggle} />
-    </div>
-));
+    );
+});
 ActiveAccountSection.displayName = 'ActiveAccountSection';
 
 interface FormData {
@@ -138,6 +148,7 @@ interface FormData {
 }
 
 export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUserDialogProps) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         name: user.name,
@@ -221,14 +232,14 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
             }
 
             await api.patch(`/users/${user.id}`, updateData);
-            toast.success('User updated', {
-                description: `${formData.name} has been successfully updated.`,
+            toast.success(t('userUpdated'), {
+                description: `${formData.name} ${t('successUpdateMsg')}`,
             });
             onSuccess();
             onOpenChange(false);
         } catch (error: any) {
-            toast.error('Error', {
-                description: error.response?.data?.message || 'Failed to update user',
+            toast.error(t('error'), {
+                description: error.response?.data?.message || t('failedUpdateUser'),
             });
         } finally {
             setLoading(false);
@@ -239,9 +250,9 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-y-auto">
                 <DialogHeader className="pb-4 border-b border-slate-100 mb-6">
-                    <DialogTitle className="text-2xl font-black text-slate-800 ">Edit User</DialogTitle>
+                    <DialogTitle className="text-2xl font-black text-slate-800 ">{t('editUser')}</DialogTitle>
                     <DialogDescription className="text-slate-500 font-medium">
-                        Update user information. Leave password empty to keep current password.
+                        {t('updateUserMsg')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -278,22 +289,22 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                             const url = await uploadImage(file);
                                             setFormData((prev) => ({ ...prev, profileImage: url }));
                                         } catch (error) {
-                                            toast.error('Failed to upload image');
+                                            toast.error(t('failedUploadImage'));
                                         }
                                     }
                                 }}
                             />
                         </div>
-                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Update Photo</span>
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t('updatePhoto')}</span>
                     </div>
 
                     <div className="space-y-4">
                         <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <span className="w-8 h-px bg-slate-100"></span> Personal Information <span className="flex-1 h-px bg-slate-100"></span>
+                            <span className="w-8 h-px bg-slate-100"></span> {t('personalInformation')} <span className="flex-1 h-px bg-slate-100"></span>
                         </h3>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="edit-name" className="text-slate-600 font-bold ml-1">Full Name</Label>
+                            <Label htmlFor="edit-name" className="text-slate-600 font-bold ml-1">{t('fullName')}</Label>
                             <Input
                                 id="edit-name"
                                 value={formData.name}
@@ -305,7 +316,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="edit-idNumber" className="text-slate-600 font-bold ml-1">ID Number</Label>
+                                <Label htmlFor="edit-idNumber" className="text-slate-600 font-bold ml-1">{t('idNumber')}</Label>
                                 <Input
                                     id="edit-idNumber"
                                     value={formData.idNumber}
@@ -315,7 +326,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="edit-phone" className="text-slate-600 font-bold ml-1">Phone</Label>
+                                <Label htmlFor="edit-phone" className="text-slate-600 font-bold ml-1">{t('phone')}</Label>
                                 <Input
                                     id="edit-phone"
                                     value={formData.phone}
@@ -327,7 +338,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="edit-dob" className="text-slate-600 font-bold ml-1">Date of Birth</Label>
+                            <Label htmlFor="edit-dob" className="text-slate-600 font-bold ml-1">{t('dob')}</Label>
                             <Input
                                 id="edit-dob"
                                 type="date"
@@ -340,25 +351,25 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
 
                     <div className="space-y-4">
                         <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                            <span className="w-8 h-px bg-slate-100"></span> Account Details <span className="flex-1 h-px bg-slate-100"></span>
+                            <span className="w-8 h-px bg-slate-100"></span> {t('accountDetails')} <span className="flex-1 h-px bg-slate-100"></span>
                         </h3>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="edit-email" className="text-slate-600 font-bold ml-1">Email</Label>
+                            <Label htmlFor="edit-email" className="text-slate-600 font-bold ml-1">{t('email')}</Label>
                             <div className="relative">
                                 <Input id="edit-email" type="email" value={user.email} disabled className="h-11 rounded-xl bg-slate-100 border-slate-200 opacity-70" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 font-black uppercase">Fixed</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 font-black uppercase">{t('fixed')}</span>
                             </div>
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="edit-password" className="text-slate-600 font-bold ml-1">New Password (Optional)</Label>
+                            <Label htmlFor="edit-password" className="text-slate-600 font-bold ml-1">{t('password')} ({t('optional') || 'Optional'})</Label>
                             <Input
                                 id="edit-password"
                                 type="password"
                                 value={formData.password}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
-                                placeholder="Leave empty to keep current"
+                                placeholder={t('passwordKeepMsg')}
                                 minLength={6}
                                 className="h-11 rounded-xl bg-slate-50 border-slate-200"
                             />
@@ -370,7 +381,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                     {formData.role === 'RESIDENT' && (
                         <div className="space-y-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="edit-unitNumber" className="text-slate-600 font-bold ml-1">Unit Number</Label>
+                                <Label htmlFor="edit-unitNumber" className="text-slate-600 font-bold ml-1">{t('unitNumber')}</Label>
                                 <Input
                                     id="edit-unitNumber"
                                     value={formData.unitNumber}
@@ -393,10 +404,10 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
 
                     <DialogFooter className="pt-6">
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="rounded-xl h-11">
-                            Cancel
+                            {t('cancel')}
                         </Button>
                         <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-indigo-600 hover:bg-indigo-700">
-                            Save Changes
+                            {t('saveChanges') || 'Save Changes'}
                         </Button>
                     </DialogFooter>
                 </form>
