@@ -1,13 +1,15 @@
 "use client"
 
-import { Bell, MapPin, Clock, User, CheckCircle2, AlertCircle, ChevronRight, Siren } from "lucide-react"
+import { Bell, MapPin, Clock, User, CheckCircle2, AlertCircle, ChevronRight, Siren, ChevronLeft } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import useSWR from "swr"
 import api from "@/lib/api"
 import { GlassButton } from "@/components/ui/glass-button"
 import { cn } from "@/lib/utils"
 import { useNotifications } from "@/context/notification-context"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+const ITEMS_PER_PAGE = 5
 
 interface Emergency {
     id: string;
@@ -27,6 +29,7 @@ export default function EmergenciesPage() {
     const { data: emergencies, mutate } = useSWR<Emergency[]>("/emergencies", fetcher, { refreshInterval: 5000 })
     const { addNotification } = useNotifications()
     const [loadingId, setLoadingId] = useState<string | null>(null)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const handleResolve = async (id: string) => {
         setLoadingId(id)
@@ -43,6 +46,13 @@ export default function EmergenciesPage() {
 
     const activeEmergencies = emergencies?.filter(e => e.status === 'ACTIVE') || []
     const resolvedEmergencies = emergencies?.filter(e => e.status === 'RESOLVED') || []
+
+    const totalPages = Math.ceil(resolvedEmergencies.length / ITEMS_PER_PAGE)
+    const paginatedHistory = resolvedEmergencies.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [emergencies?.length])
 
     return (
         <motion.div
@@ -128,7 +138,7 @@ export default function EmergenciesPage() {
                         {resolvedEmergencies.length === 0 ? (
                             <p className="text-center py-10 font-bold text-slate-400 italic">No historical records in current session.</p>
                         ) : (
-                            resolvedEmergencies.map((alert) => (
+                            paginatedHistory.map((alert) => (
                                 <div key={alert.id} className="flex flex-col md:flex-row md:items-center justify-between p-6 rounded-3xl bg-white/40 border border-white/60 hover:bg-white/60 transition-all group duration-500">
                                     <div className="flex items-center gap-6">
                                         <div className="size-14 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center text-slate-400 group-hover:text-emerald-500 transition-all duration-500 group-hover:scale-110">
@@ -160,6 +170,55 @@ export default function EmergenciesPage() {
                                     </div>
                                 </div>
                             ))
+                        )}
+
+                        {/* Pagination UI */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                                    Showing <span className="text-slate-800">{paginatedHistory.length}</span> of <span className="text-slate-800">{resolvedEmergencies.length}</span> records
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                        disabled={currentPage === 1}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+
+                                    <div className="flex items-center gap-1">
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={cn(
+                                                    "size-10 rounded-xl text-[10px] font-black transition-all",
+                                                    currentPage === page
+                                                        ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                        : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                                )}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>

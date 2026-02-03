@@ -23,6 +23,7 @@ import { useState, useEffect } from "react";
 import api, { API_BASE_URL } from "@/lib/api";
 import { useTranslation } from "@/context/translation-context";
 import { UserAvatar } from "@/components/user-avatar";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 interface AdminSidebarProps {
     isOpen?: boolean;
@@ -41,6 +42,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     } | null>(null);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -234,7 +236,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                             </div>
                         )}
                         <button
-                            onClick={handleLogout}
+                            onClick={() => setShowLogoutConfirm(true)}
                             className={cn(
                                 "flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all",
                                 collapsed ? "size-8 mt-2" : "size-8 shrink-0"
@@ -246,6 +248,16 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     </div>
                 </div>
             </aside>
+
+            <ConfirmDialog
+                isOpen={showLogoutConfirm}
+                onClose={() => setShowLogoutConfirm(false)}
+                onConfirm={handleLogout}
+                title={t("logoutTitle") || "Cerrar Sesión"}
+                message={t("logoutConfirm") || "¿Estás seguro de que deseas cerrar sesión? Deberás ingresar tus credenciales nuevamente."}
+                confirmText={t("logoutAction") || "Cerrar Sesión"}
+                variant="destructive"
+            />
         </>
     );
 }

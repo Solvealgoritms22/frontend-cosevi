@@ -1,8 +1,8 @@
 "use client"
 
-import { Car, CircleOff, MapPin, Search, Layers, List, Grid3X3, Zap, Info, ArrowRight, Plus, Trash2, ShieldAlert } from "lucide-react"
+import { Car, CircleOff, MapPin, Search, Layers, List, Grid3X3, Zap, Info, ArrowRight, Plus, Trash2, ShieldAlert, ChevronLeft, ChevronRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -23,6 +23,8 @@ const spaceSchema = z.object({
 
 type SpaceFormValues = z.infer<typeof spaceSchema>
 
+const ITEMS_PER_PAGE = 6
+
 export default function ParkingPage() {
     const { addNotification } = useNotifications()
     const [viewMode, setViewMode] = useState<"GRID" | "LIST">("GRID")
@@ -32,6 +34,7 @@ export default function ParkingPage() {
     const [spaceToDelete, setSpaceToDelete] = useState<string | null>(null)
     const [filter, setFilter] = useState("ALL")
     const [searchQuery, setSearchQuery] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
 
     const { data: spaces = [], mutate } = useSWR("/spaces", (url) => api.get(url).then((res: any) => res.data))
 
@@ -48,6 +51,13 @@ export default function ParkingPage() {
         const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || (s.vehicle?.toLowerCase().includes(searchQuery.toLowerCase()))
         return matchesFilter && matchesSearch
     })
+
+    const totalPages = Math.ceil(filteredSpaces.length / ITEMS_PER_PAGE)
+    const paginatedSpaces = filteredSpaces.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [filter, searchQuery, currentFloor])
 
     const handleCreateSpace = async (data: SpaceFormValues) => {
         try {
@@ -87,11 +97,11 @@ export default function ParkingPage() {
     }
 
     return (
-        <div className="flex flex-col gap-12 max-w-[1500px] mx-auto px-4 py-8">
+        <div className="flex flex-col gap-10 sm:gap-12 max-w-[1500px] mx-auto px-2 sm:px-4 py-8">
             {/* Page Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                 <div className="space-y-4">
-                    <h1 className="text-7xl font-black tracking-tighter text-slate-800 leading-none">Parking <span className="text-indigo-500 opacity-80">Logistics</span></h1>
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-slate-800 leading-none">Parking <span className="text-indigo-500 opacity-80">Logistics</span></h1>
                     <p className="text-slate-500 text-xl font-medium tracking-tight opacity-70">Level 1 & 2 • Real-time Hardware Monitoring</p>
                 </div>
                 <div className="flex items-center gap-6">
@@ -113,7 +123,7 @@ export default function ParkingPage() {
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 items-start">
                 {/* Visual Map Section */}
                 <div className="xl:col-span-8 flex flex-col gap-10">
-                    <GlassCard elevation="sm" className="p-10 border-white/40">
+                    <GlassCard elevation="sm" className="p-4 sm:p-10 border-white/40">
                         <div className="flex items-center justify-between mb-12">
                             <div className="flex items-center gap-8">
                                 <div className="px-6 py-2.5 bg-indigo-50 border border-indigo-100 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 shadow-sm">Zone {String.fromCharCode(64 + currentFloor)}-{currentFloor}</div>
@@ -137,8 +147,8 @@ export default function ParkingPage() {
                         {/* Interactive View Content */}
                         <div className="min-h-[500px]">
                             {viewMode === "GRID" ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 p-4">
-                                    {filteredSpaces.map((space: any, i: number) => (
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-12 p-2 sm:p-4">
+                                    {paginatedSpaces.map((space: any, i: number) => (
                                         <motion.div
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
@@ -167,7 +177,7 @@ export default function ParkingPage() {
                                             </div>
 
                                             {/* Central Content */}
-                                            <div className="relative z-10 flex flex-col items-center justify-center gap-6 w-full h-full p-12">
+                                            <div className="relative z-10 flex flex-col items-center justify-center gap-6 w-full h-full p-4 sm:p-12">
                                                 <h3 className={cn(
                                                     "text-6xl font-black tracking-tighter transition-colors duration-300 text-center leading-none",
                                                     space.status === 'AVAILABLE' ? "text-slate-800 " : space.status === 'OCCUPIED' ? "text-red-500 " : "text-slate-400"
@@ -218,7 +228,7 @@ export default function ParkingPage() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-white/40 ">
-                                            {filteredSpaces.map((space: any) => (
+                                            {paginatedSpaces.map((space: any) => (
                                                 <tr key={space.id} onClick={() => setSelectedSpace(space)} className={cn(
                                                     "group cursor-pointer transition-all duration-300",
                                                     selectedSpace?.id === space.id ? "bg-white/60 shadow-lg" : "hover:bg-white/40 "
@@ -256,12 +266,61 @@ export default function ParkingPage() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Pagination UI */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-10">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                                    Showing <span className="text-slate-800">{paginatedSpaces.length}</span> of <span className="text-slate-800">{filteredSpaces.length}</span> spaces
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                        disabled={currentPage === 1}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+
+                                    <div className="flex items-center gap-1">
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={cn(
+                                                    "size-10 rounded-xl text-[10px] font-black transition-all",
+                                                    currentPage === page
+                                                        ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                        : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                                )}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </GlassCard>
                 </div>
 
                 {/* Info Panel / Filter */}
                 <div className="xl:col-span-4 flex flex-col gap-8 sticky top-32">
-                    <GlassCard elevation="sm" className="p-10 border-white/40">
+                    <GlassCard elevation="sm" className="p-4 sm:p-10 border-white/40">
                         <div className="space-y-10">
                             <div className="space-y-6">
                                 <h3 className="text-sm font-black uppercase tracking-[0.3em] text-slate-400 ml-2">Quick Lookup</h3>
@@ -294,7 +353,7 @@ export default function ParkingPage() {
                     <AnimatePresence>
                         {selectedSpace ? (
                             <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.95 }} className="group" >
-                                <GlassCard elevation="xl" className="p-10 border-indigo-200/50 bg-indigo-50/20">
+                                <GlassCard elevation="xl" className="p-4 sm:p-10 border-indigo-200/50 bg-indigo-50/20">
                                     <div className="flex items-center justify-between mb-10">
                                         <div className="space-y-2">
                                             <span className="text-[9px] font-black uppercase tracking-[0.4em] text-indigo-400/80">Asset Identifier</span>
@@ -356,7 +415,7 @@ export default function ParkingPage() {
 
             {/* Create Space Modal */}
             <Modal isOpen={isCreateModalOpen} onClose={() => { setIsCreateModalOpen(false); reset() }} title="Provision Parking Asset">
-                <form onSubmit={handleSubmit(handleCreateSpace)} className="space-y-10 p-4">
+                <form onSubmit={handleSubmit(handleCreateSpace)} className="space-y-10 p-6">
                     <div className="space-y-4">
                         <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-4">Space Identifier</label>
                         <input {...register("name")} className={cn(

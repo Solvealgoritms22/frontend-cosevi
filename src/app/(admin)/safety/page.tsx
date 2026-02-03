@@ -1,8 +1,8 @@
 "use client"
 
-import { ShieldCheck, Search, Plus, FileText, CheckCircle2, Clock, Trash2 } from "lucide-react"
+import { ShieldCheck, Search, Plus, FileText, CheckCircle2, Clock, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import useSWR from "swr"
 import api from "@/lib/api"
@@ -36,6 +36,8 @@ type RecordFormValues = z.infer<ReturnType<typeof getRecordSchema>>
 
 const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
+const ITEMS_PER_PAGE = 5
+
 export default function SafetyPage() {
     const { t, language } = useTranslation()
     const recordSchema = getRecordSchema(t)
@@ -44,6 +46,7 @@ export default function SafetyPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [recordToDelete, setRecordToDelete] = useState<string | null>(null)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<RecordFormValues>({
         resolver: zodResolver(recordSchema)
@@ -87,6 +90,13 @@ export default function SafetyPage() {
         ind.contractor.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ind.type.toLowerCase().includes(searchQuery.toLowerCase())
     )
+
+    const totalPages = Math.ceil(inductions.length / ITEMS_PER_PAGE)
+    const paginatedInductions = inductions.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchQuery])
 
     const handleCreateRecord = async (data: RecordFormValues) => {
         setIsSubmitting(true)
@@ -190,7 +200,7 @@ export default function SafetyPage() {
                             <p className="text-sm text-slate-400 font-medium">{t('adjustSearchFilters')}</p>
                         </div>
                     ) : (
-                        inductions.map((ind) => (
+                        paginatedInductions.map((ind) => (
                             <motion.div
                                 layout
                                 initial={{ opacity: 0, y: 20 }}
@@ -245,9 +255,55 @@ export default function SafetyPage() {
                         ))
                     )}
                 </div>
-                <div className="flex items-center justify-center">
-                    <p className="text-sm font-semibold text-slate-500">Showing {inductions.length} of {visitsArray.length} records</p>
-                </div>
+
+                {/* Pagination UI */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4 px-4">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                            Showing <span className="text-slate-800">{paginatedInductions.length}</span> of <span className="text-slate-800">{inductions.length}</span> records
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                disabled={currentPage === 1}
+                                className={cn(
+                                    "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                )}
+                            >
+                                <ChevronLeft size={16} />
+                            </button>
+
+                            <div className="flex items-center gap-1">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={cn(
+                                            "size-10 rounded-xl text-[10px] font-black transition-all",
+                                            currentPage === page
+                                                ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                        )}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                disabled={currentPage === totalPages}
+                                className={cn(
+                                    "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                )}
+                            >
+                                <ChevronRight size={16} />
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Create Modal */}

@@ -60,7 +60,7 @@ export default function ReportsPage() {
         <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col gap-6 lg:gap-10 h-full pb-10 p-4 lg:p-8 print:bg-white print:text-black"
+            className="flex flex-col gap-6 lg:gap-10 h-full pb-10 p-2 sm:p-4 lg:p-8 print:bg-white print:text-black"
         >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
                 <div className="space-y-1">
@@ -84,7 +84,7 @@ export default function ReportsPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:px-4">
-                <GlassCard elevation="sm" className="p-6 lg:p-10 border-white/40 flex flex-col gap-8 relative overflow-hidden">
+                <GlassCard elevation="sm" className="p-4 sm:p-6 lg:p-10 border-white/40 flex flex-col gap-8 relative overflow-hidden">
                     <div className="flex items-center justify-between">
                         <h3 className="text-2xl font-black tracking-tighter text-slate-800 flex items-center gap-4">
                             <TrendingUp className="text-indigo-500" size={28} />
@@ -123,7 +123,7 @@ export default function ReportsPage() {
                     </div>
                 </GlassCard>
 
-                <GlassCard elevation="sm" className="p-10 border-white/40 flex flex-col gap-8 relative overflow-hidden">
+                <GlassCard elevation="sm" className="p-4 sm:p-10 border-white/40 flex flex-col gap-8 relative overflow-hidden">
                     <h3 className="text-2xl font-black tracking-tighter text-slate-800 flex items-center gap-4 mb-8">
                         <PieChart className="text-indigo-500" size={28} />
                         {t('occupancyStatus')}
@@ -163,7 +163,7 @@ export default function ReportsPage() {
                 </GlassCard>
             </div>
 
-            <div className="glass-panel border-white/60 bg-linear-to-br from-indigo-500/10 to-indigo-600/5 rounded-4xl p-10 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
+            <div className="glass-panel border-white/60 bg-linear-to-br from-indigo-500/10 to-indigo-600/5 rounded-4xl p-4 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
                 <div className="flex items-center gap-8">
                     <div className="size-20 rounded-3xl bg-indigo-500 flex items-center justify-center text-white shadow-2xl shadow-indigo-500/30">
                         <Activity size={40} />

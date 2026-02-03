@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, Filter, Download, Plus, MoreHorizontal, User, Calendar, Clock, ChevronRight, Trash2 } from "lucide-react"
+import { Search, Filter, Download, Plus, MoreHorizontal, User, Calendar, Clock, ChevronRight, Trash2, ChevronLeft } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Modal } from "@/components/modal"
@@ -51,6 +51,8 @@ interface Visit {
     space?: { name: string; level: number };
 }
 
+const ITEMS_PER_PAGE = 5
+
 export default function VisitorsPage() {
     const { t, language } = useTranslation()
     const { data: visits, mutate, isLoading, error } = useSWR<Visit[]>("/visits", fetcher)
@@ -73,6 +75,8 @@ export default function VisitorsPage() {
         if (urlQuery) setSearchQuery(urlQuery)
     }, [urlQuery])
 
+    const [currentPage, setCurrentPage] = useState(1)
+
     const [statusFilter, setStatusFilter] = useState("ALL")
     const [showFilterDropdown, setShowFilterDropdown] = useState(false)
     const [visitToDelete, setVisitToDelete] = useState<string | null>(null)
@@ -91,6 +95,13 @@ export default function VisitorsPage() {
         const matchesStatus = statusFilter === 'ALL' || v.status === statusFilter
         return matchesSearch && matchesStatus
     })
+
+    const totalPages = Math.ceil(filteredVisits.length / ITEMS_PER_PAGE)
+    const paginatedVisits = filteredVisits.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchQuery, statusFilter])
 
     const handleExportCSV = () => {
         if (filteredVisits.length === 0) {
@@ -148,7 +159,7 @@ export default function VisitorsPage() {
     }
 
     return (
-        <div className="flex flex-col gap-8 sm:gap-16 max-w-[1400px] mx-auto px-4 py-8">
+        <div className="flex flex-col gap-8 sm:gap-16 max-w-[1400px] mx-auto px-2 sm:px-4 py-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
@@ -222,7 +233,7 @@ export default function VisitorsPage() {
 
                 {/* Dynamic List */}
                 <div className="space-y-6">
-                    {filteredVisits.map((visit, i) => (
+                    {paginatedVisits.map((visit, i) => (
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -231,7 +242,7 @@ export default function VisitorsPage() {
                             className="group"
                             onClick={() => { setSelectedVisit(visit); setIsDetailModalOpen(true) }}
                         >
-                            <GlassCard interactive elevation="sm" className="p-4 sm:p-8 border-white/40 cursor-pointer">
+                            <GlassCard interactive elevation="sm" className="p-3 sm:p-8 border-white/40 cursor-pointer">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
                                     <div className="flex items-center gap-4 sm:gap-8">
                                         <div className="size-16 sm:size-20 rounded-2xl sm:rounded-3xl bg-indigo-50 border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shadow-sm shrink-0">
@@ -291,21 +302,57 @@ export default function VisitorsPage() {
                 </div>
             </div >
 
-            <div className="flex items-center justify-between pt-10 px-8">
-                <p className="text-xs font-black text-slate-500 tracking-widest uppercase">{t('currentBatch')} • <strong className="text-indigo-500">{filteredVisits.length}</strong> {t('resultsFound')}</p>
-                <div className="flex items-center gap-6">
-                    <button className="size-14 bg-white/40 border border-white/60 rounded-2xl flex items-center justify-center disabled:opacity-20 transition-all hover:bg-white/60 " disabled>
-                        <ChevronRight size={24} className="rotate-180 text-slate-500" />
-                    </button>
-                    <button className="size-14 bg-white shadow-xl shadow-indigo-500/5 rounded-2xl flex items-center justify-center border border-white transition-all hover:scale-110 active:scale-95">
-                        <ChevronRight size={24} className="text-indigo-500" />
-                    </button>
+            {totalPages > 1 && (
+                <div className="flex items-center justify-between pt-10 px-8 border-t border-white/20 mt-10">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                        {t('showing')} <span className="text-slate-800">{paginatedVisits.length}</span> {t('of')} <span className="text-slate-800">{filteredVisits.length}</span> {t('resultsFound')}
+                    </p>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            disabled={currentPage === 1}
+                            className={cn(
+                                "size-12 rounded-2xl flex items-center justify-center transition-all border border-white/60",
+                                currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                            )}
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+
+                        <div className="flex items-center gap-1.5">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={cn(
+                                        "size-12 rounded-2xl text-[10px] font-black transition-all",
+                                        currentPage === page
+                                            ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                            : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                    )}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                            disabled={currentPage === totalPages}
+                            className={cn(
+                                "size-12 rounded-2xl flex items-center justify-center transition-all border border-white/60",
+                                currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                            )}
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Create Visit Modal */}
             <Modal isOpen={isCreateModalOpen} onClose={() => { setIsCreateModalOpen(false); reset() }} title={t('newVisit')}>
-                <form onSubmit={handleSubmit(handleCreateVisit)} className="space-y-8 p-4">
+                <form onSubmit={handleSubmit(handleCreateVisit)} className="space-y-8 p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
                             <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-4">{t('visitorName')}</label>
@@ -364,7 +411,7 @@ export default function VisitorsPage() {
             {/* Visit Detail Modal */}
             <Modal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} title={t('visitDetails') || "Visit Details"}>
                 {selectedVisit && (
-                    <div className="space-y-10 p-4">
+                    <div className="space-y-10 p-6">
                         {/* Status Header */}
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-1">

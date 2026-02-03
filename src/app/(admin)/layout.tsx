@@ -16,7 +16,7 @@ export default function AdminLayout({
 
     return (
         <AuthGuard>
-            <div className="flex h-screen overflow-hidden w-full relative sm:gap-6 p-2 sm:p-6">
+            <div className="flex h-screen overflow-hidden w-full relative sm:gap-6 p-1 sm:p-4 lg:p-6">
                 <AdminSidebar
                     isOpen={isSidebarOpen}
                     onClose={() => setIsSidebarOpen(false)}
@@ -32,7 +32,7 @@ export default function AdminLayout({
                             backdropFilter: "none",
                         }}
                     >
-                        <div className="min-h-full flex flex-col p-4 sm:p-8 lg:p-12">
+                        <div className="min-h-full flex flex-col p-2 sm:p-6 lg:p-12">
                             <div className="flex-1 max-w-[1600px] w-full mx-auto">
                                 {children}
                             </div>

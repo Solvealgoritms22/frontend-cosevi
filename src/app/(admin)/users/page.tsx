@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
     ChevronDown,
+    ChevronLeft,
+    ChevronRight,
     Edit,
     Filter,
     Plus,
@@ -41,6 +43,8 @@ interface User {
     profileImage?: string;
 }
 
+const ITEMS_PER_PAGE = 5;
+
 export default function UsersPage() {
     const { t, language } = useTranslation();
     const [users, setUsers] = useState<User[]>([]);
@@ -52,6 +56,7 @@ export default function UsersPage() {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         fetchUsers();
@@ -59,7 +64,12 @@ export default function UsersPage() {
 
     useEffect(() => {
         filterUsers();
-    }, [users, searchTerm, roleFilter]);
+        setCurrentPage(1);
+    }, [searchTerm, roleFilter]);
+
+    useEffect(() => {
+        filterUsers();
+    }, [users]);
 
     const fetchUsers = async () => {
         try {
@@ -88,6 +98,12 @@ export default function UsersPage() {
         }
         setFilteredUsers(filtered);
     };
+
+    const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
+    const paginatedUsers = filteredUsers.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const handleEdit = (user: User) => {
         setSelectedUser(user);
@@ -152,7 +168,7 @@ export default function UsersPage() {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col gap-6 lg:gap-12 h-full pb-10"
+            className="flex flex-col gap-4 sm:gap-6 lg:gap-12 h-full pb-10 px-2 sm:px-4"
         >
             {/* Header Section */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 px-4">
@@ -229,16 +245,16 @@ export default function UsersPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="glass-panel rounded-3xl sm:rounded-4xl border border-white/60 p-4 sm:p-10 flex flex-col gap-6 shadow-2xl elevation-3 relative">
+                    <div className="glass-panel rounded-3xl sm:rounded-4xl border border-white/60 p-2 sm:p-10 flex flex-col gap-4 sm:gap-6 shadow-2xl elevation-3 relative">
                         <AnimatePresence mode="popLayout">
-                            {filteredUsers.map((user) => (
+                            {paginatedUsers.map((user) => (
                                 <motion.div
                                     layout
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     key={user.id}
-                                    className="flex flex-col md:flex-row md:items-center justify-between p-5 lg:p-7 rounded-3xl bg-white/45 border border-white/60 hover:bg-white/60 hover:border-white transition-all group elevation-1 hover:elevation-2 duration-500 gap-6"
+                                    className="flex flex-col md:flex-row md:items-center justify-between p-3 sm:p-5 lg:p-7 rounded-2xl sm:rounded-3xl bg-white/45 border border-white/60 hover:bg-white/60 hover:border-white transition-all group elevation-1 hover:elevation-2 duration-500 gap-4 sm:gap-6"
                                 >
                                     <div className="flex items-center gap-4 sm:gap-6">
                                         <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110 shrink-0">
@@ -331,6 +347,55 @@ export default function UsersPage() {
                                 </motion.div>
                             ))}
                         </AnimatePresence>
+
+                        {/* Pagination UI */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                                    {t("showing")} <span className="text-slate-800">{paginatedUsers.length}</span> {t("of")} <span className="text-slate-800">{filteredUsers.length}</span> {t("users")}
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                        disabled={currentPage === 1}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+
+                                    <div className="flex items-center gap-1">
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={cn(
+                                                    "size-10 rounded-xl text-[10px] font-black transition-all",
+                                                    currentPage === page
+                                                        ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                        : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                                )}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className={cn(
+                                            "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                        )}
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

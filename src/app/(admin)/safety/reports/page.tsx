@@ -7,8 +7,8 @@ import { useSocket } from "@/context/socket-context"
 import api from "@/lib/api"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { Activity, AlertTriangle, ChevronRight, FileText, Filter, MessageSquare, Search, Send } from "lucide-react"
-import { useEffect, useState } from "react"
+import { Activity, AlertTriangle, ChevronRight, FileText, Filter, MessageSquare, Search, Send, Smile, ChevronLeft } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import useSWR from "swr"
 
@@ -36,15 +36,26 @@ interface Report {
     comments: Comment[];
 }
 
+const ITEMS_PER_PAGE = 5
+
 const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
 export default function SafetyReportsPage() {
     const { data: reports, mutate } = useSWR<Report[]>("/reports", fetcher)
     const { socket } = useSocket()
     const [search, setSearch] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
     const [selectedReport, setSelectedReport] = useState<Report | null>(null)
     const [newComment, setNewComment] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const emojiPickerRef = useRef<HTMLDivElement>(null)
+
+    const commonEmojis = [
+        '👍', '❤️', '🔥', '👏', '🙌', '😢', '😮', '😂',
+        '✅', '❌', '⚠️', '🚨', '📢', '👮', '🏠', '🚗',
+        '🔑', '📝', '❓', '✨', '🙏', '😊', '🤔', '👋'
+    ]
 
     useEffect(() => {
         if (!socket) return
@@ -81,6 +92,13 @@ export default function SafetyReportsPage() {
         r.reporter.name.toLowerCase().includes(search.toLowerCase())
     ) || []
 
+    const totalPages = Math.ceil(filteredReports.length / ITEMS_PER_PAGE)
+    const paginatedReports = filteredReports.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [search])
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'OPEN':
@@ -115,6 +133,21 @@ export default function SafetyReportsPage() {
         }
     }
 
+    const onEmojiClick = (emoji: string) => {
+        setNewComment(prev => prev + emoji)
+        setShowEmojiPicker(false)
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+                setShowEmojiPicker(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
     const handleUpdateStatus = async (status: string) => {
         if (!selectedReport) return
         try {
@@ -131,7 +164,7 @@ export default function SafetyReportsPage() {
         <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col gap-10 h-full pb-10 p-8"
+            className="flex flex-col gap-6 sm:gap-10 h-full pb-10 p-2 sm:p-4 lg:p-8"
         >
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 px-4">
                 <div>
@@ -170,7 +203,7 @@ export default function SafetyReportsPage() {
                 </div>
 
                 <AnimatePresence mode="popLayout">
-                    {filteredReports.map((report, idx) => (
+                    {paginatedReports.map((report, idx) => (
                         <motion.div
                             layout
                             key={report.id}
@@ -178,7 +211,7 @@ export default function SafetyReportsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.05 }}
                             onClick={() => setSelectedReport(report)}
-                            className="glass-panel border-white/60 bg-white/40 rounded-3xl sm:rounded-4xl p-6 sm:p-8 lg:p-10 flex flex-col sm:flex-row items-start gap-6 sm:gap-10 group transition-all duration-500 hover:scale-[1.01] cursor-pointer"
+                            className="glass-panel border-white/60 bg-white/40 rounded-3xl sm:rounded-4xl p-4 sm:p-8 lg:p-10 flex flex-col sm:flex-row items-start gap-4 sm:gap-10 group transition-all duration-500 hover:scale-[1.01] cursor-pointer"
                         >
                             <div className="flex-1 space-y-6 w-full">
                                 <div className="flex flex-wrap items-center gap-4">
@@ -220,6 +253,55 @@ export default function SafetyReportsPage() {
                         </motion.div>
                     ))}
                 </AnimatePresence>
+
+                {/* Pagination UI */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between pt-10 border-t border-white/20 mt-4 px-4">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                            Showing <span className="text-slate-800">{paginatedReports.length}</span> of <span className="text-slate-800">{filteredReports.length}</span> reports
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                disabled={currentPage === 1}
+                                className={cn(
+                                    "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                )}
+                            >
+                                <ChevronLeft size={16} />
+                            </button>
+
+                            <div className="flex items-center gap-1">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={cn(
+                                            "size-10 rounded-xl text-[10px] font-black transition-all",
+                                            currentPage === page
+                                                ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
+                                        )}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                disabled={currentPage === totalPages}
+                                className={cn(
+                                    "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
+                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                )}
+                            >
+                                <ChevronRight size={16} />
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {filteredReports.length === 0 && (
@@ -237,7 +319,7 @@ export default function SafetyReportsPage() {
                 className="max-w-4xl"
             >
                 {selectedReport && (
-                    <div className="space-y-8 p-4">
+                    <div className="space-y-8 p-6">
                         <div className="flex flex-col md:flex-row justify-between gap-6 pb-6 border-b border-slate-100">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-4">
@@ -305,20 +387,60 @@ export default function SafetyReportsPage() {
                                 )}
                             </div>
 
-                            <form onSubmit={handleAddComment} className="flex gap-4 pt-4 border-t border-slate-100">
+                            <form onSubmit={handleAddComment} className="flex gap-4 pt-4 border-t border-slate-100 items-end">
                                 <div className="flex-1 relative">
                                     <input
                                         type="text"
                                         placeholder="Add a comment or internal note..."
                                         value={newComment}
                                         onChange={(e) => setNewComment(e.target.value)}
-                                        className="w-full pl-6 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all"
+                                        className="w-full pl-6 pr-14 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all"
                                     />
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                            className={cn(
+                                                "p-2 rounded-xl transition-all",
+                                                showEmojiPicker ? "bg-indigo-100 text-indigo-600" : "text-slate-400 hover:text-indigo-500 hover:bg-slate-100"
+                                            )}
+                                        >
+                                            <Smile size={20} />
+                                        </button>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {showEmojiPicker && (
+                                            <motion.div
+                                                ref={emojiPickerRef}
+                                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                                                className="absolute bottom-full right-0 mb-4 p-4 bg-white/95 backdrop-blur-xl border border-slate-100 rounded-3xl shadow-2xl z-50 min-w-[280px]"
+                                            >
+                                                <div className="grid grid-cols-6 gap-2">
+                                                    {commonEmojis.map(emoji => (
+                                                        <button
+                                                            key={emoji}
+                                                            type="button"
+                                                            onClick={() => onEmojiClick(emoji)}
+                                                            className="size-10 flex items-center justify-center text-xl hover:bg-slate-50 rounded-xl transition-all hover:scale-110 active:scale-90"
+                                                        >
+                                                            {emoji}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                                <div className="mt-3 pt-3 border-t border-slate-50 flex justify-center">
+                                                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Common Reactions</span>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                                 <GlassButton
                                     type="submit"
                                     variant="primary"
-                                    className="px-8 h-14"
+                                    className="px-8 h-[52px]"
                                     glow
                                     disabled={isSubmitting || !newComment.trim()}
                                 >

@@ -104,7 +104,7 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="flex flex-col gap-8 sm:gap-12 lg:gap-16 max-w-[1400px] mx-auto px-4 py-8">
+        <div className="flex flex-col gap-6 sm:gap-12 lg:gap-16 max-w-[1400px] mx-auto px-2 sm:px-4 py-6 sm:py-8">
             {/* Immersive Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
@@ -153,8 +153,8 @@ export default function DashboardPage() {
                         key={stat.label}
                         className={i % 2 === 0 ? "xl:-translate-y-4" : "xl:translate-y-4"}
                     >
-                        <GlassCard interactive elevation="sm" className="group p-6 sm:p-8 lg:p-10 border-white/40">
-                            <div className="flex items-center justify-between mb-12">
+                        <GlassCard interactive elevation="sm" className="group p-4 sm:p-8 lg:p-10 border-white/40">
+                            <div className="flex items-center justify-between mb-8 sm:mb-12">
                                 <div
                                     className={cn(
                                         "size-16 rounded-3xl flex items-center justify-center relative shadow-inner group-hover:scale-110 transition-transform duration-500",
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] opacity-60 ml-1">
                                     {stat.label}
                                 </p>
-                                <h4 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
+                                <h4 className="text-2xl sm:text-4xl lg:text-6xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
                                     {stat.value}
                                     <ArrowRight
                                         size={24}
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                                 <GlassCard
                                     interactive
                                     elevation="sm"
-                                    className="p-4 sm:p-6 lg:p-8 border-white/40 hover:border-indigo-100 transition-all hover:translate-x-2"
+                                    className="p-3 sm:p-6 lg:p-8 border-white/40 hover:border-indigo-100 transition-all hover:translate-x-2"
                                 >
                                     <div className="flex items-center gap-8">
                                         <div className="size-16 rounded-2xl bg-white shadow-inner flex items-center justify-center relative border border-white group-hover:scale-110 transition-transform duration-500">
@@ -299,7 +299,7 @@ export default function DashboardPage() {
                     </div>
                     <GlassCard
                         elevation="xl"
-                        className="rounded-3xl sm:rounded-[4rem] p-6 sm:p-12 bg-white/50 border-white/60 relative overflow-hidden"
+                        className="rounded-3xl sm:rounded-[4rem] p-4 sm:p-12 bg-white/50 border-white/60 relative overflow-hidden"
                     >
                         <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
                             <Zap size={240} strokeWidth={1} />
