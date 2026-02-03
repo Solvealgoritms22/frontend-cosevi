@@ -38,8 +38,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         }
     }, [])
 
+    const value = React.useMemo(() => ({ socket }), [socket])
+
     return (
-        <SocketContext.Provider value={{ socket }}>
+        <SocketContext.Provider value={value}>
             {children}
         </SocketContext.Provider>
     )

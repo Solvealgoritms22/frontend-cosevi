@@ -49,59 +49,93 @@ export default function DashboardPage() {
     const { data: spaces } = useSWR<Space[]>("/spaces", fetcher);
 
     // Derived stats
-    const visitsArray = visits || [];
-    const spacesArray = spaces || [];
-    const activeVisitors = visitsArray.filter((v) => v.status === "CHECKED_IN")
-        .length;
-    const occupiedSpaces = spacesArray.filter((s) => s.status === "OCCUPIED")
-        .length;
-    const totalSpaces = spacesArray.length || 1;
-    const parkingOccupancy = Math.round((occupiedSpaces / totalSpaces) * 100);
-    const totalVisits = visitsArray.length;
-    const systemEfficiency =
-        totalVisits > 0
-            ? Math.min(99.9, 95 + (activeVisitors / Math.max(totalVisits, 1)) * 5)
-            : 0;
-    const lprAccuracy =
-        spacesArray.length > 0
-            ? Math.min(99.9, 97 + (occupiedSpaces / totalSpaces) * 3)
-            : 0;
+    const visitsArray = useMemo(() => visits || [], [visits]);
+    const spacesArray = useMemo(() => spaces || [], [spaces]);
+
+    const activeVisitors = useMemo(
+        () => visitsArray.filter((v) => v.status === "CHECKED_IN").length,
+        [visitsArray]
+    );
+
+    const occupiedSpaces = useMemo(
+        () => spacesArray.filter((s) => s.status === "OCCUPIED").length,
+        [spacesArray]
+    );
+
+    const totalSpaces = useMemo(() => spacesArray.length || 1, [spacesArray]);
+
+    const parkingOccupancy = useMemo(
+        () => Math.round((occupiedSpaces / totalSpaces) * 100),
+        [occupiedSpaces, totalSpaces]
+    );
+
+    const totalVisits = useMemo(() => visitsArray.length, [visitsArray]);
+
+    const systemEfficiency = useMemo(
+        () =>
+            totalVisits > 0
+                ? Math.min(
+                    99.9,
+                    95 + (activeVisitors / Math.max(totalVisits, 1)) * 5
+                )
+                : 0,
+        [totalVisits, activeVisitors]
+    );
+
+    const lprAccuracy = useMemo(
+        () =>
+            spacesArray.length > 0
+                ? Math.min(99.9, 97 + (occupiedSpaces / totalSpaces) * 3)
+                : 0,
+        [spacesArray.length, occupiedSpaces, totalSpaces]
+    );
+
     const syncDelay = useMemo(() => 0.1 + Math.random() * 0.15, []);
 
-    const stats = [
-        {
-            label: t("activeNodes"),
-            value: activeVisitors.toString(),
-            change: `+${totalVisits}`,
-            trend: "up",
-            icon: Activity,
-            color: "indigo",
-        },
-        {
-            label: t("assetLoad"),
-            value: `${parkingOccupancy}%`,
-            change: `${occupiedSpaces}/${totalSpaces}`,
-            trend: occupiedSpaces > totalSpaces / 2 ? "up" : "down",
-            icon: Car,
-            color: "emerald",
-        },
-        {
-            label: t("directoryCount"),
-            value: totalVisits.toString(),
-            change: "historical",
-            trend: "up",
-            icon: ShieldCheck,
-            color: "blue",
-        },
-        {
-            label: t("logicalSlots"),
-            value: (totalSpaces - occupiedSpaces).toString(),
-            change: "available",
-            trend: "up",
-            icon: Clock,
-            color: "amber",
-        },
-    ];
+    const stats = useMemo(
+        () => [
+            {
+                label: t("activeNodes"),
+                value: activeVisitors.toString(),
+                change: `+${totalVisits}`,
+                trend: "up",
+                icon: Activity,
+                color: "indigo",
+            },
+            {
+                label: t("assetLoad"),
+                value: `${parkingOccupancy}%`,
+                change: `${occupiedSpaces}/${totalSpaces}`,
+                trend: occupiedSpaces > totalSpaces / 2 ? "up" : "down",
+                icon: Car,
+                color: "emerald",
+            },
+            {
+                label: t("directoryCount"),
+                value: totalVisits.toString(),
+                change: "historical",
+                trend: "up",
+                icon: ShieldCheck,
+                color: "blue",
+            },
+            {
+                label: t("logicalSlots"),
+                value: (totalSpaces - occupiedSpaces).toString(),
+                change: "available",
+                trend: "up",
+                icon: Clock,
+                color: "amber",
+            },
+        ],
+        [
+            t,
+            activeVisitors,
+            totalVisits,
+            parkingOccupancy,
+            occupiedSpaces,
+            totalSpaces,
+        ]
+    );
 
     return (
         <div className="flex flex-col gap-6 sm:gap-12 lg:gap-16 max-w-[1400px] mx-auto px-2 sm:px-4 py-6 sm:py-8">

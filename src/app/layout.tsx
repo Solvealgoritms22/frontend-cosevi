@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     description: "Next-generation visitor management and parking control platform.",
 };
 
+import { ErrorBoundary } from "@/components/error-boundary";
+
 export default function RootLayout({
     children,
 }: {
@@ -21,13 +23,15 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
-                <SocketProvider>
-                    <TranslationProvider>
-                        <NotificationProvider>
-                            {children}
-                        </NotificationProvider>
-                    </TranslationProvider>
-                </SocketProvider>
+                <ErrorBoundary>
+                    <SocketProvider>
+                        <TranslationProvider>
+                            <NotificationProvider>
+                                {children}
+                            </NotificationProvider>
+                        </TranslationProvider>
+                    </SocketProvider>
+                </ErrorBoundary>
             </body>
         </html>
     );

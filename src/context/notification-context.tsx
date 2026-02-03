@@ -26,33 +26,43 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const unreadCount = notifications.filter(n => !n.read).length;
 
-    const addNotification = (notification: Omit<Notification, 'id' | 'read'>) => {
-        const id = Math.random().toString(36).substring(7);
+    const addNotification = React.useCallback((notification: Omit<Notification, 'id' | 'read'>) => {
+        const id = crypto.randomUUID();
         const newNotification = { ...notification, id, read: false };
         setNotifications(prev => [newNotification, ...prev]);
 
         // Auto remove after 10 seconds if it's just a success/info
         if (notification.type === 'success' || notification.type === 'info') {
-            setTimeout(() => {
+            const timer = setTimeout(() => {
                 removeNotification(id);
             }, 10000);
+            return () => clearTimeout(timer);
         }
-    };
+    }, []);
 
-    const removeNotification = (id: string) => {
+    const removeNotification = React.useCallback((id: string) => {
         setNotifications(prev => prev.filter(n => n.id !== id));
-    };
+    }, []);
 
-    const markAsRead = (id: string) => {
+    const markAsRead = React.useCallback((id: string) => {
         setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-    };
+    }, []);
 
-    const clearRead = () => {
+    const clearRead = React.useCallback(() => {
         setNotifications(prev => prev.filter(n => !n.read));
-    };
+    }, []);
+
+    const value = React.useMemo(() => ({
+        notifications,
+        unreadCount,
+        addNotification,
+        removeNotification,
+        markAsRead,
+        clearRead
+    }), [notifications, unreadCount, addNotification, removeNotification, markAsRead, clearRead]);
 
     return (
-        <NotificationContext.Provider value={{ notifications, unreadCount, addNotification, removeNotification, markAsRead, clearRead }}>
+        <NotificationContext.Provider value={value}>
             {children}
         </NotificationContext.Provider>
     );
