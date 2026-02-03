@@ -118,7 +118,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             >
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-indigo-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-50"
+                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-indigo-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
                 >
                     {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
                 </button>
