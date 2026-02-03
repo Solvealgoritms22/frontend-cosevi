@@ -148,14 +148,14 @@ export default function VisitorsPage() {
     }
 
     return (
-        <div className="flex flex-col gap-16 max-w-[1400px] mx-auto px-4 py-8">
+        <div className="flex flex-col gap-8 sm:gap-16 max-w-[1400px] mx-auto px-4 py-8">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h2 className="text-7xl font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-indigo-500">Logs</span></h2>
-                    <p className="text-slate-600 text-xl font-medium tracking-tight opacity-90">{t('facilityAccess')}</p>
+                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-indigo-500">Logs</span></h2>
+                    <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight opacity-90">{t('facilityAccess')}</p>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                     <GlassButton onClick={handleExportCSV} variant="secondary" icon={Download}>
                         {t('exportData')}
                     </GlassButton>
@@ -167,7 +167,7 @@ export default function VisitorsPage() {
 
             {/* Constraints & Search - Glass UI */}
             <div className="space-y-12">
-                <div className="flex flex-col xl:flex-row items-center gap-10">
+                <div className="flex flex-col xl:flex-row items-center gap-6 sm:gap-10">
                     <div className="relative group flex-1 w-full">
                         <div className="absolute inset-0 bg-white/40 blur-md rounded-4xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-500 h-6 w-6 z-10 transition-colors group-focus-within:text-indigo-500" />
@@ -176,23 +176,24 @@ export default function VisitorsPage() {
                             placeholder={t('searchVisitors')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="relative z-10 w-full h-20 pl-18 pr-8 bg-white/40 border border-white/60 rounded-4xl outline-none font-bold tracking-tight text-slate-800 placeholder:text-slate-500 text-lg focus:ring-4 focus:ring-indigo-500/5 transition-all"
+                            className="relative z-10 w-full h-16 sm:h-20 pl-18 pr-8 bg-white/40 border border-white/60 rounded-3xl sm:rounded-4xl outline-none font-bold tracking-tight text-slate-800 placeholder:text-slate-500 text-base sm:text-lg focus:ring-4 focus:ring-indigo-500/5 transition-all"
                         />
                     </div>
-                    <div className="flex items-center gap-6 w-full xl:w-auto">
-                        <div className="h-20 bg-white/40 border border-white/60 rounded-4xl px-8 flex items-center gap-5 min-w-[280px] shadow-sm">
-                            <Calendar size={20} className="text-indigo-500" />
-                            <span className="text-sm font-black text-slate-700 uppercase tracking-widest">{new Date().toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full xl:w-auto">
+                        <div className="h-16 sm:h-20 bg-white/40 border border-white/60 rounded-3xl sm:rounded-4xl px-8 flex items-center justify-between sm:justify-start gap-5 w-full sm:min-w-[280px] shadow-sm">
+                            <Calendar size={20} className="text-indigo-500 shrink-0" />
+                            <span className="text-xs sm:text-sm font-black text-slate-700 uppercase tracking-widest">{new Date().toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
-                        <div className="relative">
+                        <div className="relative w-full sm:w-auto">
                             <button
                                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                                 className={cn(
-                                    "size-20 rounded-4xl flex items-center justify-center transition-all duration-500 shadow-sm",
-                                    statusFilter !== 'ALL' ? "bg-white border-white scale-[1.1] shadow-xl" : "bg-white/40 border border-white/60 hover:bg-white/60 "
+                                    "h-16 w-full sm:size-20 rounded-3xl sm:rounded-4xl flex items-center justify-center transition-all duration-500 shadow-sm",
+                                    statusFilter !== 'ALL' ? "bg-white border-white scale-[1.05] sm:scale-[1.1] shadow-xl" : "bg-white/40 border border-white/60 hover:bg-white/60 "
                                 )}
                             >
                                 <Filter size={24} className={statusFilter !== 'ALL' ? "text-indigo-500" : "text-slate-500"} />
+                                <span className="sm:hidden ml-3 text-xs font-black uppercase tracking-widest text-slate-500">Filter</span>
                             </button>
                             {showFilterDropdown && (
                                 <div className="absolute right-0 top-full mt-6 z-50 bg-white rounded-[2.5rem] shadow-2xl p-4 min-w-[240px] border border-slate-100 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -230,18 +231,18 @@ export default function VisitorsPage() {
                             className="group"
                             onClick={() => { setSelectedVisit(visit); setIsDetailModalOpen(true) }}
                         >
-                            <GlassCard interactive elevation="sm" className="p-8 border-white/40 cursor-pointer">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8">
-                                    <div className="flex items-center gap-8">
-                                        <div className="size-20 rounded-3xl bg-indigo-50 border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shadow-sm">
+                            <GlassCard interactive elevation="sm" className="p-4 sm:p-8 border-white/40 cursor-pointer">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
+                                    <div className="flex items-center gap-4 sm:gap-8">
+                                        <div className="size-16 sm:size-20 rounded-2xl sm:rounded-3xl bg-indigo-50 border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shadow-sm shrink-0">
                                             <User size={32} strokeWidth={2} className="text-indigo-500 z-10" />
                                             <div className="absolute inset-0 bg-indigo-500/5 blur-xl group-hover:bg-indigo-500/10 transition-colors" />
                                         </div>
-                                        <div>
-                                            <p className="text-2xl font-black tracking-tighter text-slate-800 leading-none mb-3">{visit.visitorName}</p>
-                                            <div className="flex items-center gap-4">
+                                        <div className="min-w-0">
+                                            <p className="text-lg sm:text-2xl font-black tracking-tighter text-slate-800 leading-none mb-2 sm:mb-3 truncate">{visit.visitorName}</p>
+                                            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                                                 <span className={cn(
-                                                    "text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1 rounded-full border shadow-sm",
+                                                    "text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border shadow-sm",
                                                     visit.status === 'CHECKED_IN' ? "bg-emerald-50 text-emerald-700 border-emerald-100 " :
                                                         visit.status === 'CHECKED_OUT' ? "bg-slate-50 text-slate-600 border-slate-100 " :
                                                             visit.status === 'PENDING' ? "bg-amber-50 text-amber-700 border-amber-100 " :
@@ -249,54 +250,56 @@ export default function VisitorsPage() {
                                                 )}>
                                                     {visit.status}
                                                 </span>
-                                                <div className="h-4 w-px bg-slate-200" />
+                                                <div className="h-4 w-px bg-slate-200 hidden sm:block" />
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{t('host')}:</span>
-                                                    <span className="text-xs font-bold text-slate-700 uppercase tracking-tight">{visit.host?.name || "Self-check"}</span>
+                                                    <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-widest">{t('host')}:</span>
+                                                    <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-tight truncate max-w-[100px]">{visit.host?.name || "Self-check"}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-12">
-                                        <div className="text-right hidden sm:block">
-                                            <div className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em] mb-2 opacity-95">{t('authorizedAccess')}</div>
-                                            <div className="text-xl font-black text-slate-800 tabular-nums tracking-tighter">{new Date(visit.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-12 w-full sm:w-auto">
+                                        <div className="text-right">
+                                            <div className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em] mb-1 sm:mb-2 opacity-95">{t('authorizedAccess')}</div>
+                                            <div className="text-base sm:text-xl font-black text-slate-800 tabular-nums tracking-tighter">{new Date(visit.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                                         </div>
-                                        <div className={cn(
-                                            "min-w-[140px] px-6 py-4 rounded-[1.25rem] font-black text-[10px] uppercase tracking-[0.2em] text-center shadow-md",
-                                            visit.status === 'CHECKED_IN' ? "bg-emerald-500 text-white shadow-emerald-500/20" :
-                                                visit.status === 'CHECKED_OUT' ? "bg-slate-100 text-slate-500 border border-slate-200 " :
-                                                    visit.status === 'PENDING' ? "bg-amber-500 text-white shadow-amber-500/20" :
-                                                        "bg-red-500 text-white shadow-red-500/20"
-                                        )}>
-                                            {visit.status.replace('_', ' ')}
+                                        <div className="flex items-center gap-4">
+                                            <div className={cn(
+                                                "min-w-0 sm:min-w-[140px] px-4 sm:px-6 py-2 sm:py-4 rounded-xl sm:rounded-[1.25rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest sm:tracking-[0.2em] text-center shadow-md",
+                                                visit.status === 'CHECKED_IN' ? "bg-emerald-500 text-white shadow-emerald-500/20" :
+                                                    visit.status === 'CHECKED_OUT' ? "bg-slate-100 text-slate-500 border border-slate-200 " :
+                                                        visit.status === 'PENDING' ? "bg-amber-500 text-white shadow-amber-500/20" :
+                                                            "bg-red-500 text-white shadow-red-500/20"
+                                            )}>
+                                                {visit.status.replace('_', ' ')}
+                                            </div>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    setVisitToDelete(visit.id)
+                                                }}
+                                                className="size-10 sm:size-14 rounded-xl sm:rounded-2xl bg-red-50/20 border border-transparent hover:border-red-100 hover:bg-red-50 flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500 group-hover:shadow-lg shrink-0"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
                                         </div>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                setVisitToDelete(visit.id)
-                                            }}
-                                            className="size-14 rounded-2xl bg-red-50/20 border border-transparent hover:border-red-100 hover:bg-red-50 flex items-center justify-center text-red-400 group-hover:scale-110 transition-all duration-500 group-hover:shadow-lg"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
                                     </div>
                                 </div>
                             </GlassCard>
                         </motion.div>
                     ))}
                 </div>
+            </div >
 
-                <div className="flex items-center justify-between pt-10 px-8">
-                    <p className="text-xs font-black text-slate-500 tracking-widest uppercase">{t('currentBatch')} • <strong className="text-indigo-500">{filteredVisits.length}</strong> {t('resultsFound')}</p>
-                    <div className="flex items-center gap-6">
-                        <button className="size-14 bg-white/40 border border-white/60 rounded-2xl flex items-center justify-center disabled:opacity-20 transition-all hover:bg-white/60 " disabled>
-                            <ChevronRight size={24} className="rotate-180 text-slate-500" />
-                        </button>
-                        <button className="size-14 bg-white shadow-xl shadow-indigo-500/5 rounded-2xl flex items-center justify-center border border-white transition-all hover:scale-110 active:scale-95">
-                            <ChevronRight size={24} className="text-indigo-500" />
-                        </button>
-                    </div>
+            <div className="flex items-center justify-between pt-10 px-8">
+                <p className="text-xs font-black text-slate-500 tracking-widest uppercase">{t('currentBatch')} • <strong className="text-indigo-500">{filteredVisits.length}</strong> {t('resultsFound')}</p>
+                <div className="flex items-center gap-6">
+                    <button className="size-14 bg-white/40 border border-white/60 rounded-2xl flex items-center justify-center disabled:opacity-20 transition-all hover:bg-white/60 " disabled>
+                        <ChevronRight size={24} className="rotate-180 text-slate-500" />
+                    </button>
+                    <button className="size-14 bg-white shadow-xl shadow-indigo-500/5 rounded-2xl flex items-center justify-center border border-white transition-all hover:scale-110 active:scale-95">
+                        <ChevronRight size={24} className="text-indigo-500" />
+                    </button>
                 </div>
             </div>
 
@@ -356,7 +359,7 @@ export default function VisitorsPage() {
                         </GlassButton>
                     </div>
                 </form>
-            </Modal>
+            </Modal >
 
             {/* Visit Detail Modal */}
             <Modal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} title={t('visitDetails') || "Visit Details"}>
@@ -480,10 +483,10 @@ export default function VisitorsPage() {
                         </div>
                     </div>
                 )}
-            </Modal>
+            </Modal >
 
             {/* Confirmation Dialog */}
             <ConfirmDialog isOpen={!!visitToDelete} onClose={() => setVisitToDelete(null)} onConfirm={() => visitToDelete && handleDeleteVisit(visitToDelete)} title={t('deleteVisitorRecord')} message={t('deleteConfirmMsg')} confirmText={t('deleteRecord')} variant="destructive" />
-        </div>
+        </div >
     )
 }

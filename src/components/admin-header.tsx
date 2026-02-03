@@ -45,7 +45,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
     };
 
     return (
-        <header className="h-16 z-30 px-6 lg:px-8 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all">
+        <header className="h-16 z-30 px-3 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all">
             <div className="flex items-center gap-4">
                 <button
                     onClick={onMenuClick}

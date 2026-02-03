@@ -157,10 +157,10 @@ export default function UsersPage() {
             {/* Header Section */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 px-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl lg:text-5xl font-black tracking-tighter text-slate-800 ">
+                    <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black tracking-tighter text-slate-800 ">
                         {t("adminUsers")}
                     </h1>
-                    <p className="text-slate-600 font-medium tracking-tight text-sm lg:text-lg">
+                    <p className="text-slate-600 font-medium tracking-tight text-base sm:text-lg">
                         {t("accessLevels")}
                     </p>
                 </div>
@@ -169,7 +169,7 @@ export default function UsersPage() {
                     variant="primary"
                     icon={Plus}
                     glow
-                    className="h-12 lg:h-14 px-6 lg:px-8 w-full sm:w-auto"
+                    className="h-12 sm:h-14 px-6 sm:px-8 w-full sm:w-auto"
                 >
                     {t("createUser")}
                 </GlassButton>
@@ -187,16 +187,16 @@ export default function UsersPage() {
                         placeholder={t("searchUsers")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="relative z-10 w-full h-14 lg:h-16 pl-14 pr-8 bg-white/40 border border-white/60 rounded-2xl text-base lg:text-lg font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-500 "
+                        className="relative z-10 w-full h-14 sm:h-16 pl-14 pr-8 bg-white/40 border border-white/60 rounded-2xl text-base sm:text-lg font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-500 "
                     />
                 </div>
                 <div className="flex items-center gap-4 w-full lg:w-auto">
-                    <div className="h-14 lg:h-16 bg-white/40 border border-white/60 rounded-2xl px-6 flex items-center gap-4 min-w-[160px] lg:min-w-[200px] shadow-sm">
+                    <div className="h-14 sm:h-16 bg-white/40 border border-white/60 rounded-2xl px-6 flex items-center gap-4 min-w-[160px] sm:min-w-[200px] shadow-sm w-full lg:w-auto">
                         <Filter size={18} className="text-indigo-500" />
                         <select
                             value={roleFilter}
                             onChange={(e) => setRoleFilter(e.target.value)}
-                            className="bg-transparent text-[10px] lg:text-sm font-black text-slate-700 uppercase tracking-widest outline-none cursor-pointer w-full"
+                            className="bg-transparent text-[10px] sm:text-sm font-black text-slate-700 uppercase tracking-widest outline-none cursor-pointer w-full"
                         >
                             <option value="all">{t("allRoles")}</option>
                             <option value="ADMIN">{t("adminRole")}</option>
@@ -229,7 +229,7 @@ export default function UsersPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="glass-panel rounded-4xl border border-white/60 p-10 flex flex-col gap-6 shadow-2xl elevation-3 relative">
+                    <div className="glass-panel rounded-3xl sm:rounded-4xl border border-white/60 p-4 sm:p-10 flex flex-col gap-6 shadow-2xl elevation-3 relative">
                         <AnimatePresence mode="popLayout">
                             {filteredUsers.map((user) => (
                                 <motion.div
@@ -240,8 +240,8 @@ export default function UsersPage() {
                                     key={user.id}
                                     className="flex flex-col md:flex-row md:items-center justify-between p-5 lg:p-7 rounded-3xl bg-white/45 border border-white/60 hover:bg-white/60 hover:border-white transition-all group elevation-1 hover:elevation-2 duration-500 gap-6"
                                 >
-                                    <div className="flex items-center gap-6">
-                                        <div className="size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110">
+                                    <div className="flex items-center gap-4 sm:gap-6">
+                                        <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110 shrink-0">
                                             <UserAvatar
                                                 src={user.profileImage}
                                                 name={user.name}
@@ -249,8 +249,8 @@ export default function UsersPage() {
                                                 iconSize={28}
                                             />
                                         </div>
-                                        <div>
-                                            <p className="font-black text-xl text-slate-800 tracking-tight">
+                                        <div className="min-w-0">
+                                            <p className="font-black text-lg sm:text-xl text-slate-800 tracking-tight truncate">
                                                 {user.name}
                                             </p>
                                             <p className="text-sm font-bold text-slate-400 mt-1 opacity-80">

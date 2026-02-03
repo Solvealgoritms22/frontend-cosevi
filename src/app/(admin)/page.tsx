@@ -104,17 +104,17 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="flex flex-col gap-16 max-w-[1400px] mx-auto px-4 py-8">
+        <div className="flex flex-col gap-8 sm:gap-12 lg:gap-16 max-w-[1400px] mx-auto px-4 py-8">
             {/* Immersive Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h1 className="text-8xl font-black tracking-tighter text-slate-800 leading-none">
+                    <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tighter text-slate-800 leading-none">
                         {t("centralDirector").split(" ")[0]}{" "}
                         <span className="text-indigo-500 opacity-80">
                             {t("centralDirector").split(" ")[1]}
                         </span>
                     </h1>
-                    <p className="text-slate-500 text-xl font-medium tracking-tight opacity-70">
+                    <p className="text-slate-500 text-lg sm:text-xl font-medium tracking-tight opacity-70">
                         {t("environmentRealTime")} •{" "}
                         <span className="text-slate-800 font-bold">
                             {new Date().toLocaleDateString("en-US", {
@@ -125,13 +125,13 @@ export default function DashboardPage() {
                         </span>
                     </p>
                 </div>
-                <div className="p-2 bg-white/40 border border-white/60 rounded-[2.5rem] flex gap-2 shadow-sm">
+                <div className="p-1 sm:p-2 bg-white/40 border border-white/60 rounded-3xl sm:rounded-[2.5rem] flex gap-2 shadow-sm self-start">
                     {["live", "analytics"].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab as any)}
                             className={cn(
-                                "px-10 py-4 rounded-4xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500",
+                                "px-6 sm:px-10 py-3 sm:py-4 rounded-2xl sm:rounded-4xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500",
                                 activeTab === tab
                                     ? "bg-white shadow-xl text-indigo-600 scale-[1.05]"
                                     : "text-slate-400 hover:text-slate-600 "
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                         key={stat.label}
                         className={i % 2 === 0 ? "xl:-translate-y-4" : "xl:translate-y-4"}
                     >
-                        <GlassCard interactive elevation="sm" className="group p-10 border-white/40">
+                        <GlassCard interactive elevation="sm" className="group p-6 sm:p-8 lg:p-10 border-white/40">
                             <div className="flex items-center justify-between mb-12">
                                 <div
                                     className={cn(
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] opacity-60 ml-1">
                                     {stat.label}
                                 </p>
-                                <h4 className="text-6xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
+                                <h4 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold tabular-nums text-slate-800 tracking-tighter flex items-center gap-3">
                                     {stat.value}
                                     <ArrowRight
                                         size={24}
@@ -204,9 +204,9 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 mt-8">
                 {/* Traffic Activity Layer */}
                 <div className="lg:col-span-2 space-y-10">
-                    <div className="flex items-center justify-between px-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 gap-4">
                         <div className="space-y-1">
-                            <h3 className="text-4xl font-black tracking-tighter text-slate-800 ">
+                            <h3 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-800 ">
                                 {t("visualTelemetry").split(" ")[0]}{" "}
                                 <span className="text-indigo-500 opacity-80">
                                     {t("visualTelemetry").split(" ")[1]}
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                                 <GlassCard
                                     interactive
                                     elevation="sm"
-                                    className="p-8 border-white/40 hover:border-indigo-100 transition-all hover:translate-x-2"
+                                    className="p-4 sm:p-6 lg:p-8 border-white/40 hover:border-indigo-100 transition-all hover:translate-x-2"
                                 >
                                     <div className="flex items-center gap-8">
                                         <div className="size-16 rounded-2xl bg-white shadow-inner flex items-center justify-center relative border border-white group-hover:scale-110 transition-transform duration-500">
@@ -247,9 +247,9 @@ export default function DashboardPage() {
                                             />
                                             <div className="absolute inset-x-0 bottom-[-10%] h-[20%] bg-indigo-500/10 blur-md rounded-full" />
                                         </div>
-                                        <div className="flex-1 space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <p className="font-extrabold text-xl text-slate-800 tracking-tight">
+                                        <div className="flex-1 space-y-2 min-w-0">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                                <p className="font-extrabold text-lg sm:text-xl text-slate-800 tracking-tight truncate">
                                                     {log.visitorName}
                                                 </p>
                                                 <div className="px-4 py-1.5 bg-slate-50/50 rounded-xl border border-slate-100/50 text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -259,11 +259,11 @@ export default function DashboardPage() {
                                                     })}
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-4 text-sm font-medium text-slate-500 ">
+                                            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm font-medium text-slate-500 ">
                                                 <span className="px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100 ">
                                                     {log.licensePlate || "Auth Scan"}
                                                 </span>
-                                                <span className="opacity-40">•</span>
+                                                <span className="opacity-40 hidden sm:inline">•</span>
                                                 <span className="flex items-center gap-2">
                                                     <span
                                                         className={cn(
@@ -287,7 +287,7 @@ export default function DashboardPage() {
                 {/* System Integrity Engine */}
                 <div className="space-y-10">
                     <div className="space-y-1 px-6">
-                        <h3 className="text-4xl font-black tracking-tighter text-slate-800 ">
+                        <h3 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-800 ">
                             {t("coreHealth").split(" ")[0]}{" "}
                             <span className="text-indigo-500 opacity-80">
                                 {t("coreHealth").split(" ")[1]}
@@ -299,7 +299,7 @@ export default function DashboardPage() {
                     </div>
                     <GlassCard
                         elevation="xl"
-                        className="rounded-[4rem] p-12 bg-white/50 border-white/60 relative overflow-hidden"
+                        className="rounded-3xl sm:rounded-[4rem] p-6 sm:p-12 bg-white/50 border-white/60 relative overflow-hidden"
                     >
                         <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
                             <Zap size={240} strokeWidth={1} />
@@ -323,9 +323,9 @@ export default function DashboardPage() {
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em]">
                                     {t("systemNodeLoad")}
                                 </p>
-                                <p className="text-7xl font-extrabold text-slate-800 tabular-nums leading-none tracking-tighter">
+                                <p className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-800 tabular-nums leading-none tracking-tighter">
                                     {systemEfficiency.toFixed(1)}
-                                    <span className="text-2xl text-indigo-500 opacity-40 ml-1">%</span>
+                                    <span className="text-xl sm:text-2xl text-indigo-500 opacity-40 ml-1">%</span>
                                 </p>
                             </div>
                             <div className="w-full space-y-12 py-6">
