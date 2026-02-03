@@ -25,12 +25,12 @@ const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
 export default function ReportsPage() {
     const { t } = useTranslation()
-    const { data: visits } = useSWR<Visit[]>("/visits", fetcher)
+    const { data: visitsResponse } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher)
     const { data: spaces } = useSWR<Space[]>("/spaces", fetcher)
     const { addNotification } = useNotifications()
 
     // Calculate real statistics
-    const visitsArray = visits || []
+    const visitsArray = visitsResponse?.data || []
     const spacesArray = spaces || []
     const checkedIn = visitsArray.filter((v) => v.status === 'CHECKED_IN').length
     const pending = visitsArray.filter((v) => v.status === 'PENDING').length

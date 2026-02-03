@@ -41,7 +41,7 @@ const ITEMS_PER_PAGE = 5
 export default function SafetyPage() {
     const { t, language } = useTranslation()
     const recordSchema = getRecordSchema(t)
-    const { data: visits, mutate, isLoading } = useSWR<Visit[]>("/visits", fetcher)
+    const { data: visitsResponse, mutate, isLoading } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher)
     const [searchQuery, setSearchQuery] = useState("")
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,7 +52,7 @@ export default function SafetyPage() {
         resolver: zodResolver(recordSchema)
     })
 
-    const visitsArray = visits || []
+    const visitsArray = visitsResponse?.data || []
 
     // Stats based on real data
     const completed = visitsArray.filter((v) => v.status === 'CHECKED_OUT').length

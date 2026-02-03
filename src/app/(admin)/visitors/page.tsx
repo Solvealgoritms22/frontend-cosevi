@@ -55,7 +55,7 @@ const ITEMS_PER_PAGE = 5
 
 export default function VisitorsPage() {
     const { t, language } = useTranslation()
-    const { data: visits, mutate, isLoading, error } = useSWR<Visit[]>("/visits", fetcher)
+    const { data: visitsResponse, mutate, isLoading, error } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher)
     const { addNotification } = useNotifications()
     const { register, handleSubmit, reset, formState: { errors } } = useForm<VisitFormValues>({
         resolver: zodResolver(visitSchema),
@@ -86,7 +86,7 @@ export default function VisitorsPage() {
     if (error) return <div className="p-8 text-red-600 italic font-bold">Failed to load access logs. Please verify connection.</div>
     if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">Synchronizing with COSEVI Cloud...</div>
 
-    const visitsArray = visits || []
+    const visitsArray = visitsResponse?.data || []
 
     const filteredVisits = visitsArray.filter((v) => {
         const matchesSearch = v.visitorName?.toLowerCase().includes(searchQuery.toLowerCase()) ||

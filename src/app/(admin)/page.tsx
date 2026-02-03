@@ -45,11 +45,11 @@ export default function DashboardPage() {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState<"live" | "analytics">("live");
 
-    const { data: visits } = useSWR<Visit[]>("/visits", fetcher);
+    const { data: visitsResponse } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher);
     const { data: spaces } = useSWR<Space[]>("/spaces", fetcher);
 
     // Derived stats
-    const visitsArray = useMemo(() => visits || [], [visits]);
+    const visitsArray = useMemo(() => visitsResponse?.data || [], [visitsResponse]);
     const spacesArray = useMemo(() => spaces || [], [spaces]);
 
     const activeVisitors = useMemo(
