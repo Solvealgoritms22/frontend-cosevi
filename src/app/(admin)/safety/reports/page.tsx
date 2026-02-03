@@ -1,16 +1,16 @@
 "use client"
 
-import { AlertTriangle, User, MessageSquare, Clock, Filter, Search, ChevronRight, FileText, Activity, Send, Shield } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import useSWR from "swr"
-import api from "@/lib/api"
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { GlassCard } from "@/components/ui/glass-card"
-import { GlassButton } from "@/components/ui/glass-button"
 import { Modal } from "@/components/modal"
+import { GlassButton } from "@/components/ui/glass-button"
 import { UserAvatar } from "@/components/user-avatar"
+import { useSocket } from "@/context/socket-context"
+import api from "@/lib/api"
+import { cn } from "@/lib/utils"
+import { AnimatePresence, motion } from "framer-motion"
+import { Activity, AlertTriangle, ChevronRight, FileText, Filter, MessageSquare, Search, Send } from "lucide-react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import useSWR from "swr"
 
 interface Comment {
     id: string;
@@ -40,10 +40,40 @@ const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
 export default function SafetyReportsPage() {
     const { data: reports, mutate } = useSWR<Report[]>("/reports", fetcher)
+    const { socket } = useSocket()
     const [search, setSearch] = useState("")
     const [selectedReport, setSelectedReport] = useState<Report | null>(null)
     const [newComment, setNewComment] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    useEffect(() => {
+        if (!socket) return
+
+        const handleRefresh = async (payload?: any) => {
+            console.log('Real-time incident update received:', payload)
+            mutate()
+
+            // If the updated report is the one currently selected, refresh it
+            if (payload && selectedReport) {
+                const reportId = payload.incidentReportId || payload.id
+                if (reportId === selectedReport.id) {
+                    const updatedReports = await fetcher("/reports")
+                    const updated = updatedReports.find((r: Report) => r.id === selectedReport.id)
+                    if (updated) setSelectedReport(updated)
+                }
+            }
+        }
+
+        socket.on('incidentCreated', handleRefresh)
+        socket.on('commentAdded', handleRefresh)
+        socket.on('incidentStatusUpdated', handleRefresh)
+
+        return () => {
+            socket.off('incidentCreated', handleRefresh)
+            socket.off('commentAdded', handleRefresh)
+            socket.off('incidentStatusUpdated', handleRefresh)
+        }
+    }, [socket, selectedReport, mutate])
 
     const filteredReports = reports?.filter(r =>
         r.type.toLowerCase().includes(search.toLowerCase()) ||
