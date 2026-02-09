@@ -137,7 +137,7 @@ export default function ContactPage() {
                                     {status === 'submitting' ? (
                                         <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                     ) : (
-                                        <>Send Message <Send size={18} /></>
+                                        <>Send Messages <Send size={18} /></>
                                     )}
                                 </button>
                             </form>
