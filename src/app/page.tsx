@@ -102,7 +102,7 @@ export default function LandingPage() {
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="relative w-40 h-22 flex items-center justify-center">
+                        <div className="relative w-28 h-14 md:w-40 md:h-22 flex items-center justify-center">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src="/logo-landing.png"

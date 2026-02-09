@@ -202,12 +202,16 @@ export default function RegisterPage() {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-8 flex items-center gap-3"
+                className="mb-8 flex flex-col items-center gap-4"
             >
-                <div className="size-12 rounded-2xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20">
-                    <ShieldCheck size={32} className="text-white" />
+                <div className="relative w-48 h-24 flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/logo-oficial.png"
+                        alt="COSEVI"
+                        className="object-contain w-full h-full drop-shadow-xl"
+                    />
                 </div>
-                <span className="text-2xl font-black italic tracking-tighter uppercase text-slate-900">COSEVI v2.0</span>
             </motion.div>
 
             <div className="w-full max-w-lg relative z-10">
