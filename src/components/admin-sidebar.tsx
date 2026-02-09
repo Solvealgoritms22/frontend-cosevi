@@ -76,7 +76,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     const userRole = user?.role || "User";
 
     const items = [
-        { title: t("dashboard"), href: "/", icon: LayoutDashboard },
+        { title: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { title: t("visitorLogs"), href: "/visitors", icon: History },
         { title: t("safety"), href: "/safety", icon: ShieldCheck },
         { title: t("parkingControl"), href: "/parking", icon: SquareParking },

@@ -89,6 +89,15 @@ export default function LandingPage() {
         { name: t('pricing'), href: '#pricing' },
     ];
 
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsAuthenticated(!!token);
+    }, []);
+
+    // ... (rest of the component)
+
     return (
         <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-orange-500/30">
             {/* Background Effects */}
@@ -139,7 +148,7 @@ export default function LandingPage() {
                             </button>
                         </div>
 
-                        <Link href="/login">
+                        <Link href={isAuthenticated ? "/dashboard" : "/login"}>
                             <button className="px-5 py-2.5 text-sm font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors">
                                 {t('customerPortal')}
                             </button>
