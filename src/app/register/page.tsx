@@ -93,7 +93,7 @@ function RegisterForm() {
                         required
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="John Doe"
                     />
                 </div>
@@ -108,7 +108,7 @@ function RegisterForm() {
                         required
                         value={formData.organizationName}
                         onChange={e => setFormData({ ...formData, organizationName: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="Acme Residencies"
                     />
                 </div>
@@ -123,7 +123,7 @@ function RegisterForm() {
                         required
                         value={formData.location}
                         onChange={e => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="City, Country"
                     />
                 </div>
@@ -138,7 +138,7 @@ function RegisterForm() {
                         required
                         value={formData.email}
                         onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="admin@cosevi.com"
                     />
                 </div>
@@ -153,7 +153,7 @@ function RegisterForm() {
                         required
                         value={formData.password}
                         onChange={e => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="••••••••"
                     />
                 </div>
@@ -163,7 +163,7 @@ function RegisterForm() {
 
             <button
                 disabled={loading}
-                className="w-full h-16 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-indigo-600/20 active:scale-95 text-white"
+                className="w-full h-16 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-orange-600/20 active:scale-95 text-white"
             >
                 {loading ? "Creating Account..." : (
                     <>
@@ -175,7 +175,7 @@ function RegisterForm() {
 
             <p className="text-center text-slate-500 text-sm font-bold pt-4">
                 Already have an account? {' '}
-                <Link href="/login" className="text-indigo-600 hover:text-indigo-700 transition-colors">
+                <Link href="/login" className="text-orange-600 hover:text-orange-700 transition-colors">
                     Sign In
                 </Link>
             </p>
@@ -187,14 +187,14 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-indigo-600/5 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/5 blur-[150px] rounded-full" />
 
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-8 flex items-center gap-3"
             >
-                <div className="size-12 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                <div className="size-12 rounded-2xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20">
                     <ShieldCheck size={32} className="text-white" />
                 </div>
                 <span className="text-2xl font-black italic tracking-tighter uppercase text-slate-900">COSEVI v2.0</span>

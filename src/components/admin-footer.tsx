@@ -7,18 +7,18 @@ export function AdminFooter() {
         <footer className="w-full py-6 mt-12 border-t border-slate-200">
             <div className="max-w-[1600px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors cursor-default">
-                    <ShieldCheck size={14} className="text-indigo-500" />
+                    <ShieldCheck size={14} className="text-orange-500" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
-                        COSEVI <span className="text-indigo-600">Admin</span>
+                        COSEVI <span className="text-orange-600">Admin</span>
                     </span>
                 </div>
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                        <a href="#" className="hover:text-indigo-600 transition-colors">
+                        <a href="#" className="hover:text-orange-600 transition-colors">
                             Documentation
                         </a>
                         <span className="size-1 rounded-full bg-slate-200" />
-                        <a href="#" className="hover:text-indigo-600 transition-colors">
+                        <a href="#" className="hover:text-orange-600 transition-colors">
                             Support
                         </a>
                     </div>

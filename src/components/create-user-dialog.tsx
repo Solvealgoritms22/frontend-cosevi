@@ -297,8 +297,8 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                                     }
                                                 }}
                                                 className={`cursor-pointer rounded-xl border p-3 flex items-center gap-3 transition-all duration-200 ${formData.assignedSpaceIds.includes(space.id)
-                                                    ? 'bg-indigo-50 border-indigo-200 ring-1 ring-indigo-500/20'
-                                                    : 'bg-white border-slate-200 hover:border-indigo-300'
+                                                    ? 'bg-orange-50 border-orange-200 ring-1 ring-orange-500/20'
+                                                    : 'bg-white border-slate-200 hover:border-orange-300'
                                                     }`}
                                             >
                                                 <Checkbox
@@ -306,7 +306,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                                                     checked={formData.assignedSpaceIds.includes(space.id)}
                                                     onCheckedChange={() => { }} // Handled by div click
                                                 />
-                                                <span className={`text-sm font-bold ${formData.assignedSpaceIds.includes(space.id) ? 'text-indigo-700' : 'text-slate-600'}`}>
+                                                <span className={`text-sm font-bold ${formData.assignedSpaceIds.includes(space.id) ? 'text-orange-700' : 'text-slate-600'}`}>
                                                     {space.name}
                                                 </span>
                                             </div>
@@ -337,7 +337,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="rounded-xl h-11">
                             {t('cancel')}
                         </Button>
-                        <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-indigo-600 hover:bg-indigo-700">
+                        <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-orange-600 hover:bg-orange-700">
                             {t('createUser')}
                         </Button>
                     </DialogFooter>

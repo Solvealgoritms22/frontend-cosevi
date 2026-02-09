@@ -135,7 +135,7 @@ export default function UsersPage() {
         };
         const colors = {
             ADMIN: "bg-red-50 text-red-600 border-red-100 ",
-            RESIDENT: "bg-indigo-50 text-indigo-600 border-indigo-100 ",
+            RESIDENT: "bg-orange-50 text-orange-600 border-orange-100 ",
             SECURITY: "bg-amber-50 text-amber-600 border-amber-100 ",
         };
         const Icon = icons[role as keyof typeof icons] || User;
@@ -174,11 +174,11 @@ export default function UsersPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
                 <div className="space-y-4">
                     <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
-                        {t('userManagement').split(' ')[0]} <span className="text-indigo-500">{t('userManagement').split(' ')[1]}</span>
+                        {t('userManagement').split(' ')[0]} <span className="text-orange-500">{t('userManagement').split(' ')[1]}</span>
                     </h2>
                     <p className="text-slate-500 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageSystemUsers')}</p>
                 </div>
-                <GlassButton onClick={() => setCreateDialogOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20" >
+                <GlassButton onClick={() => setCreateDialogOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-orange-500/20" >
                     {t('createUser')}
                 </GlassButton>
             </div>
@@ -195,12 +195,12 @@ export default function UsersPage() {
                         placeholder={t("searchUsers")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="relative z-10 w-full h-14 sm:h-16 pl-14 pr-8 bg-white/40 border border-white/60 rounded-2xl text-base sm:text-lg font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-500 "
+                        className="relative z-10 w-full h-14 sm:h-16 pl-14 pr-8 bg-white/40 border border-white/60 rounded-2xl text-base sm:text-lg font-bold text-slate-800 outline-none focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-500 "
                     />
                 </div>
                 <div className="flex items-center gap-4 w-full lg:w-auto">
                     <div className="h-14 sm:h-16 bg-white/40 border border-white/60 rounded-2xl px-6 flex items-center gap-4 min-w-[160px] sm:min-w-[200px] shadow-sm w-full lg:w-auto">
-                        <Filter size={18} className="text-indigo-500" />
+                        <Filter size={18} className="text-orange-500" />
                         <select
                             value={roleFilter}
                             onChange={(e) => setRoleFilter(e.target.value)}
@@ -246,10 +246,10 @@ export default function UsersPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     key={user.id}
-                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-indigo-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
+                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-orange-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
                                 >
                                     <div className="flex items-center gap-4 sm:gap-6">
-                                        <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-indigo-500 transition-all duration-500 group-hover:scale-110 shrink-0">
+                                        <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-orange-500 transition-all duration-500 group-hover:scale-110 shrink-0">
                                             <UserAvatar
                                                 src={user.profileImage}
                                                 name={user.name}
@@ -280,8 +280,8 @@ export default function UsersPage() {
                                                     </div>
                                                 )}
                                                 {user.residentProfile?.unitNumber && (
-                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 rounded-lg border border-indigo-100 shadow-sm">
-                                                        <span className="text-fluid-label font-black text-indigo-500 uppercase tracking-widest">
+                                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 rounded-lg border border-orange-100 shadow-sm">
+                                                        <span className="text-fluid-label font-black text-orange-500 uppercase tracking-widest">
                                                             Unit: {user.residentProfile.unitNumber}
                                                         </span>
                                                     </div>
@@ -324,7 +324,7 @@ export default function UsersPage() {
                                         <div className="flex items-center gap-3 ml-auto lg:ml-0">
                                             <button
                                                 onClick={() => handleEdit(user)}
-                                                className="size-12 rounded-2xl bg-slate-50 shadow-sm border border-slate-100 hover:bg-white flex items-center justify-center text-slate-500 hover:text-indigo-500 transition-all duration-500 hover:shadow-lg"
+                                                className="size-12 rounded-2xl bg-slate-50 shadow-sm border border-slate-100 hover:bg-white flex items-center justify-center text-slate-500 hover:text-orange-500 transition-all duration-500 hover:shadow-lg"
                                             >
                                                 <Edit size={18} />
                                             </button>
@@ -352,7 +352,7 @@ export default function UsersPage() {
                                         disabled={currentPage === 1}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronLeft size={16} />
@@ -366,7 +366,7 @@ export default function UsersPage() {
                                                 className={cn(
                                                     "size-10 rounded-xl text-[10px] font-black transition-all",
                                                     currentPage === page
-                                                        ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
                                                         : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                                 )}
                                             >
@@ -380,7 +380,7 @@ export default function UsersPage() {
                                         disabled={currentPage === totalPages}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronRight size={16} />

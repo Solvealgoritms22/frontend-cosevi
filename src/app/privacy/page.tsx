@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function PrivacyPage() {
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-indigo-500/30">
+        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-orange-500/30">
             {/* Header */}
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -20,8 +20,8 @@ export default function PrivacyPage() {
                                 Customer Portal
                             </button>
                         </Link>
-                        <div className="size-8 bg-indigo-600/20 rounded-lg flex items-center justify-center border border-indigo-500/30">
-                            <ShieldCheck className="text-indigo-400" size={18} />
+                        <div className="size-8 bg-orange-600/20 rounded-lg flex items-center justify-center border border-orange-500/30">
+                            <ShieldCheck className="text-orange-400" size={18} />
                         </div>
                         <span className="text-lg font-bold text-slate-200">
                             COSEVI

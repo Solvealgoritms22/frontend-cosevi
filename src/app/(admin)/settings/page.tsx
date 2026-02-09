@@ -51,11 +51,11 @@ export default function SettingsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
                 <div className="space-y-4">
                     <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
-                        System <span className="text-indigo-500">Director</span>
+                        System <span className="text-orange-500">Director</span>
                     </h2>
                     <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('coreConfiguration')}</p>
                 </div>
-                <GlassButton variant="primary" icon={Save} glow className="h-16 px-10 text-lg shadow-2xl shadow-indigo-500/20" >
+                <GlassButton variant="primary" icon={Save} glow className="h-16 px-10 text-lg shadow-2xl shadow-orange-500/20" >
                     {t('applyChanges')}
                 </GlassButton>
             </div>
@@ -68,7 +68,7 @@ export default function SettingsPage() {
                             key={section.id}
                             className={cn(
                                 "w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-sm",
-                                section.active ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-500 hover:bg-slate-50 "
+                                section.active ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" : "text-slate-500 hover:bg-slate-50 "
                             )}
                         >
                             <section.icon size={20} />
@@ -82,7 +82,7 @@ export default function SettingsPage() {
                     {/* Localization Section */}
                     <GlassPanel className="p-6 sm:p-10">
                         <div className="flex items-center gap-4">
-                            <div className="size-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500">
+                            <div className="size-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500">
                                 <Globe size={24} />
                             </div>
                             <div>
@@ -93,12 +93,12 @@ export default function SettingsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 pt-6 sm:pt-8">
                             <div className="space-y-3">
                                 <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('deploymentIdentity')}</label>
-                                <input type="text" defaultValue="COSEVI Central Admin" className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all text-sm sm:text-base cursor-not-allowed opacity-60" disabled />
+                                <input type="text" defaultValue="COSEVI Central Admin" className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-orange-500/5 transition-all text-sm sm:text-base cursor-not-allowed opacity-60" disabled />
                             </div>
                             <div className="space-y-3">
                                 <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('activeLogicLanguage')}</label>
                                 <div className="relative group">
-                                    <select value={language} onChange={(e) => setLanguage(e.target.value as any)} className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all appearance-none cursor-pointer text-sm sm:text-base group-hover:bg-white" >
+                                    <select value={language} onChange={(e) => setLanguage(e.target.value as any)} className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-orange-500/5 transition-all appearance-none cursor-pointer text-sm sm:text-base group-hover:bg-white" >
                                         <option value="en">{t('englishUS')}</option>
                                         <option value="es">{t('spanishDR')}</option>
                                     </select>
@@ -126,9 +126,9 @@ export default function SettingsPage() {
                                 { id: 'lpr', title: t('lprAutonomous'), desc: t('lprAutonomousDesc'), icon: Database, active: true },
                                 { id: 'mfa', title: t('badgingTunnel'), desc: t('badgingTunnelDesc'), icon: Bell, active: false }
                             ].map((item) => (
-                                <div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-4xl bg-slate-50/50 border border-slate-100 hover:border-indigo-500/20 transition-all group gap-4">
+                                <div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-4xl bg-slate-50/50 border border-slate-100 hover:border-orange-500/20 transition-all group gap-4">
                                     <div className="flex items-center gap-5">
-                                        <div className="size-12 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0">
+                                        <div className="size-12 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-orange-500 transition-colors shrink-0">
                                             <item.icon size={20} />
                                         </div>
                                         <div>
@@ -138,7 +138,7 @@ export default function SettingsPage() {
                                     </div>
                                     <button className={cn(
                                         "size-12 rounded-2xl flex items-center justify-center transition-all self-end sm:self-auto",
-                                        item.active ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "bg-slate-200 text-slate-400"
+                                        item.active ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" : "bg-slate-200 text-slate-400"
                                     )}>
                                         <div className={cn("size-6 rounded-full border-2 border-current flex items-center justify-center", item.active && "bg-white/20")}>
                                             {item.active && <div className="size-2 bg-white rounded-full" />}

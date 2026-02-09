@@ -169,20 +169,20 @@ export default function SafetyReportsPage() {
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 px-4">
                 <div>
                     <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-800 flex items-center gap-4">
-                        <FileText className="text-indigo-500" size={36} />
+                        <FileText className="text-orange-500" size={36} />
                         Incident Reports
                     </h2>
                     <p className="text-slate-400 mt-2 text-base sm:text-lg font-medium tracking-tight">Log and investigation of security incidents.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full lg:w-auto">
                     <div className="relative group w-full sm:max-w-md">
-                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={20} />
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors" size={20} />
                         <input
                             type="text"
                             placeholder="Filter incidents..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-14 pr-8 py-4 bg-white/40 border border-white/60 rounded-3xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 w-full font-black tracking-tight text-slate-700 shadow-sm transition-all placeholder:text-slate-400/60 "
+                            className="pl-14 pr-8 py-4 bg-white/40 border border-white/60 rounded-3xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 w-full font-black tracking-tight text-slate-700 shadow-sm transition-all placeholder:text-slate-400/60 "
                         />
                     </div>
                     <GlassButton variant="secondary" className="size-14 p-0 flex items-center justify-center shrink-0">
@@ -193,7 +193,7 @@ export default function SafetyReportsPage() {
 
             <div className="flex flex-col gap-6 px-4">
                 <div className="flex items-center gap-4 mb-2">
-                    <div className="size-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 shadow-inner">
+                    <div className="size-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 shadow-inner">
                         <Activity size={24} />
                     </div>
                     <div>
@@ -221,7 +221,7 @@ export default function SafetyReportsPage() {
                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">RECORDED {new Date(report.createdAt).toLocaleString()}</span>
                                 </div>
                                 <div className="w-full">
-                                    <h4 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tighter group-hover:text-indigo-600 transition-colors flex items-center gap-4 uppercase italic">
+                                    <h4 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tighter group-hover:text-orange-600 transition-colors flex items-center gap-4 uppercase italic">
                                         {report.type.replace('_', ' ')}
                                     </h4>
                                     <p className="text-slate-400 font-medium leading-relaxed max-w-4xl text-base sm:text-lg mt-2">{report.description}</p>
@@ -248,7 +248,7 @@ export default function SafetyReportsPage() {
                                 </div>
                             </div>
                             <div className="size-14 sm:size-16 p-0 flex items-center justify-center rounded-2xl sm:rounded-3xl bg-white/40 border border-white/60 group-hover:bg-white group-hover:shadow-2xl transition-all self-end sm:self-center">
-                                <ChevronRight size={28} className="text-indigo-500" />
+                                <ChevronRight size={28} className="text-orange-500" />
                             </div>
                         </motion.div>
                     ))}
@@ -266,7 +266,7 @@ export default function SafetyReportsPage() {
                                 disabled={currentPage === 1}
                                 className={cn(
                                     "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                                 )}
                             >
                                 <ChevronLeft size={16} />
@@ -280,7 +280,7 @@ export default function SafetyReportsPage() {
                                         className={cn(
                                             "size-10 rounded-xl text-[10px] font-black transition-all",
                                             currentPage === page
-                                                ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
                                                 : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                         )}
                                     >
@@ -294,7 +294,7 @@ export default function SafetyReportsPage() {
                                 disabled={currentPage === totalPages}
                                 className={cn(
                                     "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                                 )}
                             >
                                 <ChevronRight size={16} />
@@ -341,7 +341,7 @@ export default function SafetyReportsPage() {
                                             className={cn(
                                                 "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
                                                 selectedReport.status === stat
-                                                    ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
                                                     : "bg-slate-50 text-slate-400 hover:bg-slate-100"
                                             )}
                                         >
@@ -354,7 +354,7 @@ export default function SafetyReportsPage() {
 
                         <div className="space-y-6">
                             <h4 className="text-xl font-black text-slate-800 tracking-tighter flex items-center gap-3">
-                                <MessageSquare className="text-indigo-500" size={20} />
+                                <MessageSquare className="text-orange-500" size={20} />
                                 Discussion ({selectedReport.comments?.length || 0})
                             </h4>
 
@@ -367,7 +367,7 @@ export default function SafetyReportsPage() {
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <span className="text-xs font-black text-slate-800">{comment.author.name}</span>
-                                                <span className="text-[9px] font-black text-indigo-500 uppercase tracking-widest px-2 py-0.5 bg-indigo-50 rounded-full border border-indigo-100">
+                                                <span className="text-[9px] font-black text-orange-500 uppercase tracking-widest px-2 py-0.5 bg-orange-50 rounded-full border border-orange-100">
                                                     {comment.author.role}
                                                 </span>
                                                 <span className="text-[9px] font-bold text-slate-300 ml-auto">{new Date(comment.createdAt).toLocaleTimeString()}</span>
@@ -394,7 +394,7 @@ export default function SafetyReportsPage() {
                                         placeholder="Add a comment or internal note..."
                                         value={newComment}
                                         onChange={(e) => setNewComment(e.target.value)}
-                                        className="w-full pl-6 pr-14 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all"
+                                        className="w-full pl-6 pr-14 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all"
                                     />
                                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                                         <button
@@ -402,7 +402,7 @@ export default function SafetyReportsPage() {
                                             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                                             className={cn(
                                                 "p-2 rounded-xl transition-all",
-                                                showEmojiPicker ? "bg-indigo-100 text-indigo-600" : "text-slate-400 hover:text-indigo-500 hover:bg-slate-100"
+                                                showEmojiPicker ? "bg-orange-100 text-orange-600" : "text-slate-400 hover:text-orange-500 hover:bg-slate-100"
                                             )}
                                         >
                                             <Smile size={20} />

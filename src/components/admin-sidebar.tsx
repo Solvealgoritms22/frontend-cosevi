@@ -118,7 +118,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             >
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-indigo-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
+                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-orange-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
                 >
                     {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
                 </button>
@@ -140,13 +140,15 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                 >
                     <div
                         className={cn(
-                            "rounded-2xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30 text-white transition-all",
+                            "relative flex items-center justify-center shrink-0 transition-all overflow-hidden",
                             collapsed ? "size-10" : "size-12"
                         )}
                     >
-                        <ShieldCheck
-                            className={cn("transition-all", collapsed ? "size-5" : "size-6")}
-                            strokeWidth={2}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/logo-official.png"
+                            alt="COSEVI"
+                            className="object-contain w-full h-full"
                         />
                     </div>
                     {!collapsed && (
@@ -172,7 +174,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 relative group cursor-pointer",
                                     isActive
-                                        ? "bg-indigo-50/80 text-indigo-700 shadow-sm ring-1 ring-indigo-100"
+                                        ? "bg-orange-50/80 text-orange-700 shadow-sm ring-1 ring-orange-100"
                                         : "text-slate-500 hover:bg-slate-50 hover:text-slate-900",
                                     collapsed && "justify-center px-2"
                                 )}
@@ -184,7 +186,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                     className={cn(
                                         "shrink-0 transition-colors",
                                         isActive
-                                            ? "text-indigo-600"
+                                            ? "text-orange-600"
                                             : "text-slate-400 group-hover:text-slate-600"
                                     )}
                                 />
@@ -194,7 +196,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                     </span>
                                 )}
                                 {isActive && !collapsed && (
-                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
                                 )}
                             </Link>
                         );
@@ -214,7 +216,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         )}
                     >
                         <div
-                            className="size-9 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200 text-indigo-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
+                            className="size-9 rounded-lg bg-orange-100 flex items-center justify-center shrink-0 border border-orange-200 text-orange-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
                             title={userName}
                         >
                             <UserAvatar

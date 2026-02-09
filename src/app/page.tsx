@@ -16,7 +16,6 @@ import { GlassButton } from "@/components/ui/glass-button";
 import { pricingPlans } from "@/lib/pricing-data";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import React from "react";
 import { useTranslation } from "@/context/translation-context";
 
@@ -31,12 +30,12 @@ export default function LandingPage() {
             price: '49',
             description: t('starterDesc'),
             features: [
-                'Hasta 50 unidades',
-                'Hasta 100 parqueos',
-                '2 Administradores (Monitores)',
-                'Hasta 5 Guardias de Seguridad',
-                'Gestión de Visitas Básica',
-                'Control de Acceso QR',
+                t('upTo50Units'),
+                t('upTo100Parking'),
+                t('twoAdmins'),
+                t('upTo5Guards'),
+                t('basicVisitorMgmt'),
+                t('qrAccessControl'),
             ],
             limits: pricingPlans[0].limits,
             buttonText: t('starterButton'),
@@ -47,13 +46,13 @@ export default function LandingPage() {
             price: '129',
             description: t('premiumDesc'),
             features: [
-                'Hasta 200 unidades',
-                'Hasta 400 parqueos',
-                '5 Administradores (Monitores)',
-                'Hasta 15 Guardias de Seguridad',
-                'Sistema SOS y Alertas',
-                'Reportes Avanzados',
-                'Soporte Prioritario 24/7',
+                t('upTo200Units'),
+                t('upTo400Parking'),
+                t('fiveAdmins'),
+                t('upTo15Guards'),
+                t('sosSystem'),
+                t('advancedReports'),
+                t('prioritySupport'),
             ],
             isPopular: true,
             limits: pricingPlans[1].limits,
@@ -65,13 +64,13 @@ export default function LandingPage() {
             price: '299',
             description: t('eliteDesc'),
             features: [
-                'Unidades y Parqueos ilimitados',
-                'Administradores ilimitados',
-                'Seguridad ilimitada',
-                'Base de datos dedicada (Single Tenant)',
-                'Integración LPR (Lectura de Placas)',
-                'Personalización de Marca',
-                'Integración con Hardware Externo',
+                t('unlimitedUnits'),
+                t('unlimitedAdmins'),
+                t('unlimitedSecurity'),
+                t('dedicatedDbData'),
+                t('lprIntegration'),
+                t('brandCustomization'),
+                t('hardwareIntegration'),
             ],
             limits: pricingPlans[2].limits,
             buttonText: t('eliteButton'),
@@ -79,10 +78,10 @@ export default function LandingPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-indigo-500/30">
+        <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-orange-500/30">
             {/* Background Effects */}
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[100px]" />
                 <div className="absolute top-[40%] left-[20%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[80px]" />
             </div>
@@ -91,12 +90,14 @@ export default function LandingPage() {
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-10 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                            <ShieldCheck className="text-white" size={20} />
+                        <div className="relative w-40 h-22 flex items-center justify-center">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/logo-landing.png"
+                                alt="COSEVI"
+                                className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
+                            />
                         </div>
-                        <span className="text-xl font-bold tracking-tight text-white">
-                            COSEVI
-                        </span>
                     </div>
                     <div className="hidden md:flex items-center gap-8">
                         {[
@@ -116,13 +117,13 @@ export default function LandingPage() {
                         <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5">
                             <button
                                 onClick={() => setLanguage('en')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 EN
                             </button>
                             <button
                                 onClick={() => setLanguage('es')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 ES
                             </button>
@@ -146,14 +147,14 @@ export default function LandingPage() {
                         transition={{ duration: 0.6 }}
                         className="space-y-8"
                     >
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-                            <span className="flex h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                            <span className="text-xs font-medium text-indigo-300 tracking-wide uppercase">Enterprise Grade Security</span>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20">
+                            <span className="flex h-2 w-2 rounded-full bg-orange-400 animate-pulse"></span>
+                            <span className="text-xs font-medium text-orange-300 tracking-wide uppercase">{t('enterpriseGradeSecurity')}</span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
                             {t('secureAccess')} <br />
-                            <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-blue-400">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-300 to-red-900">
                                 {t('redefined')}
                             </span>
                         </h1>
@@ -165,7 +166,7 @@ export default function LandingPage() {
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <button
                                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="h-14 px-8 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                                className="h-14 px-8 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2"
                             >
                                 {t('getStarted')} <ArrowRight size={18} />
                             </button>
@@ -197,12 +198,12 @@ export default function LandingPage() {
                         {/* Placeholder for Hero Illustration - Will use generated image here */}
                         {/* CSS-based Abstract Security Shield Illustration */}
                         <div className="relative aspect-square w-full max-w-[500px] mx-auto flex items-center justify-center">
-                            <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/20 to-emerald-500/20 rounded-full blur-[100px]" />
+                            <div className="absolute inset-0 bg-linear-to-tr from-orange-500/20 to-emerald-500/20 rounded-full blur-[100px]" />
 
                             {/* Central Shield Structure */}
-                            <div className="relative w-64 h-80 bg-linear-to-b from-indigo-900/50 to-slate-900/50 backdrop-blur-md border border-indigo-500/30 rounded-3xl flex items-center justify-center shadow-2xl shadow-indigo-500/20 -rotate-12 z-10 transition-transform hover:rotate-0 duration-700">
+                            <div className="relative w-64 h-80 bg-linear-to-b from-orange-700/50 to-slate-900/50 backdrop-blur-md border border-orange-500/30 rounded-3xl flex items-center justify-center shadow-2xl shadow-orange-500/20 -rotate-12 z-10 transition-transform hover:rotate-0 duration-700">
                                 <div className="absolute inset-0 bg-grid-white/[0.05] rounded-3xl" />
-                                <ShieldCheck size={80} className="text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
+                                <ShieldCheck size={80} className="text-orange-100 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
 
                                 {/* Floating Elements */}
                                 <div className="absolute -top-12 -right-12 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-bounce duration-3000">
@@ -214,7 +215,7 @@ export default function LandingPage() {
                             </div>
 
                             {/* Background Elements */}
-                            <div className="absolute inset-0 border border-indigo-500/10 rounded-full scale-110 animate-[spin_10s_linear_infinite]" />
+                            <div className="absolute inset-0 border border-orange-500/10 rounded-full scale-110 animate-[spin_10s_linear_infinite]" />
                             <div className="absolute inset-0 border border-emerald-500/10 rounded-full scale-125 animate-[spin_15s_linear_infinite_reverse]" />
                         </div>
                     </motion.div>
@@ -276,13 +277,13 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 className={`relative p-8 rounded-3xl h-full flex flex-col ${plan.isPopular
-                                    ? 'bg-[#1e293b] border-2 border-indigo-500 shadow-2xl shadow-indigo-500/10'
+                                    ? 'bg-[#1e293b] border-2 border-orange-500 shadow-2xl shadow-orange-500/10'
                                     : 'bg-[#0f172a] border border-white/10'
                                     }`}
                             >
                                 {plan.isPopular && (
                                     <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                                        <span className="px-4 py-1 bg-indigo-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+                                        <span className="px-4 py-1 bg-orange-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
                                             {t('mostPopular')}
                                         </span>
                                     </div>
@@ -301,7 +302,7 @@ export default function LandingPage() {
                                 <div className="flex-1 space-y-4 mb-8">
                                     {plan.features.map((feature, idx) => (
                                         <div key={idx} className="flex items-start gap-3">
-                                            <div className="mt-1 size-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+                                            <div className="mt-1 size-5 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
                                                 <Check size={12} strokeWidth={3} />
                                             </div>
                                             <span className="text-sm font-medium text-slate-300">{feature}</span>
@@ -312,7 +313,7 @@ export default function LandingPage() {
                                 <button
                                     onClick={() => router.push(`/register?plan=${plan.id}`)}
                                     className={`w-full h-12 rounded-xl font-semibold transition-all ${plan.isPopular
-                                        ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
+                                        ? 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-500/25'
                                         : 'bg-white/10 hover:bg-white/15 text-white'
                                         }`}
                                 >
@@ -328,12 +329,14 @@ export default function LandingPage() {
             <footer className="relative z-10 py-12 px-6 border-t border-white/5 bg-[#0f172a]">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
                     <div className="flex items-center gap-3">
-                        <div className="size-8 bg-indigo-600/20 rounded-lg flex items-center justify-center border border-indigo-500/30">
-                            <ShieldCheck className="text-indigo-400" size={18} />
+                        <div className="relative w-40 h-16 flex items-center justify-center">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/logo-landing.png"
+                                alt="COSEVI"
+                                className="object-contain w-full h-full"
+                            />
                         </div>
-                        <span className="text-lg font-bold text-slate-200">
-                            COSEVI
-                        </span>
                     </div>
                     <p className="text-sm text-slate-500">
                         {t('footerRights')}
@@ -379,7 +382,7 @@ function ScrollToTop() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transition-colors"
+            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-orange-600 text-white shadow-lg shadow-orange-500/30 hover:bg-orange-500 transition-colors"
         >
             <ArrowRight size={20} className="-rotate-90" />
         </motion.button>

@@ -27,7 +27,7 @@ export function GlassCard({
 }: GlassCardProps) {
     const variantStyles = {
         default: "bg-white/80 border-slate-200 text-slate-900",
-        primary: "bg-indigo-50/50 border-indigo-100 text-indigo-900",
+        primary: "bg-orange-50/50 border-orange-100 text-orange-900",
         destructive: "bg-red-50/50 border-red-100 text-red-900",
     };
 

@@ -53,17 +53,21 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-indigo-600/5 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/5 blur-[150px] rounded-full" />
 
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-12 flex items-center gap-3"
+                className="mb-12 flex items-center justify-center"
             >
-                <div className="size-12 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                    <ShieldCheck size={32} className="text-white" />
+                <div className="relative w-64 h-24 flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/logo-official.png"
+                        alt="COSEVI"
+                        className="object-contain drop-shadow-2xl w-full h-full"
+                    />
                 </div>
-                <span className="text-2xl font-black italic tracking-tighter uppercase text-slate-900">COSEVI v2.0</span>
             </motion.div>
 
             <div className="w-full max-w-md relative z-10">
@@ -85,7 +89,7 @@ export default function LoginPage() {
                                     required
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
+                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
                                     placeholder="admin@cosevi.com"
                                 />
                             </div>
@@ -100,7 +104,7 @@ export default function LoginPage() {
                                     required
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
+                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -115,7 +119,7 @@ export default function LoginPage() {
 
                         <button
                             disabled={loading}
-                            className="w-full h-16 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-indigo-600/20 active:scale-95 text-white"
+                            className="w-full h-16 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-orange-600/20 active:scale-95 text-white"
                         >
                             {loading ? t('authenticating') : (
                                 <>
@@ -129,9 +133,9 @@ export default function LoginPage() {
 
                 {/* Footer Links */}
                 <div className="mt-8 flex justify-center gap-6 relative z-10">
-                    <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Privacy Policy</Link>
-                    <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Terms of Service</Link>
-                    <Link href="/contact" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</Link>
+                    <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Privacy Policy</Link>
+                    <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Terms of Service</Link>
+                    <Link href="/contact" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Contact Support</Link>
                 </div>
             </div>
         </div>

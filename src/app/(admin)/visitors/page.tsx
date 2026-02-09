@@ -163,7 +163,7 @@ export default function VisitorsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-indigo-500">Logs</span></h2>
+                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-orange-500">Logs</span></h2>
                     <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('facilityAccess')}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6">
@@ -181,18 +181,18 @@ export default function VisitorsPage() {
                 <div className="flex flex-col xl:flex-row items-center gap-6 sm:gap-10">
                     <div className="relative group flex-1 w-full">
                         <div className="absolute inset-0 bg-white/40 blur-md rounded-4xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
-                        <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-500 h-6 w-6 z-10 transition-colors group-focus-within:text-indigo-500" />
+                        <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-500 h-6 w-6 z-10 transition-colors group-focus-within:text-orange-500" />
                         <input
                             type="text"
                             placeholder={t('searchVisitors')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="relative z-10 w-full h-16 sm:h-20 pl-18 pr-8 bg-white/40 border border-white/60 rounded-3xl sm:rounded-4xl outline-none font-bold tracking-tight text-slate-800 placeholder:text-slate-500 text-base sm:text-lg focus:ring-4 focus:ring-indigo-500/5 transition-all"
+                            className="relative z-10 w-full h-16 sm:h-20 pl-18 pr-8 bg-white/40 border border-white/60 rounded-3xl sm:rounded-4xl outline-none font-bold tracking-tight text-slate-800 placeholder:text-slate-500 text-base sm:text-lg focus:ring-4 focus:ring-orange-500/5 transition-all"
                         />
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full xl:w-auto">
                         <div className="h-16 sm:h-20 bg-white/40 border border-white/60 rounded-3xl sm:rounded-4xl px-8 flex items-center justify-between sm:justify-start gap-5 w-full sm:min-w-[280px] shadow-sm">
-                            <Calendar size={20} className="text-indigo-500 shrink-0" />
+                            <Calendar size={20} className="text-orange-500 shrink-0" />
                             <span className="text-xs sm:text-sm font-black text-slate-700 uppercase tracking-widest">{new Date().toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                         <div className="relative w-full sm:w-auto">
@@ -203,7 +203,7 @@ export default function VisitorsPage() {
                                     statusFilter !== 'ALL' ? "bg-white border-white scale-[1.05] sm:scale-[1.1] shadow-xl" : "bg-white/40 border border-white/60 hover:bg-white/60 "
                                 )}
                             >
-                                <Filter size={24} className={statusFilter !== 'ALL' ? "text-indigo-500" : "text-slate-500"} />
+                                <Filter size={24} className={statusFilter !== 'ALL' ? "text-orange-500" : "text-slate-500"} />
                                 <span className="sm:hidden ml-3 text-xs font-black uppercase tracking-widest text-slate-500">Filter</span>
                             </button>
                             {showFilterDropdown && (
@@ -218,7 +218,7 @@ export default function VisitorsPage() {
                                                 onClick={() => { setStatusFilter(status); setShowFilterDropdown(false) }}
                                                 className={cn(
                                                     "w-full px-6 py-4 text-left text-xs font-black uppercase tracking-widest rounded-2xl transition-all duration-300",
-                                                    statusFilter === status ? "bg-indigo-50 text-indigo-600 shadow-sm" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 "
+                                                    statusFilter === status ? "bg-orange-50 text-orange-600 shadow-sm" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 "
                                                 )}
                                             >
                                                 {status === 'ALL' ? t('allActivity') : status.replace('_', ' ')}
@@ -246,8 +246,8 @@ export default function VisitorsPage() {
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
                                     <div className="flex items-center gap-4 sm:gap-8">
                                         <div className="size-14 sm:size-20 rounded-2xl sm:rounded-3xl bg-white shadow-sm border border-white flex items-center justify-center group-hover:scale-105 transition-all duration-500 relative shrink-0">
-                                            <User size={32} strokeWidth={2} className="text-indigo-500 z-10" />
-                                            <div className="absolute inset-0 bg-indigo-500/5 blur-xl group-hover:bg-indigo-500/10 transition-colors" />
+                                            <User size={32} strokeWidth={2} className="text-orange-500 z-10" />
+                                            <div className="absolute inset-0 bg-orange-500/5 blur-xl group-hover:bg-orange-500/10 transition-colors" />
                                         </div>
                                         <div className="min-w-0">
                                             <p className="text-lg sm:text-2xl font-black tracking-tighter text-slate-800 leading-none mb-2 sm:mb-3 truncate max-w-[150px] sm:max-w-none">{visit.visitorName}</p>
@@ -312,7 +312,7 @@ export default function VisitorsPage() {
                             disabled={currentPage === 1}
                             className={cn(
                                 "size-12 rounded-2xl flex items-center justify-center transition-all border border-white/60",
-                                currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                             )}
                         >
                             <ChevronLeft size={20} />
@@ -326,7 +326,7 @@ export default function VisitorsPage() {
                                     className={cn(
                                         "size-12 rounded-2xl text-[10px] font-black transition-all",
                                         currentPage === page
-                                            ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                            ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
                                             : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                     )}
                                 >
@@ -340,7 +340,7 @@ export default function VisitorsPage() {
                             disabled={currentPage === totalPages}
                             className={cn(
                                 "size-12 rounded-2xl flex items-center justify-center transition-all border border-white/60",
-                                currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-indigo-500 shadow-sm"
+                                currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
                             )}
                         >
                             <ChevronRight size={20} />
@@ -356,7 +356,7 @@ export default function VisitorsPage() {
                         <div className="space-y-3">
                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('visitorName')}</label>
                             <input {...register("visitorName")} className={cn(
-                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
+                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
                                 errors.visitorName && "ring-2 ring-red-500/20 border-red-200"
                             )} placeholder="John Doe" />
                             {errors.visitorName && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.visitorName.message}</p>}
@@ -364,7 +364,7 @@ export default function VisitorsPage() {
                         <div className="space-y-3">
                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('idNumber')}</label>
                             <input {...register("visitorIdNumber")} className={cn(
-                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
+                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
                                 errors.visitorIdNumber && "ring-2 ring-red-500/20 border-red-200"
                             )} placeholder="001-0123456-7" />
                             {errors.visitorIdNumber && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.visitorIdNumber.message}</p>}
@@ -373,7 +373,7 @@ export default function VisitorsPage() {
                     <div className="space-y-3">
                         <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('licensePlate')}</label>
                         <input {...register("licensePlate")} className={cn(
-                            "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
+                            "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
                             errors.licensePlate && "ring-2 ring-red-500/20 border-red-200 "
                         )} placeholder="ABC-1234" />
                         {errors.licensePlate && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.licensePlate.message}</p>}
@@ -382,7 +382,7 @@ export default function VisitorsPage() {
                         <div className="space-y-3">
                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('validFrom')}</label>
                             <input type="date" {...register("validFrom")} className={cn(
-                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
+                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
                                 errors.validFrom && "ring-2 ring-red-500/20 border-red-200"
                             )} />
                             {errors.validFrom && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.validFrom.message}</p>}
@@ -390,7 +390,7 @@ export default function VisitorsPage() {
                         <div className="space-y-3">
                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('validUntil')}</label>
                             <input type="date" {...register("validUntil")} className={cn(
-                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all",
+                                "w-full px-8 h-14 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
                                 errors.validUntil && "ring-2 ring-red-500/20 border-red-200"
                             )} />
                             {errors.validUntil && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{errors.validUntil.message}</p>}
@@ -444,7 +444,7 @@ export default function VisitorsPage() {
                                 </div>
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('licensePlate')}</span>
-                                    <p className="text-sm font-bold text-indigo-600 uppercase tracking-widest">{selectedVisit.licensePlate || t('noVehicle')}</p>
+                                    <p className="text-sm font-bold text-orange-600 uppercase tracking-widest">{selectedVisit.licensePlate || t('noVehicle')}</p>
                                 </div>
                             </div>
                             <div className="space-y-6">
@@ -464,7 +464,7 @@ export default function VisitorsPage() {
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('parkingAssignment')}</span>
                                     {selectedVisit.space ? (
                                         <div className="flex items-center gap-3 mt-1">
-                                            <div className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100 text-xs font-black">
+                                            <div className="px-3 py-1 bg-orange-50 text-orange-600 rounded-xl border border-orange-100 text-xs font-black">
                                                 {selectedVisit.space.name}
                                             </div>
                                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">LVL {selectedVisit.space.level}</span>
@@ -488,7 +488,7 @@ export default function VisitorsPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
-                                        <Clock size={12} className="text-indigo-500" />
+                                        <Clock size={12} className="text-orange-500" />
                                         <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">{t('exitTime')}</span>
                                     </div>
                                     <p className="text-sm font-bold text-slate-800 ">{selectedVisit.exitTime ? new Date(selectedVisit.exitTime).toLocaleString() : "—"}</p>

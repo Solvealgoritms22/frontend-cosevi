@@ -19,7 +19,7 @@ export function GlassInput({ label, error, icon, className, ...props }: GlassInp
                     className={cn(
                         'absolute left-4 transition-all duration-300 pointer-events-none z-20',
                         isFocused || props.value
-                            ? 'top-2.5 text-[10px] font-bold uppercase tracking-wider text-indigo-500'
+                            ? 'top-2.5 text-[10px] font-bold uppercase tracking-wider text-orange-500'
                             : 'top-1/2 -translate-y-1/2 text-sm font-medium text-slate-500',
                         error && 'text-red-500'
                     )}
@@ -36,8 +36,8 @@ export function GlassInput({ label, error, icon, className, ...props }: GlassInp
                 <input
                     className={cn(
                         'w-full rounded-xl px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 font-medium transition-all duration-200 outline-none',
-                        'hover:bg-white hover:border-indigo-200 ',
-                        'focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10',
+                        'hover:bg-white hover:border-orange-200 ',
+                        'focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10',
                         'placeholder:text-slate-400 ',
                         icon && 'pl-11',
                         label && 'pt-7 pb-2.5',
