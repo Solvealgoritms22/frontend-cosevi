@@ -35,6 +35,7 @@ function RegisterForm() {
         password: '',
         role: 'ADMIN',
         organizationName: '',
+        location: '',
         plan: planParam
     });
     const [loading, setLoading] = useState(false);
@@ -109,6 +110,21 @@ function RegisterForm() {
                         onChange={e => setFormData({ ...formData, organizationName: e.target.value })}
                         className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
                         placeholder="Acme Residencies"
+                    />
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Organization Location</label>
+                <div className="relative">
+                    <Building2 className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                    <input
+                        type="text"
+                        required
+                        value={formData.location}
+                        onChange={e => setFormData({ ...formData, location: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                        placeholder="City, Country"
                     />
                 </div>
             </div>
