@@ -207,7 +207,7 @@ export default function RegisterPage() {
                 <div className="relative w-48 h-24 flex items-center justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src="/logo-oficial.png"
+                        src="/logo-official.png"
                         alt="COSEVI"
                         className="object-contain w-full h-full drop-shadow-xl"
                     />
