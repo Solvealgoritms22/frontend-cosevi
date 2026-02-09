@@ -17,6 +17,7 @@ import { pricingPlans } from "@/lib/pricing-data";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import React from "react";
 
 export default function LandingPage() {
     const router = useRouter();
@@ -263,14 +264,49 @@ export default function LandingPage() {
                         © 2026 COSEVI Infrastructure. All rights reserved.
                     </p>
                     <div className="flex gap-6">
-                        {['Privacy', 'Terms', 'Security', 'Contact'].map((link) => (
-                            <a key={link} href="#" className="text-sm text-slate-500 hover:text-white transition-colors">
-                                {link}
-                            </a>
-                        ))}
+                        <Link href="/privacy" className="text-sm text-slate-500 hover:text-white transition-colors">Privacy</Link>
+                        <Link href="/terms" className="text-sm text-slate-500 hover:text-white transition-colors">Terms</Link>
+                        <Link href="/contact" className="text-sm text-slate-500 hover:text-white transition-colors">Contact</Link>
                     </div>
                 </div>
             </footer>
+
+            <ScrollToTop />
         </div>
+    );
+}
+
+function ScrollToTop() {
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.scrollY > 300) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener("scroll", toggleVisibility);
+        return () => window.removeEventListener("scroll", toggleVisibility);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+
+    return (
+        <motion.button
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transition-colors"
+        >
+            <ArrowRight size={20} className="-rotate-90" />
+        </motion.button>
     );
 }

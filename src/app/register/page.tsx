@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ShieldCheck, ArrowRight, Mail, Lock, User, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -11,8 +11,23 @@ import { useTranslation } from '@/context/translation-context';
 function RegisterForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const plan = searchParams.get('plan') || 'starter';
+    const planParam = searchParams.get('plan');
     const { t } = useTranslation();
+
+    // Valid plans
+    const validPlans = ['starter', 'premium', 'elite'];
+
+    // Redirect if no plan or invalid plan
+    React.useEffect(() => {
+        if (!planParam || !validPlans.includes(planParam)) {
+            router.replace('/#pricing');
+        }
+    }, [planParam, router]);
+
+    // If redirected, don't render form content to avoid flash
+    if (!planParam || !validPlans.includes(planParam)) {
+        return null;
+    }
 
     const [formData, setFormData] = useState({
         name: '',
@@ -20,7 +35,7 @@ function RegisterForm() {
         password: '',
         role: 'ADMIN',
         organizationName: '',
-        plan: plan
+        plan: planParam
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');

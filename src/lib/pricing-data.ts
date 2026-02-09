@@ -22,7 +22,7 @@ export const pricingPlans: PricingPlan[] = [
         description: 'Ideal para condominios pequeños o residenciales en crecimiento.',
         features: [
             'Hasta 50 unidades',
-            'Hasta 100 parcados',
+            'Hasta 100 parqueos',
             '2 Administradores (Monitores)',
             'Hasta 5 Guardias de Seguridad',
             'Gestión de Visitas Básica',

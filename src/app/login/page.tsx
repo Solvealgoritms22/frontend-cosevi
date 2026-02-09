@@ -124,13 +124,6 @@ export default function LoginPage() {
                                 </>
                             )}
                         </button>
-
-                        <p className="text-center text-slate-500 text-sm font-bold pt-4">
-                            {t('noAccount')} {' '}
-                            <Link href="/register" className="text-indigo-600 hover:text-indigo-700 transition-colors">
-                                {t('createOne')}
-                            </Link>
-                        </p>
                     </form>
                 </motion.div>
             </div>
