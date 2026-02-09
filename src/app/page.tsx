@@ -18,9 +18,65 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import React from "react";
+import { useTranslation } from "@/context/translation-context";
 
 export default function LandingPage() {
+    const { t, language, setLanguage } = useTranslation();
     const router = useRouter();
+
+    const translatedPricingPlans = [
+        {
+            id: 'starter',
+            name: t('starterPlan'),
+            price: '49',
+            description: t('starterDesc'),
+            features: [
+                'Hasta 50 unidades',
+                'Hasta 100 parqueos',
+                '2 Administradores (Monitores)',
+                'Hasta 5 Guardias de Seguridad',
+                'Gestión de Visitas Básica',
+                'Control de Acceso QR',
+            ],
+            limits: pricingPlans[0].limits,
+            buttonText: t('starterButton'),
+        },
+        {
+            id: 'premium',
+            name: t('premiumPlan'),
+            price: '129',
+            description: t('premiumDesc'),
+            features: [
+                'Hasta 200 unidades',
+                'Hasta 400 parqueos',
+                '5 Administradores (Monitores)',
+                'Hasta 15 Guardias de Seguridad',
+                'Sistema SOS y Alertas',
+                'Reportes Avanzados',
+                'Soporte Prioritario 24/7',
+            ],
+            isPopular: true,
+            limits: pricingPlans[1].limits,
+            buttonText: t('premiumButton'),
+        },
+        {
+            id: 'elite',
+            name: t('elitePlan'),
+            price: '299',
+            description: t('eliteDesc'),
+            features: [
+                'Unidades y Parqueos ilimitados',
+                'Administradores ilimitados',
+                'Seguridad ilimitada',
+                'Base de datos dedicada (Single Tenant)',
+                'Integración LPR (Lectura de Placas)',
+                'Personalización de Marca',
+                'Integración con Hardware Externo',
+            ],
+            limits: pricingPlans[2].limits,
+            buttonText: t('eliteButton'),
+        },
+    ];
 
     return (
         <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-indigo-500/30">
@@ -43,18 +99,38 @@ export default function LandingPage() {
                         </span>
                     </div>
                     <div className="hidden md:flex items-center gap-8">
-                        {['Features', 'Security', 'Pricing'].map((item) => (
+                        {[
+                            { name: t('featuresParams'), href: '#features' },
+                            { name: t('security'), href: '#features' },
+                            { name: t('pricing'), href: '#pricing' },
+                        ].map((item) => (
                             <a
-                                key={item}
-                                href={`#${item.toLowerCase()}`}
+                                key={item.name}
+                                href={item.href}
                                 className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
                             >
-                                {item}
+                                {item.name}
                             </a>
                         ))}
+
+                        <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5">
+                            <button
+                                onClick={() => setLanguage('en')}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                EN
+                            </button>
+                            <button
+                                onClick={() => setLanguage('es')}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                ES
+                            </button>
+                        </div>
+
                         <Link href="/login">
                             <button className="px-5 py-2.5 text-sm font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors">
-                                Customer Portal
+                                {t('customerPortal')}
                             </button>
                         </Link>
                     </div>
@@ -76,15 +152,14 @@ export default function LandingPage() {
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
-                            Secure Access <br />
+                            {t('secureAccess')} <br />
                             <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-blue-400">
-                                Redefined.
+                                {t('redefined')}
                             </span>
                         </h1>
 
                         <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
-                            The next-generation access control platform for modern residential complexes.
-                            Seamless integration, bank-grade encryption, and real-time monitoring.
+                            {t('heroSubtitle')}
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -92,18 +167,18 @@ export default function LandingPage() {
                                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                                 className="h-14 px-8 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
                             >
-                                Get Started <ArrowRight size={18} />
+                                {t('getStarted')} <ArrowRight size={18} />
                             </button>
                             <button className="h-14 px-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold transition-all flex items-center justify-center">
-                                View Demo
+                                {t('viewDemo')}
                             </button>
                         </div>
 
                         <div className="flex items-center gap-8 pt-8 border-t border-white/5">
                             {[
-                                { label: "Active Users", value: "10k+" },
-                                { label: "Uptime SLA", value: "99.99%" },
-                                { label: "Countries", value: "12" }
+                                { label: t('activeUsers'), value: "10k+" },
+                                { label: t('uptimeSLA'), value: "99.99%" },
+                                { label: t('countries'), value: "12" }
                             ].map((stat, i) => (
                                 <div key={i}>
                                     <p className="text-2xl font-bold text-white">{stat.value}</p>
@@ -150,18 +225,18 @@ export default function LandingPage() {
             <section className="relative z-10 py-32 px-6 bg-[#0f172a]" id="features">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Everything you need</h2>
-                        <p className="text-slate-400 text-lg">Powerful features designed security professionals and property managers.</p>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{t('everythingYouNeed')}</h2>
+                        <p className="text-slate-400 text-lg">{t('featuresSubtitle')}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
-                            { icon: Lock, title: "Bank-Grade Encryption", desc: "End-to-end encryption for all data transit and storage.", color: "indigo" },
-                            { icon: Activity, title: "Real-time Analytics", desc: "Live monitoring of access logs and security events.", color: "emerald" },
-                            { icon: Globe, title: "Global CDN", desc: "Lightning fast access from anywhere in the world.", color: "blue" },
-                            { icon: Smartphone, title: "Mobile First", desc: "Native apps for iOS and Android with offline support.", color: "violet" },
-                            { icon: ShieldCheck, title: "Role Management", desc: "Granular access controls and permission hierarchies.", color: "cyan" },
-                            { icon: Server, title: "Dedicated Database", desc: "Isolated instances for Elite customers.", color: "rose" },
+                            { icon: Lock, title: t('bankGradeEncryption'), desc: t('bankGradeEncryptionDesc'), color: "indigo" },
+                            { icon: Activity, title: t('realTimeAnalytics'), desc: t('realTimeAnalyticsDesc'), color: "emerald" },
+                            { icon: Globe, title: t('globalCDN'), desc: t('globalCDNDesc'), color: "blue" },
+                            { icon: Smartphone, title: t('mobileFirst'), desc: t('mobileFirstDesc'), color: "violet" },
+                            { icon: ShieldCheck, title: t('roleManagement'), desc: t('roleManagementDesc'), color: "cyan" },
+                            { icon: Server, title: t('dedicatedDatabase'), desc: t('dedicatedDatabaseDesc'), color: "rose" },
                         ].map((feature, i) => (
                             <motion.div
                                 key={i}
@@ -186,14 +261,14 @@ export default function LandingPage() {
             <section className="relative z-10 py-32 px-6 border-t border-white/5 bg-[#0b1120]" id="pricing">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-20">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Simple, transparent pricing</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">{t('simplePricing')}</h2>
                         <p className="text-slate-400 text-lg max-w-2xl">
-                            Choose the perfect plan for your community. No hidden fees.
+                            {t('simplePricingSubtitle')}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                        {pricingPlans.map((plan, i) => (
+                        {translatedPricingPlans.map((plan, i) => (
                             <motion.div
                                 key={plan.id}
                                 initial={{ opacity: 0, y: 30 }}
@@ -208,7 +283,7 @@ export default function LandingPage() {
                                 {plan.isPopular && (
                                     <div className="absolute -top-4 left-0 right-0 flex justify-center">
                                         <span className="px-4 py-1 bg-indigo-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
-                                            Most Popular
+                                            {t('mostPopular')}
                                         </span>
                                     </div>
                                 )}
@@ -220,7 +295,7 @@ export default function LandingPage() {
 
                                 <div className="flex items-baseline gap-1 mb-8">
                                     <span className="text-4xl font-bold text-white">${plan.price}</span>
-                                    <span className="text-slate-500 font-medium">/mo</span>
+                                    <span className="text-slate-500 font-medium">{t('perMonth')}</span>
                                 </div>
 
                                 <div className="flex-1 space-y-4 mb-8">
@@ -261,12 +336,12 @@ export default function LandingPage() {
                         </span>
                     </div>
                     <p className="text-sm text-slate-500">
-                        © 2026 COSEVI Infrastructure. All rights reserved.
+                        {t('footerRights')}
                     </p>
                     <div className="flex gap-6">
-                        <Link href="/privacy" className="text-sm text-slate-500 hover:text-white transition-colors">Privacy</Link>
-                        <Link href="/terms" className="text-sm text-slate-500 hover:text-white transition-colors">Terms</Link>
-                        <Link href="/contact" className="text-sm text-slate-500 hover:text-white transition-colors">Contact</Link>
+                        <Link href="/privacy" className="text-sm text-slate-500 hover:text-white transition-colors">{t('privacyPolicy')}</Link>
+                        <Link href="/terms" className="text-sm text-slate-500 hover:text-white transition-colors">{t('termsOfService')}</Link>
+                        <Link href="/contact" className="text-sm text-slate-500 hover:text-white transition-colors">{t('contactSupport')}</Link>
                     </div>
                 </div>
             </footer>

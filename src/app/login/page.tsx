@@ -126,6 +126,13 @@ export default function LoginPage() {
                         </button>
                     </form>
                 </motion.div>
+
+                {/* Footer Links */}
+                <div className="mt-8 flex justify-center gap-6 relative z-10">
+                    <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Privacy Policy</Link>
+                    <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Terms of Service</Link>
+                    <Link href="/contact" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</Link>
+                </div>
             </div>
         </div>
     );

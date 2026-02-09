@@ -25,6 +25,11 @@ export default function ContactPage() {
                         <span className="text-sm font-medium">Back to Home</span>
                     </Link>
                     <div className="flex items-center gap-3">
+                        <Link href="/login">
+                            <button className="px-4 py-2 text-xs font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors">
+                                Customer Portal
+                            </button>
+                        </Link>
                         <div className="size-8 bg-indigo-600/20 rounded-lg flex items-center justify-center border border-indigo-500/30">
                             <ShieldCheck className="text-indigo-400" size={18} />
                         </div>
