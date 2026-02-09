@@ -251,7 +251,7 @@ export default function ParkingPage() {
                                                     </td>
                                                     <td className="px-10 py-6">
                                                         <div className="flex items-center gap-3 text-xs font-bold text-slate-500 ">
-                                                            <Layers size={14} className="text-orange-400" /> {space.type}
+                                                            <Layers size={14} className="text-[#f2a229" /> {space.type}
                                                         </div>
                                                     </td>
                                                     <td className="px-10 py-6">
@@ -339,7 +339,7 @@ export default function ParkingPage() {
                                             filter === opt ? "bg-orange-50 text-orange-600 border-orange-100 shadow-sm" : "bg-white/30 border-transparent hover:bg-white/60 text-slate-500 "
                                         )} >
                                             <div className="flex items-center gap-4">
-                                                <div className={cn("size-2 rounded-full", opt === 'ALL' ? "bg-orange-400" : opt === 'AVAILABLE' ? "bg-emerald-400" : opt === 'OCCUPIED' ? "bg-red-400" : "bg-slate-400")} />
+                                                <div className={cn("size-2 rounded-full", opt === 'ALL' ? "bg-[#f2a229]" : opt === 'AVAILABLE' ? "bg-emerald-400" : opt === 'OCCUPIED' ? "bg-red-400" : "bg-slate-400")} />
                                                 {opt === 'ALL' ? 'Show All Spaces' : opt}
                                             </div>
                                             <ArrowRight size={16} className={cn("transition-all duration-300", filter === opt ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-60")} />
@@ -356,7 +356,7 @@ export default function ParkingPage() {
                                 <GlassCard elevation="xl" className="p-4 sm:p-10 border-orange-200/50 bg-orange-50/20">
                                     <div className="flex items-center justify-between mb-10">
                                         <div className="space-y-2">
-                                            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-orange-400/80">Asset Identifier</span>
+                                            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#f2a229">Asset Identifier</span>
                                             <h2 className="text-5xl font-black italic tracking-tighter text-slate-800 leading-none">{selectedSpace.name}</h2>
                                         </div>
                                         <div className={cn(

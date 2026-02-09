@@ -132,7 +132,7 @@ export default function ContactPage() {
                                 <button
                                     type="submit"
                                     disabled={status === 'submitting'}
-                                    className="w-full h-12 bg-orange-600 hover:bg-orange-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full h-12 bg-[#c27f1b] hover:bg-orange-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {status === 'submitting' ? (
                                         <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

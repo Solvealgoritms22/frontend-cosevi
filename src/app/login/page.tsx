@@ -119,7 +119,7 @@ export default function LoginPage() {
 
                         <button
                             disabled={loading}
-                            className="w-full h-16 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-orange-600/20 active:scale-95 text-white"
+                            className="w-full h-16 bg-[#c1801f] hover:bg-[#c1801f]/80 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-[#c1801f]/20 active:scale-95 text-white"
                         >
                             {loading ? t('authenticating') : (
                                 <>

@@ -229,7 +229,7 @@ export default function DashboardPage() {
                                     {stat.value}
                                     <ArrowRight
                                         size={20}
-                                        className="text-orange-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"
+                                        className="text-[#f2a229] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"
                                     />
                                 </h4>
                             </div>
