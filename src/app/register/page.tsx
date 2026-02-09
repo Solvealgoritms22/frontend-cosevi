@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ShieldCheck, ArrowRight, Mail, Lock, User } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ShieldCheck, ArrowRight, Mail, Lock, User, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '@/lib/api';
 import Link from 'next/link';
@@ -10,12 +10,17 @@ import { useTranslation } from '@/context/translation-context';
 
 export default function RegisterPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const plan = searchParams.get('plan') || 'starter';
     const { t } = useTranslation();
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        role: 'ADMIN' // Default to Admin for this prototype
+        role: 'ADMIN',
+        organizationName: '',
+        plan: plan
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -25,19 +30,30 @@ export default function RegisterPage() {
         setLoading(true);
         setError('');
         try {
+            // Updated registration to include organization and plan
             const res = await api.post('/auth/register', formData);
             const token = res.data.access_token;
+            const tenantId = res.data.tenantId;
 
             localStorage.setItem('token', token);
+            if (tenantId) {
+                localStorage.setItem('tenantId', tenantId);
+            }
+
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            if (tenantId) {
+                api.defaults.headers.common['x-tenant-id'] = tenantId;
+            }
 
             const profileRes = await api.get('/auth/profile');
             const user = profileRes.data;
 
             if (user.role !== 'ADMIN') {
                 localStorage.removeItem('token');
+                localStorage.removeItem('tenantId');
                 delete api.defaults.headers.common['Authorization'];
-                setError('Only administrators can access this panel. Your account has been created but does not have admin privileges.');
+                delete api.defaults.headers.common['x-tenant-id'];
+                setError('Only administrators can access this panel.');
                 setLoading(false);
                 return;
             }
@@ -88,6 +104,21 @@ export default function RegisterPage() {
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                                     className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
                                     placeholder="John Doe"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Organization Name</label>
+                            <div className="relative">
+                                <Building2 className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                <input
+                                    type="text"
+                                    required
+                                    value={formData.organizationName}
+                                    onChange={e => setFormData({ ...formData, organizationName: e.target.value })}
+                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-indigo-500/50 transition-colors font-bold text-slate-900"
+                                    placeholder="Acme Residencies"
                                 />
                             </div>
                         </div>
