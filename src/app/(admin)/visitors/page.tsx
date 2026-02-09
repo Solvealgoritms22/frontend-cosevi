@@ -83,6 +83,10 @@ export default function VisitorsPage() {
     const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null)
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false)
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchQuery, statusFilter])
+
     if (error) return <div className="p-8 text-red-600 italic font-bold">Failed to load access logs. Please verify connection.</div>
     if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">Synchronizing with COSEVI Cloud...</div>
 
@@ -98,10 +102,6 @@ export default function VisitorsPage() {
 
     const totalPages = Math.ceil(filteredVisits.length / ITEMS_PER_PAGE)
     const paginatedVisits = filteredVisits.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
-
-    useEffect(() => {
-        setCurrentPage(1)
-    }, [searchQuery, statusFilter])
 
     const handleExportCSV = () => {
         if (filteredVisits.length === 0) {

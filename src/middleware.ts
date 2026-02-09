@@ -5,10 +5,12 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
     const isLoginPage = request.nextUrl.pathname === '/login';
     const isRegisterPage = request.nextUrl.pathname === '/register';
+    const isLandingPage = request.nextUrl.pathname === '/';
     const isKioskPage = request.nextUrl.pathname.startsWith('/kiosk');
 
     // If trying to access admin pages without token, redirect to login
-    if (!token && !isLoginPage && !isRegisterPage && !isKioskPage) {
+    // Allow root (landing), login, register and kiosk
+    if (!token && !isLoginPage && !isRegisterPage && !isKioskPage && !isLandingPage) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
