@@ -35,7 +35,6 @@ function RegisterForm() {
         password: '',
         role: 'ADMIN',
         organizationName: '',
-        location: '',
         plan: planParam
     });
     const [loading, setLoading] = useState(false);
@@ -111,31 +110,6 @@ function RegisterForm() {
                         className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
                         placeholder="Acme Residencies"
                     />
-                </div>
-            </div>
-
-            <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Organization Location</label>
-                <div className="relative">
-                    <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                    <select
-                        required
-                        value={formData.location}
-                        onChange={e => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900 appearance-none cursor-pointer"
-                    >
-                        <option value="" disabled>Select location</option>
-                        <option value="Santo Domingo, Dominican Republic">Santo Domingo, Dominican Republic</option>
-                        <option value="Santiago, Dominican Republic">Santiago, Dominican Republic</option>
-                        <option value="La Romana, Dominican Republic">La Romana, Dominican Republic</option>
-                        <option value="Punta Cana, Dominican Republic">Punta Cana, Dominican Republic</option>
-                        <option value="San Pedro de Macorís, Dominican Republic">San Pedro de Macorís, Dominican Republic</option>
-                        <option value="Miami, United States">Miami, United States</option>
-                        <option value="New York, United States">New York, United States</option>
-                        <option value="Los Angeles, United States">Los Angeles, United States</option>
-                        <option value="Houston, United States">Houston, United States</option>
-                        <option value="Other">Other</option>
-                    </select>
                 </div>
             </div>
 
