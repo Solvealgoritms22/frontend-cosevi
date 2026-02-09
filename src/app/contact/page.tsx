@@ -30,12 +30,16 @@ export default function ContactPage() {
                                 Customer Portal
                             </button>
                         </Link>
-                        <div className="size-8 bg-orange-600/20 rounded-lg flex items-center justify-center border border-orange-500/30">
-                            <ShieldCheck className="text-orange-400" size={18} />
+                        <div className="flex items-center gap-3">
+                            <div className="relative w-40 h-22 flex items-center justify-center">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src="/logo-landing.png"
+                                    alt="COSEVI"
+                                    className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
+                                />
+                            </div>
                         </div>
-                        <span className="text-lg font-bold text-slate-200">
-                            COSEVI
-                        </span>
                     </div>
                 </div>
             </nav>

@@ -8,9 +8,11 @@ export function middleware(request: NextRequest) {
     const isLandingPage = request.nextUrl.pathname === '/';
     const isKioskPage = request.nextUrl.pathname.startsWith('/kiosk');
 
+    const isPublicLegalPage = ['/privacy', '/terms', '/contact'].includes(request.nextUrl.pathname);
+
     // If trying to access admin pages without token, redirect to login
-    // Allow root (landing), login, register and kiosk
-    if (!token && !isLoginPage && !isRegisterPage && !isKioskPage && !isLandingPage) {
+    // Allow root (landing), login, register, kiosk and legal pages
+    if (!token && !isLoginPage && !isRegisterPage && !isKioskPage && !isLandingPage && !isPublicLegalPage) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 

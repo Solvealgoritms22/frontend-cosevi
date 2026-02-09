@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "COSEVI | Integrated VMS & Parking",
     description: "Next-generation visitor management and parking control platform.",
+    icons: {
+        icon: '/logo-official.png',
+    },
 };
 
 import { ErrorBoundary } from "@/components/error-boundary";

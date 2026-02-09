@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
     ShieldCheck,
     ArrowRight,
@@ -10,18 +10,24 @@ import {
     Globe,
     Server,
     Activity,
-    Smartphone
+    Smartphone,
+    Menu,
+    X,
+    ChevronRight
 } from "lucide-react";
 import { GlassButton } from "@/components/ui/glass-button";
 import { pricingPlans } from "@/lib/pricing-data";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "@/context/translation-context";
 
 export default function LandingPage() {
     const { t, language, setLanguage } = useTranslation();
     const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     const translatedPricingPlans = [
         {
@@ -77,6 +83,12 @@ export default function LandingPage() {
         },
     ];
 
+    const navItems = [
+        { name: t('featuresParams'), href: '#features' },
+        { name: t('security'), href: '#security' },
+        { name: t('pricing'), href: '#pricing' },
+    ];
+
     return (
         <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-orange-500/30">
             {/* Background Effects */}
@@ -99,12 +111,10 @@ export default function LandingPage() {
                             />
                         </div>
                     </div>
+
+                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
-                        {[
-                            { name: t('featuresParams'), href: '#features' },
-                            { name: t('security'), href: '#features' },
-                            { name: t('pricing'), href: '#pricing' },
-                        ].map((item) => (
+                        {navItems.map((item) => (
                             <a
                                 key={item.name}
                                 href={item.href}
@@ -135,7 +145,68 @@ export default function LandingPage() {
                             </button>
                         </Link>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden flex items-center gap-4">
+                        <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5 mr-2">
+                            <button
+                                onClick={() => setLanguage('en')}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                EN
+                            </button>
+                            <button
+                                onClick={() => setLanguage('es')}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                ES
+                            </button>
+                        </div>
+                        <button
+                            onClick={toggleMenu}
+                            className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                        >
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "100vh" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="md:hidden fixed inset-0 top-20 bg-[#0f172a] z-40 border-t border-white/10 overflow-y-auto"
+                        >
+                            <div className="p-6 space-y-6">
+                                <div className="space-y-4">
+                                    {navItems.map((item) => (
+                                        <a
+                                            key={item.name}
+                                            href={item.href}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="p-4 rounded-xl bg-slate-800/30 border border-white/5 text-lg font-medium text-slate-200 hover:bg-slate-800/50 hover:text-white transition-all flex items-center justify-between group"
+                                        >
+                                            {item.name}
+                                            <ChevronRight size={16} className="text-slate-500 group-hover:text-orange-500 transition-colors" />
+                                        </a>
+                                    ))}
+                                </div>
+
+                                <div className="pt-6 border-t border-white/10">
+                                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                                        <button className="w-full py-4 text-center font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors shadow-lg shadow-orange-500/20">
+                                            {t('customerPortal')}
+                                        </button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </nav>
 
             {/* Hero Section */}
@@ -207,7 +278,7 @@ export default function LandingPage() {
 
                                 {/* Floating Elements */}
                                 <div className="absolute -top-12 -right-12 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-bounce duration-3000">
-                                    <Activity size={24} className="text-emerald-400" />
+                                    <Activity size={24} className="text-red-400" />
                                 </div>
                                 <div className="absolute -bottom-8 -left-8 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-pulse">
                                     <Lock size={24} className="text-blue-400" />
@@ -247,13 +318,80 @@ export default function LandingPage() {
                                 transition={{ delay: i * 0.1 }}
                                 className="p-8 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors group"
                             >
-                                <div className={`size-12 rounded-lg bg-${feature.color}-500/10 flex items-center justify-center mb-6 text-${feature.color}-400 group-hover:scale-110 transition-transform`}>
+                                <div className={`size-12 rounded-lg flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform`}>
                                     <feature.icon size={24} />
                                 </div>
                                 <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
                                 <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
                             </motion.div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Security Section */}
+            <section className="relative z-10 py-32 px-6 bg-[#0b1120] border-t border-white/5" id="security">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="space-y-8"
+                        >
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                                <ShieldCheck size={14} className="text-emerald-400" />
+                                <span className="text-xs font-medium text-emerald-300 tracking-wide uppercase">{t('enterpriseGradeSecurity')}</span>
+                            </div>
+
+                            <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+                                {t('securityTitle')}
+                            </h2>
+                            <p className="text-xl text-slate-400 leading-relaxed max-w-xl">
+                                {t('securitySubtitle')}
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                                {[
+                                    { title: t('endToEndEncryption'), desc: t('endToEndEncryptionDesc'), icon: Lock },
+                                    { title: t('threatMonitoring'), desc: t('threatMonitoringDesc'), icon: Activity },
+                                    { title: t('dataSovereignty'), desc: t('dataSovereigntyDesc'), icon: Globe },
+                                    { title: t('complianceReady'), desc: t('complianceReadyDesc'), icon: ShieldCheck },
+                                ].map((item, i) => (
+                                    <div key={i} className="space-y-3">
+                                        <div className="size-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
+                                            <item.icon size={20} />
+                                        </div>
+                                        <h4 className="font-bold text-white">{item.title}</h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="relative"
+                        >
+                            <div className="relative aspect-square w-full max-w-md mx-auto flex items-center justify-center">
+                                <div className="absolute inset-0 bg-linear-to-tr from-emerald-500/20 to-blue-500/20 rounded-full blur-[80px]" />
+                                <div className="relative w-full h-full bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-[40px] overflow-hidden group shadow-2xl">
+                                    <div className="absolute inset-0 bg-grid-white/[0.02]" />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="relative">
+                                            <ShieldCheck size={160} className="text-emerald-500/20 animate-pulse" />
+                                            <ShieldCheck size={120} className="absolute inset-0 m-auto text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.3)]" />
+                                        </div>
+                                    </div>
+
+                                    {/* Decorative floating bits */}
+                                </div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
