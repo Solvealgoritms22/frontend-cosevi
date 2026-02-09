@@ -74,7 +74,7 @@ function RegisterForm() {
             }
 
             document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
-            router.push('/');
+            router.push('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
