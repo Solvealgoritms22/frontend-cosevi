@@ -111,7 +111,7 @@ export default function LandingPage() {
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="relative w-28 h-14 md:w-40 md:h-22 flex items-center justify-center">
+                        <div className="relative w-28 h-14 md:w-40 md:h-22 flex items-center justify-center py-2">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src="/logo-landing.png"
@@ -160,13 +160,13 @@ export default function LandingPage() {
                         <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5 mr-2">
                             <button
                                 onClick={() => setLanguage('en')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-[#f2a229] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 EN
                             </button>
                             <button
                                 onClick={() => setLanguage('es')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-orange-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-[#f2a229] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 ES
                             </button>
