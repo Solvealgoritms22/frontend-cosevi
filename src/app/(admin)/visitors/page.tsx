@@ -163,7 +163,15 @@ export default function VisitorsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">Access <span className="text-orange-500">Logs</span></h2>
+                    <h2 className="text-4xl sm:text-5xl font-black tracking-tighter text-slate-800 leading-none">
+                        {t('visitorLogs').includes(' ') ? (
+                            <>
+                                {t('visitorLogs').substring(0, t('visitorLogs').lastIndexOf(' '))} <span className="text-orange-500">{t('visitorLogs').split(' ').pop()}</span>
+                            </>
+                        ) : (
+                            <span className="text-slate-800">{t('visitorLogs')}</span>
+                        )}
+                    </h2>
                     <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('facilityAccess')}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6">

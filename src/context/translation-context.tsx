@@ -241,6 +241,8 @@ const translations: Record<Language, Record<string, string>> = {
         creating: 'Creating...',
         createRecord: 'Create Record',
         // User Management
+        userManagement: 'User Management',
+        manageSystemUsers: 'Manage system users and their access levels',
         createNewUser: 'Create New User',
         editUser: 'Edit User',
         addUserSystemMsg: 'Add a new user to the system. They will be able to login with these credentials.',
@@ -512,6 +514,8 @@ const translations: Record<Language, Record<string, string>> = {
         creating: 'Creando...',
         createRecord: 'Crear Registro',
         // Gestión de Usuarios
+        userManagement: 'Gestión de Usuarios',
+        manageSystemUsers: 'Gestionar usuarios del sistema y sus niveles de acceso',
         createNewUser: 'Crear Nuevo Usuario',
         editUser: 'Editar Usuario',
         addUserSystemMsg: 'Agregue un nuevo usuario al sistema. Podrá iniciar sesión con estas credenciales.',

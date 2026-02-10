@@ -142,10 +142,10 @@ export default function DashboardPage() {
             {/* Immersive Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12">
                 <div className="space-y-4">
-                    <h1 className="text-fluid-h1 font-black tracking-tighter text-slate-800 leading-[0.9] lg:leading-none">
-                        {t("centralDirector").split(" ")[0]}{" "}
+                    <h1 className="text-5xl sm:text-6xl font-black tracking-tighter text-slate-800 leading-[0.9] lg:leading-none">
+                        {t("centralDirector").substring(0, t("centralDirector").lastIndexOf(' '))}{" "}
                         <span className="text-orange-500 opacity-80">
-                            {t("centralDirector").split(" ")[1]}
+                            {t("centralDirector").split(" ").pop()}
                         </span>
                     </h1>
                     <p className="text-slate-500 text-base sm:text-lg lg:text-xl font-medium tracking-tight opacity-70">

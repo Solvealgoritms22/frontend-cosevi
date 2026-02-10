@@ -136,8 +136,8 @@ export default function SafetyPage() {
         >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
                 <div className="space-y-4">
-                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
-                        Safety <span className="text-orange-500">Records</span>
+                    <h2 className="text-4xl sm:text-5xl font-black tracking-tighter text-slate-800 leading-none">
+                        {t('safetyAccessControl').substring(0, t('safetyAccessControl').lastIndexOf(' '))} <span className="text-orange-500">{t('safetyAccessControl').split(' ').pop()}</span>
                     </h2>
                     <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageAccessRecords')}</p>
                 </div>

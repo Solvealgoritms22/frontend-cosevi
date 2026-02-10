@@ -173,8 +173,8 @@ export default function UsersPage() {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
                 <div className="space-y-4">
-                    <h2 className="text-fluid-h2 font-black tracking-tighter text-slate-800 leading-none">
-                        {t('userManagement').split(' ')[0]} <span className="text-orange-500">{t('userManagement').split(' ')[1]}</span>
+                    <h2 className="text-4xl sm:text-5xl font-black tracking-tighter text-slate-800 leading-none">
+                        {t('userManagement').substring(0, t('userManagement').lastIndexOf(' '))} <span className="text-orange-500">{t('userManagement').split(' ').pop()}</span>
                     </h2>
                     <p className="text-slate-500 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageSystemUsers')}</p>
                 </div>

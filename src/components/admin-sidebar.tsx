@@ -141,7 +141,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     <div
                         className={cn(
                             "relative flex items-center justify-center shrink-0 transition-all overflow-hidden",
-                            collapsed ? "size-10" : "size-12"
+                            collapsed ? "size-10 my-4" : "w-40 h-24"
                         )}
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -153,9 +153,6 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     </div>
                     {!collapsed && (
                         <div className="text-center w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <h1 className="text-xl font-bold tracking-tight text-slate-900 uppercase leading-none">
-                                {orgName}
-                            </h1>
                             <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">
                                 Enterprise Admin
                             </p>
