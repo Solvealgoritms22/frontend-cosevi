@@ -13,24 +13,35 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         const checkAuth = async () => {
             if (typeof window !== "undefined") {
                 const token = localStorage.getItem("token");
+                console.log('[AuthGuard] Checking token:', !!token);
                 if (!token) {
+                    console.log('[AuthGuard] No token found, redirecting to login');
                     setAuthorized(false);
                     router.push("/login");
                     return;
                 }
                 try {
+                    console.log('[AuthGuard] Fetching profile...');
                     const response = await api.get('/auth/profile');
                     const user = response.data;
+                    console.log('[AuthGuard] User profile:', user);
+
                     if (user.role !== 'ADMIN') {
+                        console.log('[AuthGuard] User is not ADMIN:', user.role);
                         setAuthorized(false);
                         localStorage.removeItem('token');
                         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax";
                         router.push("/login?error=unauthorized");
                         return;
                     }
+                    console.log('[AuthGuard] Authorized!');
                     setAuthorized(true);
-                } catch (error) {
+                } catch (error: any) {
+                    console.error('[AuthGuard] Error checking auth:', error);
+                    console.error('[AuthGuard] Error details:', error.response?.data);
                     setAuthorized(false);
+                    // router.push("/login"); // Commented out to see the error in console if needed, or keep it.
+                    // Let's keep the redirect but log first
                     router.push("/login");
                 }
             }

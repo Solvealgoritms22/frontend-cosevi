@@ -42,7 +42,7 @@ export default function LoginPage() {
             }
 
             document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
-            router.push('/');
+            router.push('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {
