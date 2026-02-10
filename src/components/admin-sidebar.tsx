@@ -255,6 +255,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                 title={t("logoutTitle") || "Cerrar Sesión"}
                 message={t("logoutConfirm") || "¿Estás seguro de que deseas cerrar sesión? Deberás ingresar tus credenciales nuevamente."}
                 confirmText={t("logoutAction") || "Cerrar Sesión"}
+                cancelText={t("cancel")}
                 variant="destructive"
             />
         </>
