@@ -461,7 +461,7 @@ const translations: Record<Language, Record<string, string>> = {
         premiumButton: 'Elegir Premium',
         elitePlan: 'Elite',
         eliteDesc: 'Para grandes complejos que requieren máxima personalización.',
-        eliteButton: 'Contactar Ventas',
+        eliteButton: 'Elegir Plan Elite',
         perMonth: '/mes',
         footerRights: '© 2026 COSEVI Infrastructure. Todos los derechos reservados.',
         privacyPolicy: 'Política de Privacidad',

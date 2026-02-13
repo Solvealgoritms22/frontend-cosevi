@@ -79,6 +79,6 @@ export const pricingPlans: PricingPlan[] = [
             monitors: 'Ilimitado',
             security: 'Ilimitado',
         },
-        buttonText: 'Contactar Ventas',
+        buttonText: 'Elegir Plan Elite',
     },
 ];
