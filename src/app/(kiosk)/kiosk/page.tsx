@@ -14,7 +14,7 @@ export default function KioskPage() {
         visitorName: '',
         visitorIdNumber: '',
         licensePlate: '',
-        hostEmail: 'resident@cosevi.com',
+        hostEmail: 'resident@entra.com',
         hostId: '' // Will be populated when host is selected
     });
     const [loading, setLoading] = useState(false);
@@ -104,7 +104,7 @@ export default function KioskPage() {
                     <div className="size-10 rounded-xl bg-blue-600 flex items-center justify-center">
                         <ShieldCheck size={24} className="text-white" />
                     </div>
-                    <span className="text-xl font-black italic tracking-tighter uppercase">COSEVI Terminal</span>
+                    <span className="text-xl font-black italic tracking-tighter uppercase">ENTRA Terminal</span>
                 </motion.div>
 
                 <div className="w-full max-w-2xl relative z-10">
@@ -242,7 +242,7 @@ export default function KioskPage() {
                 <div className="size-10 rounded-xl bg-blue-600 flex items-center justify-center">
                     <ShieldCheck size={24} className="text-white" />
                 </div>
-                <span className="text-xl font-black italic tracking-tighter">COSEVI SECURE</span>
+                <span className="text-xl font-black italic tracking-tighter">ENTRA SECURE</span>
             </motion.div>
 
             <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">

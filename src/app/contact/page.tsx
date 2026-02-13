@@ -31,7 +31,7 @@ export default function ContactPage() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src="/logo-landing.png"
-                                    alt="COSEVI"
+                                    alt="ENTRA"
                                     className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
                                 />
                             </div>
@@ -51,14 +51,14 @@ export default function ContactPage() {
                         <div>
                             <h1 className="text-4xl font-bold mb-4">Contact Sales</h1>
                             <p className="text-xl text-slate-400">
-                                Interested in securing your community with COSEVI?
+                                Interested in securing your community with ENTRA?
                                 <br />Our team is ready to help you find the perfect plan.
                             </p>
                         </div>
 
                         <div className="space-y-6 pt-8">
                             {[
-                                { icon: Mail, label: "Email", value: "sales@cosevi.com", href: "mailto:sales@cosevi.com" },
+                                { icon: Mail, label: "Email", value: "sales@entra.com", href: "mailto:sales@entra.com" },
                                 { icon: Phone, label: "Phone", value: "+1 (555) 123-4567", href: "tel:+15551234567" },
                                 { icon: MapPin, label: "Office", value: "123 Security Blvd, Tech City, TC 90210", href: "#" }
                             ].map((item, i) => (

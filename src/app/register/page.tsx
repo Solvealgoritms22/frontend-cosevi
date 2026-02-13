@@ -231,7 +231,7 @@ function RegisterForm() {
                                         value={formData.email}
                                         onChange={e => setFormData({ ...formData, email: e.target.value })}
                                         className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900"
-                                        placeholder="admin@cosevi.com"
+                                        placeholder="admin@entra.com"
                                     />
                                 </div>
                             </div>
@@ -246,7 +246,7 @@ function RegisterForm() {
                                         onChange={e => setFormData({ ...formData, confirmEmail: e.target.value })}
                                         className={`w-full bg-slate-50 border h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900 ${formData.confirmEmail && formData.email !== formData.confirmEmail ? 'border-red-300' : 'border-slate-200'
                                             }`}
-                                        placeholder="admin@cosevi.com"
+                                        placeholder="admin@entra.com"
                                     />
                                 </div>
                             </div>

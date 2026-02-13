@@ -21,7 +21,7 @@ export default function PrivacyPage() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src="/logo-landing.png"
-                                    alt="COSEVI"
+                                    alt="ENTRA"
                                     className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
                                 />
                             </div>
@@ -81,7 +81,7 @@ export default function PrivacyPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-white mb-4">4. Contact Us</h2>
                             <p>
-                                If you have any questions about this Privacy Policy, please contact us at privacy@cosevi.com.
+                                If you have any questions about this Privacy Policy, please contact us at privacy@entra.com.
                             </p>
                         </section>
                     </div>

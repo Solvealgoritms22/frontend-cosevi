@@ -88,7 +88,7 @@ export default function VisitorsPage() {
     }, [searchQuery, statusFilter])
 
     if (error) return <div className="p-8 text-red-600 italic font-bold">Failed to load access logs. Please verify connection.</div>
-    if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">Synchronizing with COSEVI Cloud...</div>
+    if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">Synchronizing with ENTRA Cloud...</div>
 
     const visitsArray = visitsResponse?.data || []
 

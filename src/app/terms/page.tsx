@@ -21,7 +21,7 @@ export default function TermsPage() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src="/logo-landing.png"
-                                    alt="COSEVI"
+                                    alt="ENTRA"
                                     className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
                                 />
                             </div>
@@ -45,7 +45,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-white mb-4">1. Acceptance of Terms</h2>
                             <p>
-                                By accessing or using the COSEVI platform, you agree to be bound by these Terms of Service.
+                                By accessing or using the ENTRA platform, you agree to be bound by these Terms of Service.
                                 If you do not agree to these terms, please do not use our services.
                             </p>
                         </section>
@@ -53,7 +53,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-white mb-4">2. Description of Service</h2>
                             <p>
-                                COSEVI provides a comprehensive visitor management and access control system for residential complexes.
+                                ENTRA provides a comprehensive visitor management and access control system for residential complexes.
                                 The service includes mobile applications, web dashboards, and integration with security hardware.
                             </p>
                         </section>
@@ -70,7 +70,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-white mb-4">4. Limitation of Liability</h2>
                             <p>
-                                COSEVI shall not be liable for any indirect, incidental, special, consequential, or punitive damages,
+                                ENTRA shall not be liable for any indirect, incidental, special, consequential, or punitive damages,
                                 including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
                             </p>
                         </section>

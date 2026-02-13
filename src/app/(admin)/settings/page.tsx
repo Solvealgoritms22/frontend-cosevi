@@ -204,7 +204,7 @@ export default function SettingsPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 pt-6 sm:pt-8">
                                         <div className="space-y-3">
                                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('deploymentIdentity')}</label>
-                                            <input type="text" defaultValue="COSEVI Central Admin" className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-blue-500/5 transition-all text-sm sm:text-base cursor-not-allowed opacity-60" disabled />
+                                            <input type="text" defaultValue="ENTRA Central Admin" className="w-full h-14 sm:h-16 px-5 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:ring-4 focus:ring-blue-500/5 transition-all text-sm sm:text-base cursor-not-allowed opacity-60" disabled />
                                         </div>
                                         <div className="space-y-3">
                                             <label className="text-fluid-label font-black uppercase tracking-widest text-slate-400 px-1">{t('activeLogicLanguage')}</label>
