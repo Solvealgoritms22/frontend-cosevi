@@ -96,7 +96,7 @@ const ParkingSection = memo(({ spaces, selectedIds, currentResidentId, onToggle 
                                 <div
                                     key={space.id}
                                     onClick={() => onToggle(space.id)}
-                                    className={`cursor-pointer rounded-xl border p-3 flex items-center gap-3 transition-all duration-200 relative ${isSelected ? 'bg-orange-50 border-orange-200 ring-1 ring-orange-500/20' : 'bg-white border-slate-200 hover:border-orange-300'
+                                    className={`cursor-pointer rounded-xl border p-3 flex items-center gap-3 transition-all duration-200 relative ${isSelected ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-500/20' : 'bg-white border-slate-200 hover:border-blue-300'
                                         }`}
                                 >
                                     <Checkbox
@@ -105,7 +105,7 @@ const ParkingSection = memo(({ spaces, selectedIds, currentResidentId, onToggle 
                                         onCheckedChange={() => { }}
                                     />
                                     <div className="flex flex-col">
-                                        <span className={`text-sm font-bold ${isSelected ? 'text-orange-700' : 'text-slate-600'}`}>
+                                        <span className={`text-sm font-bold ${isSelected ? 'text-blue-700' : 'text-slate-600'}`}>
                                             {space.name}
                                         </span>
                                         {isCurrentlyAssigned && <span className="text-[10px] text-emerald-500 font-bold">{t('current')}</span>}
@@ -406,7 +406,7 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="rounded-xl h-11">
                             {t('cancel')}
                         </Button>
-                        <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-orange-600 hover:bg-orange-700">
+                        <Button type="submit" loading={loading} className="rounded-xl h-11 px-8 bg-blue-600 hover:bg-blue-700">
                             {t('saveChanges') || 'Save Changes'}
                         </Button>
                     </DialogFooter>

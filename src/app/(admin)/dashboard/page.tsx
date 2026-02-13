@@ -144,7 +144,7 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                     <h1 className="text-5xl sm:text-6xl font-black tracking-tighter text-slate-800 leading-[0.9] lg:leading-none">
                         {t("centralDirector").substring(0, t("centralDirector").lastIndexOf(' '))}{" "}
-                        <span className="text-orange-500 opacity-80">
+                        <span className="text-blue-500 opacity-80">
                             {t("centralDirector").split(" ").pop()}
                         </span>
                     </h1>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
                             className={cn(
                                 "px-6 sm:px-10 py-3 sm:py-4 rounded-2xl sm:rounded-4xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500",
                                 activeTab === tab
-                                    ? "bg-white shadow-xl text-orange-600 scale-[1.05]"
+                                    ? "bg-white shadow-xl text-blue-600 scale-[1.05]"
                                     : "text-slate-400 hover:text-slate-600 "
                             )}
                         >
@@ -196,7 +196,7 @@ export default function DashboardPage() {
                                     className={cn(
                                         "size-16 rounded-3xl flex items-center justify-center relative shadow-inner group-hover:scale-110 transition-transform duration-500",
                                         stat.color === "indigo"
-                                            ? "bg-orange-50 text-orange-500"
+                                            ? "bg-blue-50 text-blue-500"
                                             : stat.color === "emerald"
                                                 ? "bg-emerald-50 text-emerald-500"
                                                 : stat.color === "blue"
@@ -245,7 +245,7 @@ export default function DashboardPage() {
                         <div className="space-y-1">
                             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter text-slate-800 ">
                                 {t("visualTelemetry").split(" ")[0]}{" "}
-                                <span className="text-orange-500 opacity-80">
+                                <span className="text-blue-500 opacity-80">
                                     {t("visualTelemetry").split(" ")[1]}
                                 </span>
                             </h3>
@@ -273,16 +273,16 @@ export default function DashboardPage() {
                                 <GlassCard
                                     interactive
                                     elevation="sm"
-                                    className="p-3 sm:p-6 lg:p-8 border-white/40 hover:border-orange-100 transition-all hover:translate-x-2"
+                                    className="p-3 sm:p-6 lg:p-8 border-white/40 hover:border-blue-100 transition-all hover:translate-x-2"
                                 >
                                     <div className="flex items-center gap-8">
                                         <div className="size-16 rounded-2xl bg-white shadow-inner flex items-center justify-center relative border border-white group-hover:scale-110 transition-transform duration-500">
                                             <MonitorCheck
                                                 size={28}
                                                 strokeWidth={1.5}
-                                                className="text-orange-500 z-10"
+                                                className="text-blue-500 z-10"
                                             />
-                                            <div className="absolute inset-x-0 bottom-[-10%] h-[20%] bg-orange-500/10 blur-md rounded-full" />
+                                            <div className="absolute inset-x-0 bottom-[-10%] h-[20%] bg-blue-500/10 blur-md rounded-full" />
                                         </div>
                                         <div className="flex-1 space-y-2 min-w-0">
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -297,7 +297,7 @@ export default function DashboardPage() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm font-medium text-slate-500 ">
-                                                <span className="px-2.5 py-1 bg-orange-50 text-orange-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-orange-100 ">
+                                                <span className="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100 ">
                                                     {log.licensePlate || "Auth Scan"}
                                                 </span>
                                                 <span className="opacity-40 hidden sm:inline">•</span>
@@ -326,7 +326,7 @@ export default function DashboardPage() {
                     <div className="space-y-1 px-6">
                         <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter text-slate-800 ">
                             {t("coreHealth").split(" ")[0]}{" "}
-                            <span className="text-orange-500 opacity-80">
+                            <span className="text-blue-500 opacity-80">
                                 {t("coreHealth").split(" ")[1]}
                             </span>
                         </h3>
@@ -346,11 +346,11 @@ export default function DashboardPage() {
                                 <motion.div
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                    className="absolute inset-[4px] rounded-full border-t border-orange-500/20"
+                                    className="absolute inset-[4px] rounded-full border-t border-blue-500/20"
                                 />
-                                <div className="size-32 rounded-full bg-orange-50/30 flex items-center justify-center">
+                                <div className="size-32 rounded-full bg-blue-50/30 flex items-center justify-center">
                                     <Zap
-                                        className="text-orange-500 drop-shadow-lg"
+                                        className="text-blue-500 drop-shadow-lg"
                                         size={48}
                                         strokeWidth={1.5}
                                     />
@@ -362,21 +362,21 @@ export default function DashboardPage() {
                                 </p>
                                 <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-800 tabular-nums leading-none tracking-tighter">
                                     {systemEfficiency.toFixed(1)}
-                                    <span className="text-xl sm:text-2xl text-orange-500 opacity-40 ml-1">%</span>
+                                    <span className="text-xl sm:text-2xl text-blue-500 opacity-40 ml-1">%</span>
                                 </p>
                             </div>
                             <div className="w-full space-y-12 py-6">
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ">
                                         <span>{t("visionPrecision")}</span>
-                                        <span className="text-orange-600 ">{lprAccuracy.toFixed(1)}%</span>
+                                        <span className="text-blue-600 ">{lprAccuracy.toFixed(1)}%</span>
                                     </div>
                                     <div className="w-full bg-slate-100/50 h-2 rounded-full overflow-hidden border border-white ">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${lprAccuracy}%` }}
                                             transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                                            className="h-full bg-linear-to-r from-orange-500 to-orange-300 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.4)]"
+                                            className="h-full bg-linear-to-r from-blue-500 to-blue-300 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.4)]"
                                         />
                                     </div>
                                 </div>

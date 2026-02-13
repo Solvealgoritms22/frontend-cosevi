@@ -89,7 +89,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         { title: t("settings"), href: "/settings", icon: Settings },
     ];
 
-    const [orgName, setOrgName] = useState("COSEVI");
+    const [orgName, setOrgName] = useState("Entrar");
     const [customLogo, setCustomLogo] = useState<string | null>(null);
     useEffect(() => {
         const savedOrg = localStorage.getItem("cosevi_org_name");
@@ -131,7 +131,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             >
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-orange-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
+                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-blue-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
                 >
                     {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
                 </button>
@@ -184,7 +184,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 relative group cursor-pointer",
                                     isActive
-                                        ? "bg-orange-50/80 text-orange-700 shadow-sm ring-1 ring-orange-100"
+                                        ? "bg-blue-50/80 text-blue-700 shadow-sm ring-1 ring-blue-100"
                                         : "text-slate-500 hover:bg-slate-50 hover:text-slate-900",
                                     collapsed && "justify-center px-2"
                                 )}
@@ -196,7 +196,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                     className={cn(
                                         "shrink-0 transition-colors",
                                         isActive
-                                            ? "text-orange-600"
+                                            ? "text-blue-600"
                                             : "text-slate-400 group-hover:text-slate-600"
                                     )}
                                 />
@@ -206,7 +206,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                     </span>
                                 )}
                                 {isActive && !collapsed && (
-                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                                 )}
                             </Link>
                         );
@@ -226,7 +226,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         )}
                     >
                         <div
-                            className="size-9 rounded-lg bg-orange-100 flex items-center justify-center shrink-0 border border-orange-200 text-orange-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
+                            className="size-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-blue-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
                             title={userName}
                         >
                             <UserAvatar

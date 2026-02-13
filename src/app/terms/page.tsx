@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function TermsPage() {
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-orange-500/30">
+        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-blue-500/30">
             {/* Header */}
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">

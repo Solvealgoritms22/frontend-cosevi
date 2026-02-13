@@ -16,7 +16,7 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-orange-500/30">
+        <div className="min-h-screen bg-[#0f172a] text-white selection:bg-blue-500/30">
             {/* Header */}
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md">
                 <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -71,7 +71,7 @@ export default function ContactPage() {
                                     href={item.href}
                                     className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group"
                                 >
-                                    <div className="size-12 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <div className="size-12 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         <item.icon size={20} />
                                     </div>
                                     <div>
@@ -101,7 +101,7 @@ export default function ContactPage() {
                                 </p>
                                 <button
                                     onClick={() => setStatus('idle')}
-                                    className="mt-6 text-orange-400 font-semibold hover:text-orange-300"
+                                    className="mt-6 text-blue-400 font-semibold hover:text-blue-300"
                                 >
                                     Send another message
                                 </button>
@@ -111,28 +111,28 @@ export default function ContactPage() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-slate-300">First Name</label>
-                                        <input type="text" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="John" />
+                                        <input type="text" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="John" />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-slate-300">Last Name</label>
-                                        <input type="text" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="Doe" />
+                                        <input type="text" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="Doe" />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-slate-300">Email Address</label>
-                                    <input type="email" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="john@company.com" />
+                                    <input type="email" required className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="john@company.com" />
                                 </div>
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-slate-300">How can we help?</label>
-                                    <textarea required rows={4} className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors resize-none" placeholder="Tell us about your property..." />
+                                    <textarea required rows={4} className="w-full bg-[#0f172a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none" placeholder="Tell us about your property..." />
                                 </div>
 
                                 <button
                                     type="submit"
                                     disabled={status === 'submitting'}
-                                    className="w-full h-12 bg-[#c27f1b] hover:bg-orange-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full h-12 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {status === 'submitting' ? (
                                         <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

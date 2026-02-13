@@ -184,7 +184,7 @@ export default function EmergenciesPage() {
                                         disabled={currentPage === 1}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronLeft size={16} />
@@ -198,7 +198,7 @@ export default function EmergenciesPage() {
                                                 className={cn(
                                                     "size-10 rounded-xl text-[10px] font-black transition-all",
                                                     currentPage === page
-                                                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                                                        ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
                                                         : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                                 )}
                                             >
@@ -212,7 +212,7 @@ export default function EmergenciesPage() {
                                         disabled={currentPage === totalPages}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronRight size={16} />

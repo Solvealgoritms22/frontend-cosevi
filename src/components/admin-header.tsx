@@ -62,7 +62,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleSearch}
                         placeholder={t("searchPlaceholder")}
-                        className="w-full h-10 pl-10 pr-12 bg-slate-100 hover:bg-slate-50 focus:bg-white border-transparent focus:border-orange-500 rounded-lg text-sm text-slate-800 transition-all outline-none"
+                        className="w-full h-10 pl-10 pr-12 bg-slate-100 hover:bg-slate-50 focus:bg-white border-transparent focus:border-blue-500 rounded-lg text-sm text-slate-800 transition-all outline-none"
                     />
                     <div className="absolute right-3 px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-bold text-slate-400 ">
                         ⌘ K
@@ -89,7 +89,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                             className={cn(
                                 "size-9 rounded-lg flex items-center justify-center transition-all relative border",
                                 isNotificationOpen
-                                    ? "bg-orange-50 border-orange-200 text-orange-600"
+                                    ? "bg-blue-50 border-blue-200 text-blue-600"
                                     : "bg-white border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50"
                             )}
                         >
@@ -111,7 +111,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                                             <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                                                 {t("activityPulse")}
                                             </h3>
-                                            <span className="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                            <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
                                                 {unreadCount} {t("newBadge")}
                                             </span>
                                         </div>
@@ -124,14 +124,14 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                                                             onClick={() => markAsRead(n.id)}
                                                             className={cn(
                                                                 "p-4 hover:bg-slate-50 cursor-pointer transition-colors relative",
-                                                                !n.read && "bg-orange-50/30"
+                                                                !n.read && "bg-blue-50/30"
                                                             )}
                                                         >
                                                             <div className="flex gap-3">
                                                                 <div
                                                                     className={cn(
                                                                         "mt-1 size-2 rounded-full shrink-0",
-                                                                        !n.read ? "bg-orange-500" : "bg-slate-300"
+                                                                        !n.read ? "bg-blue-500" : "bg-slate-300"
                                                                     )}
                                                                 />
                                                                 <div>

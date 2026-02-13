@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "COSEVI | Integrated VMS & Parking",
+    title: "Entrar | Integrated VMS & Parking",
     description: "Next-generation visitor management and parking control platform.",
     icons: {
         icon: '/logo-official.png',

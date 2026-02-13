@@ -28,9 +28,9 @@ export function GlassButton({
         default:
             "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm",
         primary:
-            "bg-orange-600 text-white border border-transparent hover:bg-orange-700 shadow-md shadow-orange-500/20",
+            "bg-blue-600 text-white border border-transparent hover:bg-blue-700 shadow-md shadow-blue-500/20",
         secondary:
-            "bg-white/50 border border-slate-200 text-slate-600 hover:bg-white hover:text-orange-600 hover:border-orange-200 ",
+            "bg-white/50 border border-slate-200 text-slate-600 hover:bg-white hover:text-blue-600 hover:border-blue-200 ",
         ghost:
             "bg-transparent border-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900 ",
         danger:

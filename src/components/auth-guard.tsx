@@ -52,8 +52,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     if (!authorized) {
         return (
             <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center gap-4">
-                <div className="size-12 rounded-2xl bg-orange-600/20 border border-orange-600/20 animate-pulse flex items-center justify-center text-orange-600">
-                    <div className="size-6 rounded-full border-2 border-orange-600 border-t-transparent animate-spin" />
+                <div className="size-12 rounded-2xl bg-blue-600/20 border border-blue-600/20 animate-pulse flex items-center justify-center text-blue-600">
+                    <div className="size-6 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
                 </div>
                 <p className="text-slate-500 font-black text-xs uppercase tracking-widest animate-pulse">
                     Authenticating Environment...

@@ -140,7 +140,7 @@ function RegisterForm() {
                         required
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900"
                         placeholder="Juan Pérez"
                     />
                 </div>
@@ -155,7 +155,7 @@ function RegisterForm() {
                         required
                         value={formData.organizationName}
                         onChange={e => setFormData({ ...formData, organizationName: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900"
                         placeholder="Residencial Las Palmas"
                     />
                 </div>
@@ -174,11 +174,11 @@ function RegisterForm() {
                             const file = e.dataTransfer.files?.[0];
                             if (file) handleLogoUpload(file);
                         }}
-                        className="relative border-2 border-dashed border-slate-300 hover:border-orange-400 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors bg-slate-50/50 hover:bg-orange-50/30 min-h-[120px]"
+                        className="relative border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors bg-slate-50/50 hover:bg-blue-50/30 min-h-[120px]"
                     >
                         {uploading ? (
                             <div className="flex items-center gap-2 text-slate-500">
-                                <div className="animate-spin w-5 h-5 border-2 border-orange-200 border-t-orange-600 rounded-full" />
+                                <div className="animate-spin w-5 h-5 border-2 border-blue-200 border-t-blue-600 rounded-full" />
                                 <span className="text-sm font-bold">Subiendo...</span>
                             </div>
                         ) : logoPreview ? (
@@ -223,7 +223,7 @@ function RegisterForm() {
                         required
                         value={formData.location}
                         onChange={e => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900 appearance-none cursor-pointer"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900 appearance-none cursor-pointer"
                     >
                         <option value="" disabled>Selecciona ubicación</option>
                         <option value="Santo Domingo, Dominican Republic">Santo Domingo, Dominican Republic</option>
@@ -249,7 +249,7 @@ function RegisterForm() {
                         required
                         value={formData.email}
                         onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900"
                         placeholder="admin@cosevi.com"
                     />
                 </div>
@@ -265,7 +265,7 @@ function RegisterForm() {
                         minLength={6}
                         value={formData.password}
                         onChange={e => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold text-slate-900"
+                        className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold text-slate-900"
                         placeholder="••••••••"
                     />
                 </div>
@@ -275,7 +275,7 @@ function RegisterForm() {
 
             <button
                 disabled={loading}
-                className="w-full h-16 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-orange-600/20 active:scale-95 text-white"
+                className="w-full h-16 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-blue-600/20 active:scale-95 text-white"
             >
                 {loading ? "Procesando..." : (
                     <>
@@ -287,7 +287,7 @@ function RegisterForm() {
 
             <p className="text-center text-slate-500 text-sm font-bold pt-4">
                 ¿Ya tienes cuenta? {' '}
-                <Link href="/login" className="text-orange-600 hover:text-orange-700 transition-colors">
+                <Link href="/login" className="text-blue-600 hover:text-blue-700 transition-colors">
                     Iniciar Sesión
                 </Link>
             </p>
@@ -299,7 +299,7 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/5 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
 
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -310,7 +310,7 @@ export default function RegisterPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/logo-official.png"
-                        alt="COSEVI"
+                        alt="Entrar"
                         className="object-contain w-full h-full drop-shadow-xl"
                     />
                 </div>
@@ -322,7 +322,7 @@ export default function RegisterPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="bg-white/80 border border-slate-200 backdrop-blur-xl rounded-[2.5rem] p-10 shadow-2xl"
                 >
-                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">Únete a COSEVI</h1>
+                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">Únete a Entrar</h1>
                     <p className="text-slate-500 text-center mb-10 font-medium">Crea tu cuenta administrativa</p>
 
                     <Suspense fallback={<div className="text-center py-10 font-bold text-slate-400">Cargando formulario...</div>}>

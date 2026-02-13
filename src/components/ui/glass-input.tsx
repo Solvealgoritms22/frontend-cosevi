@@ -11,17 +11,17 @@ interface GlassInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function GlassInput({ label, error, icon, className, ...props }: GlassInputProps) {
     const [isFocused, setIsFocused] = useState(false)
+    const { value } = props; // Destructure value from props for use in label condition
 
     return (
         <div className="relative w-full">
             {label && (
                 <label
                     className={cn(
-                        'absolute left-4 transition-all duration-300 pointer-events-none z-20',
-                        isFocused || props.value
-                            ? 'top-2.5 text-[10px] font-bold uppercase tracking-wider text-orange-500'
-                            : 'top-1/2 -translate-y-1/2 text-sm font-medium text-slate-500',
-                        error && 'text-red-500'
+                        "absolute left-3 transition-all duration-200 pointer-events-none",
+                        isFocused || value
+                            ? 'top-2.5 text-[10px] font-bold uppercase tracking-wider text-blue-500'
+                            : 'top-1/2 -translate-y-1/2 text-slate-500'
                     )}
                 >
                     {label}
@@ -34,19 +34,18 @@ export function GlassInput({ label, error, icon, className, ...props }: GlassInp
                     </div>
                 )}
                 <input
+                    {...props}
+                    value={value}
+                    onFocus={(e) => { setIsFocused(true); props.onFocus?.(e) }}
+                    onBlur={(e) => { setIsFocused(false); props.onBlur?.(e) }}
                     className={cn(
-                        'w-full rounded-xl px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 font-medium transition-all duration-200 outline-none',
-                        'hover:bg-white hover:border-orange-200 ',
-                        'focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10',
-                        'placeholder:text-slate-400 ',
-                        icon && 'pl-11',
-                        label && 'pt-7 pb-2.5',
-                        error && 'border-red-500 focus:border-red-500 focus:ring-red-500/10',
+                        "w-full bg-white/50 border border-slate-200 rounded-xl px-3 pt-6 pb-2 text-slate-900 outline-none transition-all duration-200",
+                        "hover:bg-white hover:border-blue-200 ",
+                        "focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
+                        icon && 'pl-11', // Keep icon padding if present
+                        error && "border-red-300 focus:border-red-500 focus:ring-red-500/10",
                         className
                     )}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    {...props}
                 />
             </div>
             {error && (

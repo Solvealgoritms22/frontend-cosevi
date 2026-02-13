@@ -9,7 +9,7 @@ export default function PaymentCancelledPage() {
     return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-red-600/5 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/5 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
 
             <div className="w-full max-w-lg relative z-10">
                 <motion.div
@@ -30,7 +30,7 @@ export default function PaymentCancelledPage() {
                         <div className="space-y-3">
                             <Link
                                 href="/#pricing"
-                                className="flex items-center justify-center gap-3 w-full h-14 bg-orange-600 hover:bg-orange-700 rounded-2xl font-black text-white transition-all shadow-xl shadow-orange-600/20 active:scale-95"
+                                className="flex items-center justify-center gap-3 w-full h-14 bg-blue-600 hover:bg-blue-700 rounded-2xl font-black text-white transition-all shadow-xl shadow-blue-600/20 active:scale-95"
                             >
                                 <RotateCcw size={18} />
                                 Volver a Intentar

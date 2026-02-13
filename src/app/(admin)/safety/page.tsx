@@ -137,11 +137,11 @@ export default function SafetyPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 sm:gap-12 px-4">
                 <div className="space-y-4">
                     <h2 className="text-4xl sm:text-5xl font-black tracking-tighter text-slate-800 leading-none">
-                        {t('safetyAccessControl').substring(0, t('safetyAccessControl').lastIndexOf(' '))} <span className="text-orange-500">{t('safetyAccessControl').split(' ').pop()}</span>
+                        {t('safetyAccessControl').substring(0, t('safetyAccessControl').lastIndexOf(' '))} <span className="text-blue-500">{t('safetyAccessControl').split(' ').pop()}</span>
                     </h2>
                     <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight opacity-70">{t('manageAccessRecords')}</p>
                 </div>
-                <GlassButton onClick={() => setIsCreateModalOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-orange-500/20" >
+                <GlassButton onClick={() => setIsCreateModalOpen(true)} variant="primary" icon={Plus} glow className="h-16 px-10 text-lg shadow-2xl shadow-blue-500/20" >
                     {t('newAccessRecord')}
                 </GlassButton>
             </div>
@@ -159,13 +159,13 @@ export default function SafetyPage() {
                             <p className="text-emerald-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('completedVisits')}</p>
                             <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-emerald-600 tabular-nums">{completed}</h3>
                         </div>
-                        <div className="bg-orange-500/10 border border-orange-500/20 p-8 rounded-3xl shadow-lg shadow-orange-500/5 group hover:bg-orange-500/15 transition-all">
-                            <p className="text-orange-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('activeNow')}</p>
-                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-orange-600 tabular-nums">{active}</h3>
+                        <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-3xl shadow-lg shadow-blue-500/5 group hover:bg-blue-500/15 transition-all">
+                            <p className="text-blue-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('activeNow')}</p>
+                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-blue-600 tabular-nums">{active}</h3>
                         </div>
-                        <div className="bg-orange-500/10 border border-orange-500/20 p-8 rounded-3xl shadow-lg shadow-orange-500/5 group hover:bg-orange-500/15 transition-all">
-                            <p className="text-orange-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('pendingApproval')}</p>
-                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-orange-600 tabular-nums">{pending}</h3>
+                        <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-3xl shadow-lg shadow-blue-500/5 group hover:bg-blue-500/15 transition-all">
+                            <p className="text-blue-500 font-black text-fluid-label uppercase tracking-[0.2em]">{t('pendingApproval')}</p>
+                            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 tracking-tighter text-blue-600 tabular-nums">{pending}</h3>
                         </div>
                     </>
                 )}
@@ -178,7 +178,7 @@ export default function SafetyPage() {
                         <div className="relative group">
                             <div className="absolute inset-0 bg-white/40 blur-md rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 z-10" size={18} />
-                            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={t('searchPlaceholder')?.split(' ')[0] + '...'} className="relative z-10 pl-11 pr-5 h-12 bg-white/40 border border-white/60 rounded-xl text-sm font-bold text-slate-800 outline-none focus:ring-4 focus:ring-orange-500/5 w-60 transition-all placeholder:text-slate-400 " />
+                            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={t('searchPlaceholder')?.split(' ')[0] + '...'} className="relative z-10 pl-11 pr-5 h-12 bg-white/40 border border-white/60 rounded-xl text-sm font-bold text-slate-800 outline-none focus:ring-4 focus:ring-blue-500/5 w-60 transition-all placeholder:text-slate-400 " />
                         </div>
                     </div>
                 </div>
@@ -205,10 +205,10 @@ export default function SafetyPage() {
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 key={ind.id}
-                                className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-orange-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
+                                className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-blue-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
                             >
                                 <div className="flex items-center gap-4 sm:gap-6">
-                                    <div className="size-14 sm:size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center text-slate-400 group-hover:text-orange-500 transition-all duration-500 group-hover:scale-110 shrink-0">
+                                    <div className="size-14 sm:size-16 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center text-slate-400 group-hover:text-blue-500 transition-all duration-500 group-hover:scale-110 shrink-0">
                                         <FileText size={28} strokeWidth={1.5} />
                                     </div>
                                     <div className="min-w-0">
@@ -235,7 +235,7 @@ export default function SafetyPage() {
                                                 transition={{ duration: 1.5, ease: "circOut" }}
                                                 className={cn(
                                                     "h-full rounded-full transition-colors shadow-sm",
-                                                    ind.progress === 100 ? "bg-emerald-400 shadow-emerald-400/20" : "bg-orange-500 shadow-orange-500/20"
+                                                    ind.progress === 100 ? "bg-emerald-400 shadow-emerald-400/20" : "bg-blue-500 shadow-blue-500/20"
                                                 )}
                                             />
                                         </div>
@@ -269,7 +269,7 @@ export default function SafetyPage() {
                                 disabled={currentPage === 1}
                                 className={cn(
                                     "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                    currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                 )}
                             >
                                 <ChevronLeft size={16} />
@@ -283,7 +283,7 @@ export default function SafetyPage() {
                                         className={cn(
                                             "size-10 rounded-xl text-[10px] font-black transition-all",
                                             currentPage === page
-                                                ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                                                ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
                                                 : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                         )}
                                     >
@@ -297,7 +297,7 @@ export default function SafetyPage() {
                                 disabled={currentPage === totalPages}
                                 className={cn(
                                     "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                    currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                 )}
                             >
                                 <ChevronRight size={16} />
@@ -313,7 +313,7 @@ export default function SafetyPage() {
                     <div>
                         <label className="text-xs font-bold uppercase text-slate-500">{t('visitorName')}</label>
                         <input {...register("visitorName")} className={cn(
-                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20",
+                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20",
                             errors.visitorName && "ring-1 ring-red-500/50 border-red-500/50"
                         )} />
                         {errors.visitorName && <p className="text-[10px] text-red-500 font-bold mt-1 px-2 italic uppercase">{errors.visitorName.message}</p>}
@@ -321,7 +321,7 @@ export default function SafetyPage() {
                     <div>
                         <label className="text-xs font-bold uppercase text-slate-500">{t('idNumber')}</label>
                         <input {...register("visitorIdNumber")} className={cn(
-                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20",
+                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20",
                             errors.visitorIdNumber && "ring-1 ring-red-500/50 border-red-500/50"
                         )} />
                         {errors.visitorIdNumber && <p className="text-[10px] text-red-500 font-bold mt-1 px-2 italic uppercase">{errors.visitorIdNumber.message}</p>}
@@ -329,12 +329,12 @@ export default function SafetyPage() {
                     <div>
                         <label className="text-xs font-bold uppercase text-slate-500">{t('licensePlate')}</label>
                         <input {...register("licensePlate")} className={cn(
-                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20",
+                            "w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20",
                             errors.licensePlate && "ring-1 ring-red-500/50 border-red-500/50"
                         )} />
                         {errors.licensePlate && <p className="text-[10px] text-red-500 font-bold mt-1 px-2 italic uppercase">{errors.licensePlate.message}</p>}
                     </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full py-3 bg-orange-600 text-white rounded-xl font-bold disabled:opacity-50 active:scale-95 transition-all mt-4" >
+                    <button type="submit" disabled={isSubmitting} className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold disabled:opacity-50 active:scale-95 transition-all mt-4" >
                         {isSubmitting ? t('creating') : t('createRecord')}
                     </button>
                 </form>

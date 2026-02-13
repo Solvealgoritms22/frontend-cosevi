@@ -99,10 +99,10 @@ export default function LandingPage() {
     // ... (rest of the component)
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-orange-500/30">
+        <div className="min-h-screen bg-[#0f172a] text-white overflow-x-hidden selection:bg-blue-500/30">
             {/* Background Effects */}
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[100px]" />
                 <div className="absolute top-[40%] left-[20%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[80px]" />
             </div>
@@ -115,7 +115,7 @@ export default function LandingPage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src="/logo-landing.png"
-                                alt="COSEVI"
+                                alt="Entrar"
                                 className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
                             />
                         </div>
@@ -136,13 +136,13 @@ export default function LandingPage() {
                         <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5">
                             <button
                                 onClick={() => setLanguage('en')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-[#c1801f] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-[#2563eb] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 EN
                             </button>
                             <button
                                 onClick={() => setLanguage('es')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-[#c1801f] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-[#2563eb] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 ES
                             </button>
@@ -160,13 +160,13 @@ export default function LandingPage() {
                         <div className="flex items-center gap-2 bg-slate-800/50 p-1 rounded-lg border border-white/5 mr-2">
                             <button
                                 onClick={() => setLanguage('en')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-[#f2a229] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'en' ? 'bg-[#3b82f6] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 EN
                             </button>
                             <button
                                 onClick={() => setLanguage('es')}
-                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-[#f2a229] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                                className={`px-2 py-1 text-xs font-bold rounded transition-colors ${language === 'es' ? 'bg-[#3b82f6] text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                             >
                                 ES
                             </button>
@@ -200,14 +200,14 @@ export default function LandingPage() {
                                             className="p-4 rounded-xl bg-slate-800/30 border border-white/5 text-lg font-medium text-slate-200 hover:bg-slate-800/50 hover:text-white transition-all flex items-center justify-between group"
                                         >
                                             {item.name}
-                                            <ChevronRight size={16} className="text-slate-500 group-hover:text-orange-500 transition-colors" />
+                                            <ChevronRight size={16} className="text-slate-500 group-hover:text-blue-500 transition-colors" />
                                         </a>
                                     ))}
                                 </div>
 
                                 <div className="pt-6 border-t border-white/10">
                                     <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                                        <button className="w-full py-4 text-center font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors shadow-lg shadow-orange-500/20">
+                                        <button className="w-full py-4 text-center font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors shadow-lg shadow-blue-500/20">
                                             {t('customerPortal')}
                                         </button>
                                     </Link>
@@ -227,14 +227,14 @@ export default function LandingPage() {
                         transition={{ duration: 0.6 }}
                         className="space-y-8"
                     >
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20">
-                            <span className="flex h-2 w-2 rounded-full bg-[#f2a229] animate-pulse"></span>
-                            <span className="text-xs font-medium text-orange-300 tracking-wide uppercase">{t('enterpriseGradeSecurity')}</span>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                            <span className="flex h-2 w-2 rounded-full bg-[#3b82f6] animate-pulse"></span>
+                            <span className="text-xs font-medium text-blue-300 tracking-wide uppercase">{t('enterpriseGradeSecurity')}</span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
                             {t('secureAccess')} <br />
-                            <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-300 to-red-900">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-300 to-blue-900">
                                 {t('redefined')}
                             </span>
                         </h1>
@@ -246,7 +246,7 @@ export default function LandingPage() {
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <button
                                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="h-14 px-8 rounded-xl bg-[#c1801f] hover:bg-[#c1801f]/80 text-white font-semibold transition-all shadow-lg shadow-[#c1801f]/25 flex items-center justify-center gap-2"
+                                className="h-14 px-8 rounded-xl bg-[#2563eb] hover:bg-[#2563eb]/80 text-white font-semibold transition-all shadow-lg shadow-[#2563eb]/25 flex items-center justify-center gap-2"
                             >
                                 {t('getStarted')} <ArrowRight size={18} />
                             </button>
@@ -278,12 +278,12 @@ export default function LandingPage() {
                         {/* Placeholder for Hero Illustration - Will use generated image here */}
                         {/* CSS-based Abstract Security Shield Illustration */}
                         <div className="relative aspect-square w-full max-w-[500px] mx-auto flex items-center justify-center">
-                            <div className="absolute inset-0 bg-linear-to-tr from-[#c1801f]/20 to-[#c1801f]/20 rounded-full blur-[100px]" />
+                            <div className="absolute inset-0 bg-linear-to-tr from-[#2563eb]/20 to-[#2563eb]/20 rounded-full blur-[100px]" />
 
                             {/* Central Shield Structure */}
-                            <div className="relative w-64 h-80 bg-linear-to-b from-[#c1801f]/50 to-slate-900/50 backdrop-blur-md border border-[#c1801f]/30 rounded-3xl flex items-center justify-center shadow-2xl shadow-[#c1801f]/20 -rotate-12 z-10 transition-transform hover:rotate-0 duration-700">
+                            <div className="relative w-64 h-80 bg-linear-to-b from-[#2563eb]/50 to-slate-900/50 backdrop-blur-md border border-[#2563eb]/30 rounded-3xl flex items-center justify-center shadow-2xl shadow-[#2563eb]/20 -rotate-12 z-10 transition-transform hover:rotate-0 duration-700">
                                 <div className="absolute inset-0 bg-grid-white/[0.05] rounded-3xl" />
-                                <ShieldCheck size={80} className="text-orange-100 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
+                                <ShieldCheck size={80} className="text-blue-100 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
 
                                 {/* Floating Elements */}
                                 <div className="absolute -top-12 -right-12 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-bounce duration-3000">
@@ -295,7 +295,7 @@ export default function LandingPage() {
                             </div>
 
                             {/* Background Elements */}
-                            <div className="absolute inset-0 border border-orange-500/10 rounded-full scale-110 animate-[spin_10s_linear_infinite]" />
+                            <div className="absolute inset-0 border border-blue-500/10 rounded-full scale-110 animate-[spin_10s_linear_infinite]" />
                             <div className="absolute inset-0 border border-emerald-500/10 rounded-full scale-125 animate-[spin_15s_linear_infinite_reverse]" />
                         </div>
                     </motion.div>
@@ -369,7 +369,7 @@ export default function LandingPage() {
                                     { title: t('complianceReady'), desc: t('complianceReadyDesc'), icon: ShieldCheck },
                                 ].map((item, i) => (
                                     <div key={i} className="space-y-3">
-                                        <div className="size-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-[#f2a229]">
+                                        <div className="size-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-[#3b82f6]">
                                             <item.icon size={20} />
                                         </div>
                                         <h4 className="font-bold text-white">{item.title}</h4>
@@ -424,13 +424,13 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 className={`relative p-8 rounded-3xl h-full flex flex-col ${plan.isPopular
-                                    ? 'bg-[#1e293b] border-2 border-[#c1801f] shadow-2xl shadow-[#c1801f]/10'
+                                    ? 'bg-[#1e293b] border-2 border-[#2563eb] shadow-2xl shadow-[#2563eb]/10'
                                     : 'bg-[#0f172a] border border-white/10'
                                     }`}
                             >
                                 {plan.isPopular && (
                                     <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                                        <span className="px-4 py-1 bg-[#c1801f] text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+                                        <span className="px-4 py-1 bg-[#2563eb] text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
                                             {t('mostPopular')}
                                         </span>
                                     </div>
@@ -449,7 +449,7 @@ export default function LandingPage() {
                                 <div className="flex-1 space-y-4 mb-8">
                                     {plan.features.map((feature, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
-                                            <div className="mt-1 size-5 rounded-full bg-orange-500/20 text-[#f2a229] flex items-center justify-center shrink-0">
+                                            <div className="mt-1 size-5 rounded-full bg-blue-500/20 text-[#3b82f6] flex items-center justify-center shrink-0">
                                                 <Check size={12} strokeWidth={3} />
                                             </div>
                                             <span className="text-sm font-medium text-slate-300">{feature}</span>
@@ -460,7 +460,7 @@ export default function LandingPage() {
                                 <button
                                     onClick={() => router.push(`/register?plan=${plan.id}`)}
                                     className={`w-full h-12 rounded-xl font-semibold transition-all ${plan.isPopular
-                                        ? 'bg-[#c1801f] hover:bg-[#c1801f]/80 text-white shadow-lg shadow-[#c1801f]/25'
+                                        ? 'bg-[#2563eb] hover:bg-[#2563eb]/80 text-white shadow-lg shadow-[#2563eb]/25'
                                         : 'bg-white/10 hover:bg-white/15 text-white'
                                         }`}
                                 >
@@ -480,7 +480,7 @@ export default function LandingPage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src="/logo-landing.png"
-                                alt="COSEVI"
+                                alt="Entrar"
                                 className="object-contain w-full h-full"
                             />
                         </div>
@@ -529,7 +529,7 @@ function ScrollToTop() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-[#c1801f] text-white shadow-lg shadow-[#c1801f]/30 hover:bg-[#c1801f]/80 transition-colors"
+            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-[#2563eb] text-white shadow-lg shadow-[#2563eb]/30 hover:bg-[#2563eb]/80 transition-colors"
         >
             <ArrowRight size={20} className="-rotate-90" />
         </motion.button>

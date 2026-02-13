@@ -86,7 +86,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/5 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
 
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -97,7 +97,7 @@ export default function LoginPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={logoSrc}
-                        alt={branding?.name || "COSEVI"}
+                        alt={branding?.name || "Entrar"}
                         className="object-contain drop-shadow-2xl w-full h-full"
                     />
                 </div>
@@ -125,7 +125,7 @@ export default function LoginPage() {
                                     required
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
+                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
                                     placeholder="admin@cosevi.com"
                                 />
                             </div>
@@ -140,7 +140,7 @@ export default function LoginPage() {
                                     required
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-orange-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
+                                    className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -155,7 +155,7 @@ export default function LoginPage() {
 
                         <button
                             disabled={loading}
-                            className="w-full h-16 bg-[#c1801f] hover:bg-[#c1801f]/80 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-[#c1801f]/20 active:scale-95 text-white"
+                            className="w-full h-16 bg-[#2563eb] hover:bg-[#2563eb]/80 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-[#2563eb]/20 active:scale-95 text-white"
                         >
                             {loading ? t('authenticating') : (
                                 <>
@@ -169,9 +169,9 @@ export default function LoginPage() {
 
                 {/* Footer Links */}
                 <div className="mt-8 flex justify-center gap-6 relative z-10">
-                    <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Privacy Policy</Link>
-                    <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Terms of Service</Link>
-                    <Link href="/contact" className="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">Contact Support</Link>
+                    <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors">Privacy Policy</Link>
+                    <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors">Terms of Service</Link>
+                    <Link href="/contact" className="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors">Contact Support</Link>
                 </div>
             </div>
         </div>

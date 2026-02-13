@@ -50,7 +50,7 @@
 }
 
 :root {
-  /* Enterprise SaaS Palette - Orange & Slate */
+  /* Enterprise SaaS Palette - Blue & Slate */
 
   /* Backgrounds */
   --background: #f8fafc;
@@ -58,9 +58,9 @@
   --foreground: #0f172a;
   /* Slate-900 */
 
-  /* Primary Action - Orange */
-  --primary: #ea580c;
-  /* Orange-600 */
+  /* Primary Action - Blue */
+  --primary: #2563eb;
+  /* Blue-600 */
   --primary-foreground: #ffffff;
 
   /* Secondary / Accents */
@@ -74,10 +74,10 @@
   --muted-foreground: #64748b;
   /* Slate-500 */
 
-  --accent: #fff7ed;
-  /* Orange-50 */
-  --accent-foreground: #ea580c;
-  /* Orange-600 */
+  --accent: #eff6ff;
+  /* Blue-50 */
+  --accent-foreground: #2563eb;
+  /* Blue-600 */
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -92,8 +92,8 @@
   --border: rgba(148, 163, 184, 0.2);
   /* Slate-400 alpha */
   --input: rgba(148, 163, 184, 0.2);
-  --ring: #f97316;
-  /* Orange-500 */
+  --ring: #3b82f6;
+  /* Blue-500 */
 
   --sidebar-background: rgba(255, 255, 255, 0.85);
   /* Frosty Sidebar */
@@ -117,8 +117,8 @@ body {
 
   /* Subtle mesh background for depth */
   background-image:
-    radial-gradient(circle at 15% 50%, rgba(234, 88, 12, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(251, 146, 60, 0.08), transparent 25%);
+    radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 25%);
   background-attachment: fixed;
 }
 

@@ -101,15 +101,15 @@ export default function ParkingPage() {
             {/* Page Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                 <div className="space-y-4">
-                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-slate-800 leading-none">Parking <span className="text-orange-500 opacity-80">Logistics</span></h1>
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-slate-800 leading-none">Parking <span className="text-blue-500 opacity-80">Logistics</span></h1>
                     <p className="text-slate-500 text-xl font-medium tracking-tight opacity-70">Level 1 & 2 • Real-time Hardware Monitoring</p>
                 </div>
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-2 p-2 bg-white/40 border border-white/60 rounded-3xl shadow-sm">
-                        <button onClick={() => setViewMode("GRID")} className={cn("size-12 rounded-xl flex items-center justify-center transition-all", viewMode === "GRID" ? "bg-white shadow-md text-orange-500" : "text-slate-400 hover:text-slate-600 ")} >
+                        <button onClick={() => setViewMode("GRID")} className={cn("size-12 rounded-xl flex items-center justify-center transition-all", viewMode === "GRID" ? "bg-white shadow-md text-blue-500" : "text-slate-400 hover:text-slate-600 ")} >
                             <Grid3X3 size={20} />
                         </button>
-                        <button onClick={() => setViewMode("LIST")} className={cn("size-12 rounded-xl flex items-center justify-center transition-all", viewMode === "LIST" ? "bg-white shadow-md text-orange-500" : "text-slate-400 hover:text-slate-600 ")} >
+                        <button onClick={() => setViewMode("LIST")} className={cn("size-12 rounded-xl flex items-center justify-center transition-all", viewMode === "LIST" ? "bg-white shadow-md text-blue-500" : "text-slate-400 hover:text-slate-600 ")} >
                             <List size={20} />
                         </button>
                     </div>
@@ -126,7 +126,7 @@ export default function ParkingPage() {
                     <GlassCard elevation="sm" className="p-4 sm:p-10 border-white/40">
                         <div className="flex items-center justify-between mb-12">
                             <div className="flex items-center gap-8">
-                                <div className="px-6 py-2.5 bg-orange-50 border border-orange-100 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 shadow-sm">Zone {String.fromCharCode(64 + currentFloor)}-{currentFloor}</div>
+                                <div className="px-6 py-2.5 bg-blue-50 border border-blue-100 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 shadow-sm">Zone {String.fromCharCode(64 + currentFloor)}-{currentFloor}</div>
                                 <div className="flex items-center gap-6">
                                     <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-slate-400 ">
                                         <span className="size-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.4)]" /> Available
@@ -139,7 +139,7 @@ export default function ParkingPage() {
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => setCurrentFloor(currentFloor >= 2 ? 1 : currentFloor + 1)} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-orange-500 hover:text-orange-600 transition-colors group" >
+                            <button onClick={() => setCurrentFloor(currentFloor >= 2 ? 1 : currentFloor + 1)} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-blue-600 transition-colors group" >
                                 <Layers size={16} className="group-hover:rotate-12 transition-transform" /> Switch Facility Level
                             </button>
                         </div>
@@ -158,7 +158,7 @@ export default function ParkingPage() {
                                             onClick={() => setSelectedSpace(space)}
                                             className={cn(
                                                 "aspect-square rounded-4xl border-2 cursor-pointer flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500",
-                                                selectedSpace?.id === space.id ? "scale-95 shadow-inner ring-4 ring-orange-500/20" : "hover:scale-[1.02] hover:shadow-2xl",
+                                                selectedSpace?.id === space.id ? "scale-95 shadow-inner ring-4 ring-blue-500/20" : "hover:scale-[1.02] hover:shadow-2xl",
                                                 space.status === 'AVAILABLE' ? "bg-white border-white " : space.status === 'OCCUPIED' ? "bg-white border-red-100 " : "bg-slate-100 border-slate-200 "
                                             )}
                                         >
@@ -235,7 +235,7 @@ export default function ParkingPage() {
                                                 )} >
                                                     <td className="px-10 py-6">
                                                         <div className="flex items-center gap-4">
-                                                            <div className="size-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 font-black text-xs border border-orange-100 ">{space.name}</div>
+                                                            <div className="size-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 font-black text-xs border border-blue-100 ">{space.name}</div>
                                                             <span className="font-bold text-slate-800 ">Spot Asset {space.name}</span>
                                                         </div>
                                                     </td>
@@ -256,7 +256,7 @@ export default function ParkingPage() {
                                                     </td>
                                                     <td className="px-10 py-6">
                                                         <div className="flex items-center gap-3 text-sm font-black text-slate-800 ">
-                                                            <Car size={16} className={space.status === 'OCCUPIED' ? "text-orange-500" : "text-slate-300 "} /> {space.vehicle || <span className="text-slate-300 font-medium">---</span>}
+                                                            <Car size={16} className={space.status === 'OCCUPIED' ? "text-red-500" : "text-slate-300 "} /> {space.vehicle || <span className="text-slate-300 font-medium">---</span>}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -279,7 +279,7 @@ export default function ParkingPage() {
                                         disabled={currentPage === 1}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                            currentPage === 1 ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronLeft size={16} />
@@ -293,7 +293,7 @@ export default function ParkingPage() {
                                                 className={cn(
                                                     "size-10 rounded-xl text-[10px] font-black transition-all",
                                                     currentPage === page
-                                                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                                                        ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
                                                         : "bg-white/40 text-slate-500 hover:bg-white border border-white/60"
                                                 )}
                                             >
@@ -307,7 +307,7 @@ export default function ParkingPage() {
                                         disabled={currentPage === totalPages}
                                         className={cn(
                                             "size-10 rounded-xl flex items-center justify-center transition-all border border-white/60",
-                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-orange-500 shadow-sm"
+                                            currentPage === totalPages ? "opacity-30 cursor-not-allowed" : "bg-white/40 hover:bg-white text-slate-600 hover:text-blue-500 shadow-sm"
                                         )}
                                     >
                                         <ChevronRight size={16} />
@@ -326,8 +326,8 @@ export default function ParkingPage() {
                                 <h3 className="text-sm font-black uppercase tracking-[0.3em] text-slate-400 ml-2">Quick Lookup</h3>
                                 <div className="relative group">
                                     <div className="absolute inset-0 bg-white/40 blur-md rounded-2xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
-                                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 h-5 w-5 z-10 transition-all" />
-                                    <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="relative z-10 w-full h-16 pl-14 pr-6 bg-white/40 border border-white/60 rounded-2xl outline-none font-bold text-slate-800 placeholder:text-slate-400 tracking-tight focus:ring-4 focus:ring-orange-500/5 transition-all" placeholder="Spot or vehicle identity..." />
+                                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 h-5 w-5 z-10 transition-all" />
+                                    <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="relative z-10 w-full h-16 pl-14 pr-6 bg-white/40 border border-white/60 rounded-2xl outline-none font-bold text-slate-800 placeholder:text-slate-400 tracking-tight focus:ring-4 focus:ring-blue-500/5 transition-all" placeholder="Spot or vehicle identity..." />
                                 </div>
                             </div>
                             <div className="space-y-4">
@@ -336,10 +336,10 @@ export default function ParkingPage() {
                                     {['ALL', 'AVAILABLE', 'OCCUPIED', 'RESERVED'].map((opt) => (
                                         <button key={opt} onClick={() => setFilter(opt)} className={cn(
                                             "w-full h-16 px-8 rounded-2xl text-left text-xs font-black uppercase tracking-widest border transition-all flex items-center justify-between group",
-                                            filter === opt ? "bg-orange-50 text-orange-600 border-orange-100 shadow-sm" : "bg-white/30 border-transparent hover:bg-white/60 text-slate-500 "
+                                            filter === opt ? "bg-blue-50 text-blue-600 border-blue-100 shadow-sm" : "bg-white/30 border-transparent hover:bg-white/60 text-slate-500 "
                                         )} >
                                             <div className="flex items-center gap-4">
-                                                <div className={cn("size-2 rounded-full", opt === 'ALL' ? "bg-[#f2a229]" : opt === 'AVAILABLE' ? "bg-emerald-400" : opt === 'OCCUPIED' ? "bg-red-400" : "bg-slate-400")} />
+                                                <div className={cn("size-2 rounded-full", opt === 'ALL' ? "bg-blue-500" : opt === 'AVAILABLE' ? "bg-emerald-400" : opt === 'OCCUPIED' ? "bg-red-400" : "bg-slate-400")} />
                                                 {opt === 'ALL' ? 'Show All Spaces' : opt}
                                             </div>
                                             <ArrowRight size={16} className={cn("transition-all duration-300", filter === opt ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-60")} />
@@ -353,7 +353,7 @@ export default function ParkingPage() {
                     <AnimatePresence>
                         {selectedSpace ? (
                             <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.95 }} className="group" >
-                                <GlassCard elevation="xl" className="p-4 sm:p-10 border-orange-200/50 bg-orange-50/20">
+                                <GlassCard elevation="xl" className="p-4 sm:p-10 border-blue-200/50 bg-blue-50/20">
                                     <div className="flex items-center justify-between mb-10">
                                         <div className="space-y-2">
                                             <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#f2a229">Asset Identifier</span>
@@ -368,7 +368,7 @@ export default function ParkingPage() {
                                     </div>
                                     <div className="space-y-8 mb-12">
                                         <div className="flex items-center gap-6 p-6 bg-white/40 rounded-3xl border border-white shadow-sm">
-                                            <div className="size-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500">
+                                            <div className="size-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
                                                 <Car size={32} strokeWidth={1.5} />
                                             </div>
                                             <div className="space-y-1">
@@ -377,7 +377,7 @@ export default function ParkingPage() {
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-6 p-6 bg-white/40 rounded-3xl border border-white shadow-sm">
-                                            <div className="size-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500">
+                                            <div className="size-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
                                                 <Info size={32} strokeWidth={1.5} />
                                             </div>
                                             <div className="space-y-1">
@@ -419,7 +419,7 @@ export default function ParkingPage() {
                     <div className="space-y-4">
                         <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-4">Space Identifier</label>
                         <input {...register("name")} className={cn(
-                            "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all",
+                            "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all",
                             formErrors.name && "ring-2 ring-red-500/20 border-red-200 "
                         )} placeholder="e.g. ALPHA-01" />
                         {formErrors.name && <p className="text-[10px] text-red-500 font-bold mt-2 px-4 italic uppercase">{formErrors.name.message}</p>}
@@ -428,7 +428,7 @@ export default function ParkingPage() {
                         <div className="space-y-4">
                             <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-4">Asset Class</label>
                             <select {...register("type")} className={cn(
-                                "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all appearance-none cursor-pointer",
+                                "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all appearance-none cursor-pointer",
                                 formErrors.type && "ring-2 ring-red-500/20 border-red-200"
                             )} >
                                 <option value="PARKING">Standard Parking</option>
@@ -440,7 +440,7 @@ export default function ParkingPage() {
                         <div className="space-y-4">
                             <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-4">Initial State</label>
                             <select {...register("status")} className={cn(
-                                "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:bg-white transition-all appearance-none cursor-pointer",
+                                "w-full px-8 h-16 bg-slate-50/50 border border-slate-100 rounded-3xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all appearance-none cursor-pointer",
                                 formErrors.status && "ring-2 ring-red-500/20 border-red-200"
                             )} >
                                 <option value="AVAILABLE">Available</option>

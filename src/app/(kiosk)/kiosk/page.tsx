@@ -94,7 +94,7 @@ export default function KioskPage() {
         return (
             <div className="min-h-screen bg-[#020617] text-white flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
                 <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/10 blur-[150px] rounded-full" />
-                <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/10 blur-[150px] rounded-full" />
+                <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/10 blur-[150px] rounded-full" />
 
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -232,7 +232,7 @@ export default function KioskPage() {
     return (
         <div className="min-h-screen bg-[#020617] text-white flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/10 blur-[150px] rounded-full" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-orange-600/10 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/10 blur-[150px] rounded-full" />
 
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -262,7 +262,7 @@ export default function KioskPage() {
                     >
                         <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-6">
                             {t('checkInComplete').split(' ')[0]}<br />
-                            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-orange-400">{t('checkInComplete').split(' ')[1]}.</span>
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-blue-600">{t('checkInComplete').split(' ')[1]}.</span>
                         </h1>
                         <p className="text-slate-400 text-xl font-medium max-w-md leading-relaxed">
                             {t('welcome')}, <span className="text-white font-bold">{formData.visitorName}</span>.
