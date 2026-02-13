@@ -73,9 +73,9 @@ const resourceLabels: Record<string, { label: string; icon: any; color: string }
     parking: { label: 'Espacios de Parqueo', icon: Car, color: '#059669' },
     monitors: { label: 'Administradores', icon: Monitor, color: '#d97706' },
     security: { label: 'Guardias de Seguridad', icon: Shield, color: '#dc2626' },
-    visits: { label: 'Visitas (este mes)', icon: ClipboardList, color: '#0ea5e9' },
-    alerts: { label: 'Alertas (este mes)', icon: Bell, color: '#f43f5e' },
-    reports: { label: 'Reportes (este mes)', icon: FileBarChart, color: '#8b5cf6' },
+    visits: { label: 'Visitas', icon: ClipboardList, color: '#0ea5e9' },
+    alerts: { label: 'Alertas', icon: Bell, color: '#f43f5e' },
+    reports: { label: 'Reportes', icon: FileBarChart, color: '#8b5cf6' },
 };
 
 const statusColors: Record<string, string> = {
