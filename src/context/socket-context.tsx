@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import Pusher from 'pusher-js'
+import { usePathname } from 'next/navigation'
 
 interface SocketContextType {
     pusher: Pusher | null
@@ -15,6 +16,8 @@ export const useSocket = () => useContext(SocketContext)
 export function SocketProvider({ children }: { children: React.ReactNode }) {
     const [pusher, setPusher] = useState<Pusher | null>(null)
     const [tenantChannel, setTenantChannel] = useState<any | null>(null)
+    const [currentToken, setCurrentToken] = useState<string | null>(null)
+    const pathname = usePathname()
 
     useEffect(() => {
         const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
@@ -34,6 +37,23 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         const token = localStorage.getItem('token');
         const tenantId = localStorage.getItem('tenantId');
 
+        // Only initialize or re-initialize if the token changed
+        if (token === currentToken && pusher) {
+            return;
+        }
+
+        // If we had an old pusher instance, disconnect it
+        if (pusher) {
+            pusher.disconnect();
+        }
+
+        if (!token) {
+            setPusher(null);
+            setTenantChannel(null);
+            setCurrentToken(null);
+            return;
+        }
+
         const pusherClient = new Pusher(pusherKey, {
             cluster: pusherCluster || 'mt1',
             authEndpoint: authEndpoint,
@@ -46,6 +66,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         });
 
         setPusher(pusherClient);
+        setCurrentToken(token);
 
         // If we have a tenantId, subscribe to its private channel automatically
         if (tenantId) {
@@ -69,7 +90,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
             }
             pusherClient.disconnect();
         }
-    }, [])
+    }, [pathname, currentToken])
 
     const value = React.useMemo(() => ({ pusher, tenantChannel }), [pusher, tenantChannel])
 
