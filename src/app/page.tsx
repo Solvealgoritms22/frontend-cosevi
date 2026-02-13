@@ -376,8 +376,9 @@ export default function LandingPage() {
                         <video
                             className="w-full h-full object-cover"
                             controls
-                            poster="/poster.jpg"
-                            src="/video/Presentacion.mp4"
+                            playsInline
+                            preload="metadata"
+                            src="/video/Presentacion.mp4?v=2"
                         >
                             Your browser does not support the video tag.
                         </video>
