@@ -19,7 +19,12 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
         const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER;
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        let apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+        // Force removal of any trailing slashes and ensure /api is used if missing
+        apiUrl = apiUrl.replace(/\/+$/, '');
+
+        // Ensure the path to pusher auth is absolutely correct relative to our backend prefix
+        const authEndpoint = `${apiUrl}/pusher/auth`.replace(/([^:])\/\//g, '$1/');
 
         if (!pusherKey) {
             console.warn('Pusher key not found in environment variables');
@@ -31,7 +36,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
 
         const pusherClient = new Pusher(pusherKey, {
             cluster: pusherCluster || 'mt1',
-            authEndpoint: `${apiUrl}/pusher/auth`,
+            authEndpoint: authEndpoint,
             auth: {
                 headers: {
                     Authorization: `Bearer ${token}`,
