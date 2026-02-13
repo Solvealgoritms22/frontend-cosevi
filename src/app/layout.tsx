@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     title: "Entrar | Integrated VMS & Parking",
     description: "Next-generation visitor management and parking control platform.",
     icons: {
-        icon: '/logo-official.png',
+        icon: '/favicon.png',
+        apple: '/favicon.png', // Also update for apple touch icon for consistency
     },
 };
 
