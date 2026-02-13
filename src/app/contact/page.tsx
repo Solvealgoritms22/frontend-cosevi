@@ -25,11 +25,7 @@ export default function ContactPage() {
                         <span className="text-sm font-medium">Back to Home</span>
                     </Link>
                     <div className="flex items-center gap-3">
-                        <Link href="/login">
-                            <button className="px-4 py-2 text-xs font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors">
-                                Customer Portal
-                            </button>
-                        </Link>
+
                         <div className="flex items-center gap-3">
                             <div className="relative w-40 h-22 flex items-center justify-center">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}

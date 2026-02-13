@@ -14,7 +14,8 @@ import {
     Menu,
     X,
     ChevronRight,
-    User
+    User,
+    Building2
 } from "lucide-react";
 import { GlassButton } from "@/components/ui/glass-button";
 import { pricingPlans } from "@/lib/pricing-data";
@@ -71,9 +72,10 @@ export default function LandingPage() {
             price: '299',
             description: t('eliteDesc'),
             features: [
-                t('unlimitedUnits'),
-                t('unlimitedAdmins'),
-                t('unlimitedSecurity'),
+                t('eliteUnits'),
+                t('eliteParking'),
+                t('eliteAdmins'),
+                t('eliteSecurity'),
                 t('dedicatedDbData'),
                 t('lprIntegration'),
                 t('brandCustomization'),
@@ -117,7 +119,7 @@ export default function LandingPage() {
                             <img
                                 src="/logo-landing.png"
                                 alt="Entrar"
-                                className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
+                                className="object-contain w-full h-full"
                             />
                         </div>
                     </div>
@@ -280,26 +282,65 @@ export default function LandingPage() {
                     >
                         {/* Placeholder for Hero Illustration - Will use generated image here */}
                         {/* CSS-based Abstract Security Shield Illustration */}
-                        <div className="relative aspect-square w-full max-w-[500px] mx-auto flex items-center justify-center">
+                        <div className="relative aspect-square w-full max-w-[500px] mx-auto flex items-center justify-center perspective-[2000px]">
                             <div className="absolute inset-0 bg-linear-to-tr from-[#2563eb]/20 to-[#2563eb]/20 rounded-full blur-[100px]" />
 
-                            {/* Central Shield Structure */}
-                            <div className="relative w-64 h-80 bg-linear-to-b from-[#2563eb]/50 to-slate-900/50 backdrop-blur-md border border-[#2563eb]/30 rounded-3xl flex items-center justify-center shadow-2xl shadow-[#2563eb]/20 -rotate-12 z-10 transition-transform hover:rotate-0 duration-700">
-                                <div className="absolute inset-0 bg-grid-white/[0.05] rounded-3xl" />
-                                <ShieldCheck size={80} className="text-blue-100 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+                            {/* Resident Card */}
+                            <div className="relative w-[320px] h-auto bg-[#1e293b] rounded-[40px] border-8 border-[#0f172a] shadow-2xl flex flex-col items-center p-8 z-10 -rotate-6 hover:rotate-0 transition-all duration-700 group hover:scale-105">
+                                {/* Glossy effect */}
+                                <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent rounded-[32px] pointer-events-none" />
 
-                                {/* Floating Elements */}
-                                <div className="absolute -top-12 -right-12 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-bounce duration-3000">
-                                    <Activity size={24} className="text-red-400" />
+                                {/* Avatar */}
+                                <div className="w-24 h-24 rounded-full bg-[#2563eb] flex items-center justify-center mb-5 ring-8 ring-[#0f172a] shadow-lg relative z-10">
+                                    <span className="text-3xl font-bold text-white">DL</span>
+                                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-emerald-500 border-4 border-[#0f172a] rounded-full" />
                                 </div>
-                                <div className="absolute -bottom-8 -left-8 p-4 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl animate-pulse">
+
+                                {/* User Info */}
+                                <div className="text-blue-400 text-xs font-black tracking-[0.2em] uppercase mb-2">RESIDENTE</div>
+                                <h3 className="text-2xl font-bold text-white mb-1">Damian Lopez</h3>
+                                <p className="text-slate-400 text-sm mb-6 font-medium">dlopez@cubs.com</p>
+
+                                {/* Directory Tag */}
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-8 shadow-inner">
+                                    <Building2 size={16} />
+                                    <span>Torre A - 402</span>
+                                </div>
+
+                                {/* QR Code Container */}
+                                <div className="w-full aspect-square bg-white rounded-3xl p-4 flex items-center justify-center shadow-inner relative overflow-hidden group-hover:shadow-[0_0_30px_rgba(37,99,235,0.3)] transition-shadow duration-500">
+                                    <div className="absolute inset-0 bg-linear-to-tr from-blue-50 to-transparent opacity-50" />
+                                    {/* Using a clear QR code image */}
+                                    <img
+                                        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CoseviAccessControl-DamianLopez-Elite"
+                                        alt="QR Access"
+                                        className="w-full h-full object-contain mix-blend-multiply opacity-90"
+                                    />
+
+                                    {/* Scanning line animation */}
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,1)] animate-[scan_3s_linear_infinite]" />
+                                </div>
+
+                                <p className="text-[10px] text-slate-500 mt-5 text-center font-medium max-w-[200px] leading-relaxed">
+                                    Escanee este código en los puntos de entrada autorizados
+                                </p>
+
+                                {/* Decorative Floating Elements */}
+                                <motion.div
+                                    animate={{ y: [0, -10, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute -right-12 top-24 p-4 bg-[#0f172a]/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl"
+                                >
+                                    <Check size={24} className="text-emerald-400" />
+                                </motion.div>
+                                <motion.div
+                                    animate={{ y: [0, 10, 0] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                    className="absolute -left-8 bottom-32 p-4 bg-[#0f172a]/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl"
+                                >
                                     <Lock size={24} className="text-blue-400" />
-                                </div>
+                                </motion.div>
                             </div>
-
-                            {/* Background Elements */}
-                            <div className="absolute inset-0 border border-blue-500/10 rounded-full scale-110 animate-[spin_10s_linear_infinite]" />
-                            <div className="absolute inset-0 border border-emerald-500/10 rounded-full scale-125 animate-[spin_15s_linear_infinite_reverse]" />
                         </div>
                     </motion.div>
                 </div>

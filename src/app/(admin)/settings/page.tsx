@@ -1,6 +1,6 @@
 "use client"
 
-import { Globe, Bell, Save, ShieldCheck, Database, Settings, AlertTriangle, Palette, Upload, X, Check } from "lucide-react"
+import { Globe, Bell, Save, ShieldCheck, Database, Settings, AlertTriangle, Palette, Upload, X, Check, Webhook } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
@@ -33,9 +33,10 @@ export default function SettingsPage() {
     const [uploading, setUploading] = useState(false)
     const [saving, setSaving] = useState(false)
     const [brandLoaded, setBrandLoaded] = useState(false)
+    const [tenant, setTenant] = useState<any>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    // Load current branding from localStorage
+    // Load current branding from localStorage & fetch full tenant details
     useEffect(() => {
         try {
             const stored = localStorage.getItem('cosevi_branding')
@@ -47,13 +48,32 @@ export default function SettingsPage() {
             }
         } catch { }
         setBrandLoaded(true)
+
+        // Fetch tenant details for API Key visibility
+        api.get('/tenants/me')
+            .then((res) => setTenant(res.data))
+            .catch(() => console.error('Failed to fetch tenant details'));
     }, [])
 
-    const settingsSections = [
+    const handleGenerateApiKey = async () => {
+        try {
+            const res = await api.post('/tenants/api-key');
+            setTenant({ ...tenant, apiKey: res.data.apiKey });
+            toast.success('API Key generada correctamente');
+        } catch (error) {
+            toast.error('Error al generar API Key');
+        }
+    }
+
+    const baseSections = [
         { id: 'general', title: t('settings'), icon: Settings },
         { id: 'brand', title: 'Marca', icon: Palette },
         { id: 'security', title: t('security'), icon: ShieldCheck },
     ]
+
+    const settingsSections = tenant?.plan?.toLowerCase().includes('elite')
+        ? [...baseSections, { id: 'integrations', title: 'Integraciones', icon: Webhook }]
+        : baseSections;
 
     const handlePurge = async () => {
         setIsPurging(true)
@@ -466,10 +486,64 @@ export default function SettingsPage() {
                                 </GlassPanel>
                             </motion.div>
                         )}
+
+
+                        {activeSection === 'integrations' && tenant?.plan?.toLowerCase().includes('elite') && (
+                            <motion.div key="integrations" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-10">
+                                <GlassPanel className="p-6 sm:p-10">
+                                    <div className="flex items-center gap-4 mb-8">
+                                        <div className="size-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyan-500">
+                                            <Webhook size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-black tracking-tight text-slate-800">API & Integraciones</h3>
+                                            <p className="text-sm text-slate-400 font-medium">Gestiona el acceso para hardware externo y sistemas de terceros</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <h4 className="font-bold text-slate-800 mb-2">Tu API Key Secreta</h4>
+                                            <p className="text-sm text-slate-500 mb-4">Usa esta llave para autenticar tus dispositivos IoT y lectores de placas.</p>
+
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex-1 h-12 bg-white border border-slate-200 rounded-xl px-4 flex items-center font-mono text-sm text-slate-600 truncate">
+                                                    {tenant?.apiKey || 'No hay llave generada'}
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(tenant?.apiKey || '');
+                                                        toast.success('API Key copiada al portapapeles');
+                                                    }}
+                                                    className="h-12 px-4 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-colors font-medium text-sm"
+                                                >
+                                                    Copiar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-end">
+                                            <GlassButton
+                                                onClick={handleGenerateApiKey}
+                                                variant="secondary"
+                                                className="border-red-200 text-red-600 hover:bg-red-50"
+                                            >
+                                                {tenant?.apiKey ? 'Rotar API Key' : 'Generar API Key'}
+                                            </GlassButton>
+                                        </div>
+                                        {tenant?.apiKey && (
+                                            <p className="text-xs text-red-400 text-right mt-2">
+                                                Rotar la llave invalidará la anterior inmediatamente.
+                                            </p>
+                                        )}
+                                    </div>
+                                </GlassPanel>
+                            </motion.div>
+                        )}
                     </AnimatePresence>
                 </div>
             </div>
             <ConfirmDialog isOpen={isConfirmOpen} onClose={() => setIsConfirmOpen(false)} onConfirm={handlePurge} title={t('purgeConfirmTitle')} message={t('purgeConfirmMsg')} confirmText={isPurging ? t('syncing') : t('confirmPurge')} variant="destructive" />
-        </motion.div>
+        </motion.div >
     )
 }
