@@ -572,6 +572,8 @@ const translations: Record<Language, Record<string, string>> = {
         identification: 'ID',
         telephone: 'Tel',
         userAvatar: 'Avatar de usuario',
+        experienceTheFuture: 'Experimenta el Futuro del Control de Acceso',
+        seeItInAction: 'Mira cómo ENTRA transforma la seguridad y conveniencia para complejos residenciales modernos.',
     }
 };
 

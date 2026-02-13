@@ -255,7 +255,10 @@ export default function LandingPage() {
                             >
                                 {t('getStarted')} <ArrowRight size={18} />
                             </button>
-                            <button className="h-14 px-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold transition-all flex items-center justify-center">
+                            <button
+                                onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="h-14 px-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold transition-all flex items-center justify-center"
+                            >
                                 {t('viewDemo')}
                             </button>
                         </div>
@@ -342,6 +345,42 @@ export default function LandingPage() {
                                 </motion.div>
                             </div>
                         </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Video Demo Section */}
+            <section className="relative z-10 py-24 px-6 bg-[#0f172a]" id="demo">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                            {t('experienceTheFuture')}
+                        </h2>
+                        <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                            {t('seeItInAction')}
+                        </p>
+                    </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/20 border border-white/10 group"
+                    >
+                        <div className="absolute inset-0 bg-slate-900/50 flex items-center justify-center transition-opacity group-hover:opacity-0 pointer-events-none z-10">
+                            <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
+                                <div className="w-0 h-0 border-t-12 border-t-transparent border-l-24 border-l-white border-b-12 border-b-transparent ml-2" />
+                            </div>
+                        </div>
+                        <video
+                            className="w-full h-full object-cover"
+                            controls
+                            poster="/poster.jpg"
+                            src="/video/Presentacion.mp4"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
                     </motion.div>
                 </div>
             </section>
