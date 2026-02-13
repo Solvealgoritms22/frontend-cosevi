@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, ArrowRight, Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import api from '@/lib/api';
+import api, { API_BASE_URL } from '@/lib/api';
 import Link from 'next/link';
 import { useTranslation } from '@/context/translation-context';
 
@@ -15,9 +15,20 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [branding, setBranding] = useState<{ name?: string; logoUrl?: string } | null>(null);
 
     const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     const errorParam = searchParams?.get('error');
+
+    // Load branding from localStorage on mount
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem('cosevi_branding');
+            if (saved) {
+                setBranding(JSON.parse(saved));
+            }
+        } catch { }
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,9 +37,27 @@ export default function LoginPage() {
         try {
             const res = await api.post('/auth/login', { email, password });
             const token = res.data.access_token;
+            const tenant = res.data.tenant;
 
             localStorage.setItem('token', token);
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            // Save branding to localStorage for next visit
+            if (tenant) {
+                const brandingData = {
+                    name: tenant.name,
+                    logoUrl: tenant.branding?.logo,
+                    primaryColor: tenant.branding?.primaryColor,
+                    secondaryColor: tenant.branding?.secondaryColor,
+                };
+                localStorage.setItem('cosevi_branding', JSON.stringify(brandingData));
+                if (tenant.id) {
+                    localStorage.setItem('tenantId', tenant.id);
+                }
+                if (tenant.name) {
+                    localStorage.setItem('cosevi_org_name', tenant.name);
+                }
+            }
 
             const profileRes = await api.get('/auth/profile');
             const user = profileRes.data;
@@ -50,6 +79,10 @@ export default function LoginPage() {
         }
     };
 
+    const logoSrc = branding?.logoUrl
+        ? `${API_BASE_URL.replace('/api', '')}${branding.logoUrl}`
+        : '/logo-official.png';
+
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
@@ -58,16 +91,19 @@ export default function LoginPage() {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-12 flex items-center justify-center"
+                className="mb-12 flex flex-col items-center justify-center"
             >
                 <div className="relative w-64 h-24 flex items-center justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src="/logo-official.png"
-                        alt="COSEVI"
+                        src={logoSrc}
+                        alt={branding?.name || "COSEVI"}
                         className="object-contain drop-shadow-2xl w-full h-full"
                     />
                 </div>
+                {branding?.name && (
+                    <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-3">{branding.name}</p>
+                )}
             </motion.div>
 
             <div className="w-full max-w-md relative z-10">

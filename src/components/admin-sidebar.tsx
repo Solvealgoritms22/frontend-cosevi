@@ -16,6 +16,7 @@ import {
     X,
     ChevronLeft,
     ChevronRight,
+    CreditCard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -83,14 +84,26 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         { title: t("incidentReports"), href: "/safety/reports", icon: AlertTriangle },
         { title: t("emergencies"), href: "/safety/emergencies", icon: Bell },
         { title: t("analytics"), href: "/reports", icon: BarChart3 },
+        { title: t("billing") || "Facturación", href: "/billing", icon: CreditCard },
         { title: t("users"), href: "/users", icon: Users },
         { title: t("settings"), href: "/settings", icon: Settings },
     ];
 
     const [orgName, setOrgName] = useState("COSEVI");
+    const [customLogo, setCustomLogo] = useState<string | null>(null);
     useEffect(() => {
         const savedOrg = localStorage.getItem("cosevi_org_name");
         if (savedOrg) setOrgName(savedOrg);
+
+        // Load branding from localStorage (saved at login)
+        try {
+            const saved = localStorage.getItem("cosevi_branding");
+            if (saved) {
+                const b = JSON.parse(saved);
+                if (b.logoUrl) setCustomLogo(`${API_BASE_URL.replace('/api', '')}${b.logoUrl}`);
+                if (b.name) setOrgName(b.name);
+            }
+        } catch { }
     }, []);
 
     return (
@@ -146,15 +159,15 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="/logo-official.png"
-                            alt="COSEVI"
+                            src={customLogo || "/logo-official.png"}
+                            alt={orgName}
                             className="object-contain w-full h-full"
                         />
                     </div>
                     {!collapsed && (
                         <div className="text-center w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">
-                                Enterprise Admin
+                                {orgName}
                             </p>
                         </div>
                     )}
