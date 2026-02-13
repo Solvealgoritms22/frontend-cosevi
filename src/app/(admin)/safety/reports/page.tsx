@@ -42,7 +42,7 @@ const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
 export default function SafetyReportsPage() {
     const { data: reports, mutate } = useSWR<Report[]>("/reports", fetcher)
-    const { socket } = useSocket()
+    const { tenantChannel } = useSocket()
     const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedReport, setSelectedReport] = useState<Report | null>(null)
@@ -58,10 +58,10 @@ export default function SafetyReportsPage() {
     ]
 
     useEffect(() => {
-        if (!socket) return
+        if (!tenantChannel) return
 
         const handleRefresh = async (payload?: any) => {
-            console.log('Real-time incident update received:', payload)
+            console.log('Real-time incident update received via Pusher:', payload)
             mutate()
 
             // If the updated report is the one currently selected, refresh it
@@ -75,16 +75,16 @@ export default function SafetyReportsPage() {
             }
         }
 
-        socket.on('incidentCreated', handleRefresh)
-        socket.on('commentAdded', handleRefresh)
-        socket.on('incidentStatusUpdated', handleRefresh)
+        tenantChannel.bind('incidentCreated', handleRefresh)
+        tenantChannel.bind('commentAdded', handleRefresh)
+        tenantChannel.bind('incidentStatusUpdated', handleRefresh)
 
         return () => {
-            socket.off('incidentCreated', handleRefresh)
-            socket.off('commentAdded', handleRefresh)
-            socket.off('incidentStatusUpdated', handleRefresh)
+            tenantChannel.unbind('incidentCreated', handleRefresh)
+            tenantChannel.unbind('commentAdded', handleRefresh)
+            tenantChannel.unbind('incidentStatusUpdated', handleRefresh)
         }
-    }, [socket, selectedReport, mutate])
+    }, [tenantChannel, selectedReport, mutate])
 
     const filteredReports = reports?.filter(r =>
         r.type.toLowerCase().includes(search.toLowerCase()) ||

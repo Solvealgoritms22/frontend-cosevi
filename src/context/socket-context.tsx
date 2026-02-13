@@ -1,44 +1,72 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { io, Socket } from 'socket.io-client'
+import Pusher from 'pusher-js'
 
 interface SocketContextType {
-    socket: Socket | null
+    pusher: Pusher | null
+    tenantChannel: any | null
 }
 
-const SocketContext = createContext<SocketContextType>({ socket: null })
+const SocketContext = createContext<SocketContextType>({ pusher: null, tenantChannel: null })
 
 export const useSocket = () => useContext(SocketContext)
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
-    const [socket, setSocket] = useState<Socket | null>(null)
+    const [pusher, setPusher] = useState<Pusher | null>(null)
+    const [tenantChannel, setTenantChannel] = useState<any | null>(null)
 
     useEffect(() => {
-        // Build the socket URL from API_URL (removing /api)
-        const socketUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3000'
+        const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
+        const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER;
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
-        const newSocket = io(socketUrl, {
-            transports: ['websocket'],
-            reconnectionAttempts: 5,
-        })
+        if (!pusherKey) {
+            console.warn('Pusher key not found in environment variables');
+            return;
+        }
 
-        setSocket(newSocket)
+        const token = localStorage.getItem('token');
+        const tenantId = localStorage.getItem('tenantId');
 
-        newSocket.on('connect', () => {
-            console.log('Admin connected to socket')
-        })
+        const pusherClient = new Pusher(pusherKey, {
+            cluster: pusherCluster || 'mt1',
+            authEndpoint: `${apiUrl}/pusher/auth`,
+            auth: {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'x-tenant-id': tenantId,
+                },
+            },
+        });
 
-        newSocket.on('connect_error', (error: Error) => {
-            console.error('Socket connection error:', error)
-        })
+        setPusher(pusherClient);
+
+        // If we have a tenantId, subscribe to its private channel automatically
+        if (tenantId) {
+            const channelName = `private-tenant-${tenantId}-visits`;
+            const channel = pusherClient.subscribe(channelName);
+
+            channel.bind('pusher:subscription_succeeded', () => {
+                console.log(`Successfully subscribed to channel: ${channelName}`);
+            });
+
+            channel.bind('pusher:subscription_error', (error: any) => {
+                console.error(`Subscription error for channel ${channelName}:`, error);
+            });
+
+            setTenantChannel(channel);
+        }
 
         return () => {
-            newSocket.disconnect()
+            if (tenantId) {
+                pusherClient.unsubscribe(`private-tenant-${tenantId}-visits`);
+            }
+            pusherClient.disconnect();
         }
     }, [])
 
-    const value = React.useMemo(() => ({ socket }), [socket])
+    const value = React.useMemo(() => ({ pusher, tenantChannel }), [pusher, tenantChannel])
 
     return (
         <SocketContext.Provider value={value}>
@@ -46,3 +74,4 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         </SocketContext.Provider>
     )
 }
+
