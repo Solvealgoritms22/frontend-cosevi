@@ -13,7 +13,8 @@ import {
     Smartphone,
     Menu,
     X,
-    ChevronRight
+    ChevronRight,
+    User
 } from "lucide-react";
 import { GlassButton } from "@/components/ui/glass-button";
 import { pricingPlans } from "@/lib/pricing-data";
@@ -149,7 +150,8 @@ export default function LandingPage() {
                         </div>
 
                         <Link href={isAuthenticated ? "/dashboard" : "/login"}>
-                            <button className="px-5 py-2.5 text-sm font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors">
+                            <button className="px-5 py-2.5 text-sm font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <User size={18} />
                                 {t('customerPortal')}
                             </button>
                         </Link>
@@ -207,7 +209,8 @@ export default function LandingPage() {
 
                                 <div className="pt-6 border-t border-white/10">
                                     <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                                        <button className="w-full py-4 text-center font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors shadow-lg shadow-blue-500/20">
+                                        <button className="w-full py-4 text-center font-semibold bg-white text-[#0f172a] rounded-lg hover:bg-slate-100 transition-colors shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
+                                            <User size={18} />
                                             {t('customerPortal')}
                                         </button>
                                     </Link>

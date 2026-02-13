@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, ArrowRight, Mail, Lock } from 'lucide-react';
+import { ShieldCheck, ArrowRight, ArrowLeft, Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api, { API_BASE_URL } from '@/lib/api';
 import Link from 'next/link';
@@ -85,6 +85,16 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 lg:p-12 overflow-hidden relative">
+            <Link
+                href="/"
+                className="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors font-bold z-50 group"
+            >
+                <div className="size-10 rounded-full bg-white/50 border border-slate-200 flex items-center justify-center group-hover:bg-white group-hover:shadow-lg transition-all">
+                    <ArrowLeft size={18} />
+                </div>
+                <span className="hidden sm:inline">Volver al inicio</span>
+            </Link>
+
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
             <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
 
