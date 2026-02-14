@@ -24,10 +24,16 @@ function PaymentSuccessContent() {
 
         const confirmPayment = async () => {
             try {
-                await api.post('/registrations/confirm', {
+                const res = await api.post('/registrations/confirm', {
                     registrationId,
                     paypalToken,
                 });
+
+                // Persist tenantId for the subsequent login
+                if (res.data.tenantId) {
+                    localStorage.setItem('tenantId', res.data.tenantId);
+                }
+
                 setStatus('success');
             } catch (err: any) {
                 setStatus('error');
