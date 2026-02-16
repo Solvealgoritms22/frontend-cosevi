@@ -13,6 +13,7 @@ export default function ResetPasswordPage() {
     const router = useRouter();
     const [token, setToken] = useState<string | null>(null);
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
@@ -33,6 +34,12 @@ export default function ResetPasswordPage() {
 
         setLoading(true);
         setError('');
+
+        if (password !== confirmPassword) {
+            setError(t('passwordsDoNotMatch'));
+            setLoading(false);
+            return;
+        }
 
         try {
             await api.post('/auth/reset-password', { token, newPassword: password });
@@ -92,6 +99,20 @@ export default function ResetPasswordPage() {
                                         minLength={6}
                                         value={password}
                                         onChange={e => setPassword(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">{t('confirmPassword')}</label>
+                                <div className="relative">
+                                    <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                    <input
+                                        type="password"
+                                        required
+                                        minLength={6}
+                                        value={confirmPassword}
+                                        onChange={e => setConfirmPassword(e.target.value)}
                                         className="w-full bg-slate-50 border border-slate-200 h-16 rounded-2xl pl-16 pr-6 outline-none focus:border-blue-500/50 transition-colors font-bold placeholder:text-slate-400 text-slate-900"
                                         placeholder="••••••••"
                                     />
