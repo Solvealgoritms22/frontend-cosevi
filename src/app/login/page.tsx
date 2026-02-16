@@ -154,6 +154,14 @@ export default function LoginPage() {
                                     placeholder="••••••••"
                                 />
                             </div>
+                            <div className="flex justify-end mt-1 px-4">
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors"
+                                >
+                                    {t('forgotPassword') || 'Forgot Password?'}
+                                </Link>
+                            </div>
                         </div>
 
                         {error && <p className="text-red-500 text-sm font-bold text-center">{error}</p>}

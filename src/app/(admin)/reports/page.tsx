@@ -162,34 +162,33 @@ export default function ReportsPage() {
                             </div>
                         ))}
                     </div>
-            </div>
-        </GlassCard>
+                </GlassCard>
             </div >
 
-        <div className="glass-panel border-white/60 bg-linear-to-br from-blue-500/10 to-blue-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
-            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                <div className="size-16 sm:size-20 rounded-3xl bg-blue-500 flex items-center justify-center text-white shadow-2xl shadow-blue-500/30 shrink-0">
-                    <Activity size={40} />
+            <div className="glass-panel border-white/60 bg-linear-to-br from-blue-500/10 to-blue-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
+                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                    <div className="size-16 sm:size-20 rounded-3xl bg-blue-500 flex items-center justify-center text-white shadow-2xl shadow-blue-500/30 shrink-0">
+                        <Activity size={40} />
+                    </div>
+                    <div className="text-center sm:text-left">
+                        <h4 className="text-2xl sm:text-3xl font-black tracking-tighter text-slate-800 flex items-center justify-center sm:justify-start gap-3">
+                            {t('smartPerception')}
+                            <ArrowUpRight className="text-emerald-500" size={24} />
+                        </h4>
+                        <p className="text-slate-500 max-w-lg font-medium tracking-tight text-base sm:text-lg mt-1">
+                            {t('reportsOccupancyAnalysis')}
+                        </p>
+                    </div>
                 </div>
-                <div className="text-center sm:text-left">
-                    <h4 className="text-2xl sm:text-3xl font-black tracking-tighter text-slate-800 flex items-center justify-center sm:justify-start gap-3">
-                        {t('smartPerception')}
-                        <ArrowUpRight className="text-emerald-500" size={24} />
-                    </h4>
-                    <p className="text-slate-500 max-w-lg font-medium tracking-tight text-base sm:text-lg mt-1">
-                        {t('reportsOccupancyAnalysis')}
-                    </p>
-                </div>
+                <GlassButton
+                    onClick={() => addNotification({ title: t('reportsSystemInsights'), message: t('reportsActionPlan') || "Action plan generated based on current occupancy data. Forwarding to security supervisor...", type: 'success' })}
+                    variant="primary"
+                    glow
+                    className="h-16 px-10 text-lg shadow-2xl shadow-blue-500/20 w-full xl:w-auto"
+                >
+                    {t('reportsReviewInsights')}
+                </GlassButton>
             </div>
-            <GlassButton
-                onClick={() => addNotification({ title: t('reportsSystemInsights'), message: t('reportsActionPlan') || "Action plan generated based on current occupancy data. Forwarding to security supervisor...", type: 'success' })}
-                variant="primary"
-                glow
-                className="h-16 px-10 text-lg shadow-2xl shadow-blue-500/20 w-full xl:w-auto"
-            >
-                {t('reportsReviewInsights')}
-            </GlassButton>
-        </div>
         </motion.div >
     )
 }

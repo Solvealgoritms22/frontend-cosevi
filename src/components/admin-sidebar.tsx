@@ -26,6 +26,7 @@ import api, { API_BASE_URL } from "@/lib/api";
 import { useTranslation } from "@/context/translation-context";
 import { UserAvatar } from "@/components/user-avatar";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AdminSidebarProps {
     isOpen?: boolean;
@@ -180,37 +181,46 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         const isActive = pathname === item.href;
                         const Icon = item.icon;
                         return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 relative group cursor-pointer",
-                                    isActive
-                                        ? "bg-blue-50/80 text-blue-700 shadow-sm ring-1 ring-blue-100"
-                                        : "text-slate-500 hover:bg-slate-50 hover:text-slate-900",
-                                    collapsed && "justify-center px-2"
-                                )}
-                                title={collapsed ? item.title : undefined}
-                                onClick={isMobile ? onClose : undefined}
-                            >
-                                <Icon
-                                    size={20}
-                                    className={cn(
-                                        "shrink-0 transition-colors",
-                                        isActive
-                                            ? "text-blue-600"
-                                            : "text-slate-400 group-hover:text-slate-600"
+                            <TooltipProvider key={item.href} delayDuration={0}>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Link
+                                            href={item.href}
+                                            className={cn(
+                                                "flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 relative group cursor-pointer",
+                                                isActive
+                                                    ? "bg-blue-50/80 text-blue-700 shadow-sm ring-1 ring-blue-100"
+                                                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900",
+                                                collapsed && "justify-center px-2"
+                                            )}
+                                            onClick={isMobile ? onClose : undefined}
+                                        >
+                                            <Icon
+                                                size={20}
+                                                className={cn(
+                                                    "shrink-0 transition-colors",
+                                                    isActive
+                                                        ? "text-blue-600"
+                                                        : "text-slate-400 group-hover:text-slate-600"
+                                                )}
+                                            />
+                                            {!collapsed && (
+                                                <span className="text-sm truncate animate-in fade-in slide-in-from-left-2 duration-200">
+                                                    {item.title}
+                                                </span>
+                                            )}
+                                            {isActive && !collapsed && (
+                                                <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                                            )}
+                                        </Link>
+                                    </TooltipTrigger>
+                                    {collapsed && (
+                                        <TooltipContent side="right" className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                            <p>{item.title}</p>
+                                        </TooltipContent>
                                     )}
-                                />
-                                {!collapsed && (
-                                    <span className="text-sm truncate animate-in fade-in slide-in-from-left-2 duration-200">
-                                        {item.title}
-                                    </span>
-                                )}
-                                {isActive && !collapsed && (
-                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                                )}
-                            </Link>
+                                </Tooltip>
+                            </TooltipProvider>
                         );
                     })}
                 </nav>
