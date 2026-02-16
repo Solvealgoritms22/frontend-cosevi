@@ -5,8 +5,10 @@ import { ArrowLeft, ArrowRight, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '@/lib/api';
 import Link from 'next/link';
+import { useTranslation } from '@/context/translation-context';
 
 export default function ForgotPasswordPage() {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -37,7 +39,7 @@ export default function ForgotPasswordPage() {
                 <div className="size-10 rounded-full bg-white/50 border border-slate-200 flex items-center justify-center group-hover:bg-white group-hover:shadow-lg transition-all">
                     <ArrowLeft size={18} />
                 </div>
-                <span className="hidden sm:inline">Back to Login</span>
+                <span className="hidden sm:inline">{t('backToLogin')}</span>
             </Link>
 
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
@@ -49,25 +51,25 @@ export default function ForgotPasswordPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="bg-white/80 border border-slate-200 backdrop-blur-xl rounded-[2.5rem] p-10 shadow-2xl"
                 >
-                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">Recovery</h1>
+                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">{t('recovery')}</h1>
                     <p className="text-slate-500 text-center mb-10 font-medium">
-                        Enter your email to receive a password reset link.
+                        {t('forgotPasswordDesc')}
                     </p>
 
                     {success ? (
                         <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                            <h3 className="text-green-800 font-bold mb-2">Check your inbox</h3>
+                            <h3 className="text-green-800 font-bold mb-2">{t('checkInbox')}</h3>
                             <p className="text-green-700 text-sm">
-                                If an account exists for <strong>{email}</strong>, we've sent instructions to reset your password.
+                                {t('recoverySentMsg')}
                             </p>
                             <Link href="/login" className="mt-4 inline-block text-green-700 font-bold hover:underline">
-                                Return to Login
+                                {t('returnToLogin')}
                             </Link>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Email Address</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">{t('emailAddress')}</label>
                                 <div className="relative">
                                     <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                     <input
@@ -87,9 +89,9 @@ export default function ForgotPasswordPage() {
                                 disabled={loading}
                                 className="w-full h-16 bg-[#2563eb] hover:bg-[#2563eb]/80 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-[#2563eb]/20 active:scale-95 text-white"
                             >
-                                {loading ? 'Sending...' : (
+                                {loading ? t('sending') : (
                                     <>
-                                        Send Link
+                                        {t('sendLink')}
                                         <ArrowRight size={20} />
                                     </>
                                 )}

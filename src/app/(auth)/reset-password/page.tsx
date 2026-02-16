@@ -6,8 +6,10 @@ import { ArrowLeft, ArrowRight, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '@/lib/api';
 import Link from 'next/link';
+import { useTranslation } from '@/context/translation-context';
 
 export default function ResetPasswordPage() {
+    const { t } = useTranslation();
     const router = useRouter();
     const [token, setToken] = useState<string | null>(null);
     const [password, setPassword] = useState('');
@@ -17,13 +19,13 @@ export default function ResetPasswordPage() {
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
-        const t = searchParams.get('token');
-        if (t) {
-            setToken(t);
+        const tokenFromUrl = searchParams.get('token');
+        if (tokenFromUrl) {
+            setToken(tokenFromUrl);
         } else {
-            setError('Invalid or missing reset token.');
+            setError(t('invalidToken'));
         }
-    }, []);
+    }, [t]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -39,7 +41,7 @@ export default function ResetPasswordPage() {
                 router.push('/login');
             }, 3000);
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to reset password. Token may be expired.');
+            setError(err.response?.data?.message || t('resetFailed'));
         } finally {
             setLoading(false);
         }
@@ -54,7 +56,7 @@ export default function ResetPasswordPage() {
                 <div className="size-10 rounded-full bg-white/50 border border-slate-200 flex items-center justify-center group-hover:bg-white group-hover:shadow-lg transition-all">
                     <ArrowLeft size={18} />
                 </div>
-                <span className="hidden sm:inline">Back to Login</span>
+                <span className="hidden sm:inline">{t('backToLogin')}</span>
             </Link>
 
             <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-blue-600/5 blur-[150px] rounded-full" />
@@ -66,22 +68,22 @@ export default function ResetPasswordPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="bg-white/80 border border-slate-200 backdrop-blur-xl rounded-[2.5rem] p-10 shadow-2xl"
                 >
-                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">New Password</h1>
+                    <h1 className="text-3xl font-black mb-2 text-center text-slate-900">{t('newPassword')}</h1>
                     <p className="text-slate-500 text-center mb-10 font-medium">
-                        Enter your new secure password below.
+                        {t('newPasswordDesc')}
                     </p>
 
                     {success ? (
                         <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                            <h3 className="text-green-800 font-bold mb-2">Password Reset!</h3>
+                            <h3 className="text-green-800 font-bold mb-2">{t('passwordResetSuccess')}</h3>
                             <p className="text-green-700 text-sm">
-                                Your password has been successfully updated. Redirecting to login...
+                                {t('passwordResetSuccessMsg')}
                             </p>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">New Password</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">{t('newPassword')}</label>
                                 <div className="relative">
                                     <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                     <input
@@ -102,9 +104,9 @@ export default function ResetPasswordPage() {
                                 disabled={loading || !token}
                                 className="w-full h-16 bg-[#2563eb] hover:bg-[#2563eb]/80 disabled:bg-slate-200 disabled:text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-4 transition-all shadow-xl shadow-[#2563eb]/20 active:scale-95 text-white"
                             >
-                                {loading ? 'Updating...' : (
+                                {loading ? t('updating') : (
                                     <>
-                                        Set New Password
+                                        {t('setNewPassword')}
                                         <ArrowRight size={20} />
                                     </>
                                 )}
