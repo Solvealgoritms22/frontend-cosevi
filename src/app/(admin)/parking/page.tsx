@@ -146,7 +146,14 @@ export default function ParkingPage() {
 
                         {/* Interactive View Content */}
                         <div className="min-h-[500px]">
-                            {viewMode === "GRID" ? (
+                            {paginatedSpaces.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center h-[500px] text-slate-400 gap-4">
+                                    <div className="size-20 rounded-full bg-white/40 flex items-center justify-center">
+                                        <CircleOff size={40} strokeWidth={1.5} />
+                                    </div>
+                                    <p className="text-xl font-black uppercase tracking-widest opacity-60">No hay parqueos disponibles</p>
+                                </div>
+                            ) : viewMode === "GRID" ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-12 p-2 sm:p-4">
                                     {paginatedSpaces.map((space: any, i: number) => (
                                         <motion.div

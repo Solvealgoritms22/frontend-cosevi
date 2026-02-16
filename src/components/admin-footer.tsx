@@ -1,26 +1,32 @@
-"use client";
-
-import { ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 export function AdminFooter() {
     return (
         <footer className="w-full py-6 mt-12 border-t border-slate-200">
             <div className="max-w-[1600px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors cursor-default">
-                    <ShieldCheck size={14} className="text-blue-500" />
-                    <span className="font-bold text-slate-700 tracking-tight">
-                        Entrar <span className="text-blue-600">Admin</span>
+                <div className="flex items-center gap-3">
+                    <Image
+                        src="/logo-official.png"
+                        alt="Cosevi Logo"
+                        width={100}
+                        height={40}
+                        className="h-6 w-auto opacity-80 hover:opacity-100 transition-opacity"
+                    />
+                    <div className="h-4 w-px bg-slate-300 mx-1" />
+                    <span className="font-bold text-slate-500 tracking-tight text-xs">
+                        Admin <span className="text-blue-500">Console</span>
                     </span>
                 </div>
                 <div className="flex items-center gap-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <div className="flex gap-4">
-                        <a href="#" className="hover:text-blue-600 transition-colors">
+                    <div className="flex gap-4 items-center">
+                        <Link href="/support" className="hover:text-blue-600 transition-colors">
                             Support
-                        </a>
+                        </Link>
                         <span className="size-1 rounded-full bg-slate-200" />
-                        <a href="#" className="hover:text-blue-600 transition-colors">
+                        <Link href="/documentation" className="hover:text-blue-600 transition-colors">
                             Documentation
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="text-right">

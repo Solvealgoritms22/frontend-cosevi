@@ -134,9 +134,9 @@ export default function UsersPage() {
             SECURITY: UserCog,
         };
         const colors = {
-            ADMIN: "bg-red-50 text-red-600 border-red-100 ",
-            RESIDENT: "bg-blue-50 text-blue-600 border-blue-100 ",
-            SECURITY: "bg-amber-50 text-amber-600 border-amber-100 ",
+            ADMIN: "bg-red-50 text-red-600 border-red-100 ring-4 ring-red-50/50",
+            RESIDENT: "bg-blue-50 text-blue-600 border-blue-100 ring-4 ring-blue-50/50",
+            SECURITY: "bg-amber-50 text-amber-600 border-amber-100 ring-4 ring-amber-50/50",
         };
         const Icon = icons[role as keyof typeof icons] || User;
         const colorClass =
@@ -145,12 +145,12 @@ export default function UsersPage() {
         return (
             <div
                 className={cn(
-                    "inline-flex items-center gap-2 px-3 py-1 rounded-full border shadow-sm",
+                    "inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border shadow-sm transition-all hover:scale-105",
                     colorClass
                 )}
             >
-                <Icon className="w-3 h-3" />
-                <span className="text-[10px] font-black uppercase tracking-widest">
+                <Icon className="size-4" />
+                <span className="text-xs font-black uppercase tracking-widest">
                     {t(role.toLowerCase() + "Role")}
                 </span>
             </div>
@@ -160,7 +160,7 @@ export default function UsersPage() {
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString(
             language === "es" ? "es-ES" : "en-US",
-            { year: "numeric", month: "short", day: "numeric" }
+            { year: "numeric", month: "long", day: "numeric" }
         );
     };
 
@@ -246,42 +246,42 @@ export default function UsersPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     key={user.id}
-                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-blue-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
+                                    className="flex flex-col xl:flex-row xl:items-center justify-between p-5 sm:p-6 rounded-[2.5rem] bg-white border border-white hover:border-blue-100 transition-all group shadow-sm hover:shadow-xl duration-500 gap-6"
                                 >
-                                    <div className="flex items-center gap-4 sm:gap-6">
-                                        <div className="size-12 sm:size-16 rounded-xl sm:rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-blue-500 transition-all duration-500 group-hover:scale-110 shrink-0">
+                                    <div className="flex items-center gap-4 sm:gap-6 flex-1">
+                                        <div className="size-12 sm:size-20 rounded-2xl bg-white shadow-sm border border-white flex items-center justify-center overflow-hidden text-slate-400 group-hover:text-blue-500 transition-all duration-500 group-hover:scale-110 shrink-0">
                                             <UserAvatar
                                                 src={user.profileImage}
                                                 name={user.name}
                                                 role={user.role}
-                                                iconSize={28}
+                                                iconSize={32}
                                             />
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="font-black text-lg sm:text-xl text-slate-800 tracking-tight truncate max-w-[200px] sm:max-w-none">
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight truncate max-w-[200px] sm:max-w-none">
                                                 {user.name}
                                             </p>
-                                            <p className="text-xs sm:text-sm font-bold text-slate-400 mt-1 opacity-80 break-all">
+                                            <p className="text-sm font-bold text-slate-400 mt-1 opacity-80 break-all">
                                                 {user.email}
                                             </p>
                                             <div className="flex flex-wrap gap-2 mt-4">
                                                 {user.idNumber && (
                                                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
-                                                        <span className="text-fluid-label font-black text-slate-500 uppercase tracking-widest break-all">
+                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest break-all">
                                                             {t('identification')}: {user.idNumber}
                                                         </span>
                                                     </div>
                                                 )}
                                                 {user.phone && (
                                                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
-                                                        <span className="text-fluid-label font-black text-slate-500 uppercase tracking-widest">
+                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                                             {t('telephone')}: {user.phone}
                                                         </span>
                                                     </div>
                                                 )}
                                                 {user.residentProfile?.unitNumber && (
                                                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-lg border border-blue-100 shadow-sm">
-                                                        <span className="text-fluid-label font-black text-blue-500 uppercase tracking-widest">
+                                                        <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">
                                                             Unit: {user.residentProfile.unitNumber}
                                                         </span>
                                                     </div>
@@ -289,50 +289,52 @@ export default function UsersPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-wrap items-center justify-between lg:justify-end gap-6 sm:gap-10 mt-2 lg:mt-0 pt-6 lg:pt-0 border-t lg:border-t-0 border-slate-50 w-full lg:w-auto">
-                                        <div className="text-left lg:text-right">
-                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
+
+                                    <div className="flex flex-wrap items-center justify-between xl:justify-end gap-4 sm:gap-12 mt-2 xl:mt-0 pt-6 xl:pt-0 border-t xl:border-t-0 border-slate-50 w-full xl:w-auto">
+                                        <div className="flex flex-col items-center gap-2 min-w-[120px]">
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">
                                                 {t("role")}
                                             </p>
-                                            <div className="flex lg:justify-end">
-                                                {getRoleBadge(user.role)}
-                                            </div>
+                                            {getRoleBadge(user.role)}
                                         </div>
-                                        <div className="text-left lg:text-right">
-                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
+
+                                        <div className="flex flex-col items-center gap-2 min-w-[120px]">
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">
                                                 {t("status")}
                                             </p>
                                             <div
                                                 className={cn(
-                                                    "px-4 py-1.5 rounded-xl border font-black text-fluid-label uppercase tracking-[0.15em] shadow-sm text-center",
+                                                    "px-6 py-2 rounded-xl border font-black text-xs uppercase tracking-widest shadow-sm text-center min-w-[100px] transition-all hover:scale-105",
                                                     user.isActive
-                                                        ? "bg-emerald-50 text-emerald-600 border-emerald-100 "
+                                                        ? "bg-emerald-50 text-emerald-600 border-emerald-100 ring-4 ring-emerald-50/50"
                                                         : "bg-slate-50 text-slate-500 border-slate-100 "
                                                 )}
                                             >
                                                 {user.isActive ? t("active") : t("inactive")}
                                             </div>
                                         </div>
-                                        <div className="hidden xl:block text-right">
-                                            <p className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mb-1 opacity-60">
+
+                                        <div className="hidden xl:flex flex-col items-end gap-1 min-w-[120px]">
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">
                                                 {t("created")}
                                             </p>
                                             <p className="text-sm font-black text-slate-800 ">
                                                 {formatDate(user.createdAt)}
                                             </p>
                                         </div>
-                                        <div className="flex items-center gap-3 ml-auto lg:ml-0">
+
+                                        <div className="flex items-center gap-3 ml-auto xl:ml-0">
                                             <button
                                                 onClick={() => handleEdit(user)}
-                                                className="size-12 rounded-2xl bg-slate-50 shadow-sm border border-slate-100 hover:bg-white flex items-center justify-center text-slate-500 hover:text-blue-500 transition-all duration-500 hover:shadow-lg"
+                                                className="size-14 rounded-2xl bg-slate-50 shadow-sm border border-slate-100 hover:bg-white flex items-center justify-center text-slate-500 hover:text-blue-500 transition-all duration-500 hover:shadow-lg hover:scale-105"
                                             >
-                                                <Edit size={18} />
+                                                <Edit size={20} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(user)}
-                                                className="size-12 rounded-2xl bg-red-50 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 transition-all duration-500 hover:shadow-lg"
+                                                className="size-14 rounded-2xl bg-red-50 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 transition-all duration-500 hover:shadow-lg hover:scale-105"
                                             >
-                                                <Trash2 size={18} />
+                                                <Trash2 size={20} />
                                             </button>
                                         </div>
                                     </div>

@@ -17,6 +17,7 @@ import {
     ChevronLeft,
     ChevronRight,
     CreditCard,
+    Smartphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -85,6 +86,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         { title: t("emergencies"), href: "/safety/emergencies", icon: Bell },
         { title: t("analytics"), href: "/reports", icon: BarChart3 },
         { title: t("billing") || "Facturación", href: "/billing", icon: CreditCard },
+        { title: t("mobileApps") || "Mobile Apps", href: "/mobile-apps", icon: Smartphone },
         { title: t("users"), href: "/users", icon: Users },
         { title: t("settings"), href: "/settings", icon: Settings },
     ];
@@ -159,7 +161,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={customLogo || "/logo-official.png"}
+                            src={collapsed ? "/favicon.png" : (customLogo || "/logo-official.png")}
                             alt={orgName}
                             className="object-contain w-full h-full"
                         />

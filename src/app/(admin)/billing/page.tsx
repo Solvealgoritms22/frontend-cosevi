@@ -175,19 +175,24 @@ export default function BillingPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-linear-to-br from-indigo-600 to-violet-600 rounded-2xl p-6 text-white col-span-1"
+                        className="bg-white border border-indigo-100 rounded-2xl p-6 relative overflow-hidden group hover:shadow-lg transition-all duration-300 col-span-1"
                     >
-                        <div className="flex items-center gap-2 mb-4 text-indigo-200 text-sm font-bold">
-                            <CreditCard size={16} />
-                            Plan Activo
-                        </div>
-                        <p className="text-3xl font-black capitalize mb-1">{subscription.plan}</p>
-                        <p className="text-indigo-200 text-lg font-bold">${subscription.amount.toFixed(2)}/mes</p>
-                        <div className="mt-4 flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2">
-                            <Clock size={14} />
-                            <span className="text-sm">
-                                {subscription.daysRemaining} días restantes
-                            </span>
+                        <div className="absolute top-0 right-0 size-32 bg-linear-to-br from-indigo-500/10 to-violet-500/10 rounded-bl-full -mr-8 -mt-8" />
+
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-2 mb-4 w-fit px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-wider border border-indigo-100">
+                                <CreditCard size={14} />
+                                Plan Activo
+                            </div>
+                            <p className="text-3xl font-black capitalize mb-1 text-slate-900 tracking-tight">{subscription.plan}</p>
+                            <p className="text-slate-500 text-lg font-bold">${subscription.amount.toFixed(2)}<span className="text-sm font-medium text-slate-400">/mes</span></p>
+
+                            <div className="mt-6 flex items-center gap-2 text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                                <Clock size={16} className="text-indigo-500" />
+                                <span className="text-sm font-bold">
+                                    <span className="text-slate-900">{subscription.daysRemaining}</span> días restantes
+                                </span>
+                            </div>
                         </div>
                     </motion.div>
                 )}
@@ -237,8 +242,7 @@ export default function BillingPage() {
             {usage && (
                 <div>
                     <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                        <Activity size={20} className="text-indigo-600" />
-                        Consumo de Recursos
+
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {Object.entries(usage.resources).map(([key, data]) => (

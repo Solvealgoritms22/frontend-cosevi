@@ -141,7 +141,7 @@ export default function ReportsPage() {
                             />
                             <div className="size-32 sm:size-40 rounded-full bg-white/60 backdrop-blur-md shadow-2xl border border-white flex flex-col items-center justify-center animate-pulse-subtle">
                                 <span className="text-3xl sm:text-5xl font-black text-slate-800 tracking-tighter tabular-nums">{residentPercent}%</span>
-                                <span className="text-fluid-label font-black text-slate-400 uppercase tracking-[0.2em] mt-1">{t('preAuthorized')}</span>
+                                <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1 text-center max-w-full truncate px-2">{t('preAuthorized')}</span>
                             </div>
                         </div>
 

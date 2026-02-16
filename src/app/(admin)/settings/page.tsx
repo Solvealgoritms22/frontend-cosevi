@@ -487,9 +487,9 @@ export default function SettingsPage() {
                             </motion.div>
                         )}
 
-
                         {activeSection === 'integrations' && tenant?.plan?.toLowerCase().includes('elite') && (
                             <motion.div key="integrations" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-10">
+                                {/* API Key Section */}
                                 <GlassPanel className="p-6 sm:p-10">
                                     <div className="flex items-center gap-4 mb-8">
                                         <div className="size-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyan-500">
@@ -502,6 +502,7 @@ export default function SettingsPage() {
                                     </div>
 
                                     <div className="space-y-6">
+                                        {/* API Key Card */}
                                         <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
                                             <h4 className="font-bold text-slate-800 mb-2">Tu API Key Secreta</h4>
                                             <p className="text-sm text-slate-500 mb-4">Usa esta llave para autenticar tus dispositivos IoT y lectores de placas.</p>
@@ -536,6 +537,39 @@ export default function SettingsPage() {
                                                 Rotar la llave invalidará la anterior inmediatamente.
                                             </p>
                                         )}
+                                    </div>
+                                </GlassPanel>
+
+                                {/* Hardware Devices Section */}
+                                <GlassPanel className="p-6 sm:p-10">
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500">
+                                                <Database size={24} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-black tracking-tight text-slate-800">Hardware Conectado</h3>
+                                                <p className="text-sm text-slate-400 font-medium">Gestiona cámaras LPR, barreras y sensores IoT</p>
+                                            </div>
+                                        </div>
+                                        <GlassButton variant="primary" icon={Settings} glow>
+                                            Conectar Nuevo
+                                        </GlassButton>
+                                    </div>
+
+                                    {/* Mock Empty State / List */}
+                                    <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px]">
+                                        <div className="size-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                                            <Database size={32} className="text-slate-300" />
+                                        </div>
+                                        <h4 className="text-slate-900 font-bold mb-1">No hay dispositivos conectados</h4>
+                                        <p className="text-slate-400 text-sm max-w-sm mb-6">
+                                            Conecta tus dispositivos IoT usando el API Key generado arriba para verlos aquí.
+                                        </p>
+                                        <div className="flex gap-2">
+                                            <span className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono text-slate-500">LPR-CAM-01</span>
+                                            <span className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono text-slate-500">GATE-CTRL-02</span>
+                                        </div>
                                     </div>
                                 </GlassPanel>
                             </motion.div>
