@@ -10,23 +10,23 @@ export default function DocumentationPage() {
 
     const categories = [
         {
-            title: "Getting Started",
+            title: t('docGettingStarted'),
             icon: Zap,
-            description: "Essential guides for system setup and initial configuration.",
+            description: t('docGettingStartedDesc'),
             color: "text-amber-500",
             bg: "bg-amber-500/10"
         },
         {
-            title: "Security Protocols",
+            title: t('docSecurityProtocols'),
             icon: Shield,
-            description: "Understanding access levels, roles, and security policies.",
+            description: t('docSecurityProtocolsDesc'),
             color: "text-emerald-500",
             bg: "bg-emerald-500/10"
         },
         {
-            title: "API Reference",
+            title: t('docApiReference'),
             icon: FileText,
-            description: "Technical documentation for system integrations and endpoints.",
+            description: t('docApiReferenceDesc'),
             color: "text-blue-500",
             bg: "bg-blue-500/10"
         }
@@ -41,10 +41,10 @@ export default function DocumentationPage() {
             {/* Header */}
             <div className="text-center space-y-4">
                 <h1 className="text-5xl font-black text-slate-800 tracking-tighter">
-                    System <span className="text-blue-500">Documentation</span>
+                    {t('docSystem')} <span className="text-blue-500">{t('docTitle')}</span>
                 </h1>
                 <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto">
-                    Comprehensive guides and references for the SafeSystem platform.
+                    {t('docSubtitle')}
                 </p>
 
                 {/* Search Bar */}
@@ -54,7 +54,7 @@ export default function DocumentationPage() {
                         <Search className="text-slate-400 mr-4" />
                         <input
                             type="text"
-                            placeholder="Search documentation..."
+                            placeholder={t('docSearchPlaceholder')}
                             className="flex-1 bg-transparent outline-none text-slate-700 font-medium placeholder:text-slate-400"
                         />
                     </div>
@@ -81,7 +81,7 @@ export default function DocumentationPage() {
                             </p>
                         </div>
                         <div className="mt-auto pt-6 flex items-center justify-between border-t border-slate-100">
-                            <span className="text-xs font-black uppercase tracking-widest text-slate-400">3 Articles</span>
+                            <span className="text-xs font-black uppercase tracking-widest text-slate-400">3 {t('docArticles')}</span>
                             <div className="size-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                                 <BookOpen size={14} />
                             </div>
@@ -92,13 +92,13 @@ export default function DocumentationPage() {
 
             {/* Recent Updates */}
             <div className="glass-panel p-8 rounded-3xl border border-white/60 bg-slate-50/50">
-                <h3 className="text-lg font-black text-slate-400 uppercase tracking-widest mb-6">Latest Updates</h3>
+                <h3 className="text-lg font-black text-slate-400 uppercase tracking-widest mb-6">{t('docLatestUpdates')}</h3>
                 <div className="space-y-4">
                     {[1, 2, 3].map((_, i) => (
                         <div key={i} className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow cursor-pointer">
                             <div className="flex items-center gap-4">
-                                <span className="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">New</span>
-                                <span className="text-slate-700 font-bold">Updated Security Policy Guidelines v2.4</span>
+                                <span className="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">{t('docNew')}</span>
+                                <span className="text-slate-700 font-bold">{t('docUpdateExample')}</span>
                             </div>
                             <span className="text-xs font-medium text-slate-400">Feb 16, 2026</span>
                         </div>

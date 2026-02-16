@@ -68,15 +68,15 @@ interface InvoiceData {
     createdAt: string;
 }
 
-const resourceLabels: Record<string, { label: string; icon: any; color: string }> = {
-    units: { label: 'Unidades / Residentes', icon: Users, color: '#4f46e5' },
-    parking: { label: 'Espacios de Parqueo', icon: Car, color: '#059669' },
-    monitors: { label: 'Administradores', icon: Monitor, color: '#d97706' },
-    security: { label: 'Guardias de Seguridad', icon: Shield, color: '#dc2626' },
-    visits: { label: 'Visitas', icon: ClipboardList, color: '#0ea5e9' },
-    alerts: { label: 'Alertas', icon: Bell, color: '#f43f5e' },
-    reports: { label: 'Reportes', icon: FileBarChart, color: '#8b5cf6' },
-};
+const resourceLabels = (t: any): Record<string, { label: string; icon: any; color: string }> => ({
+    units: { label: t('resourceUnits'), icon: Users, color: '#4f46e5' },
+    parking: { label: t('resourceParking'), icon: Car, color: '#059669' },
+    monitors: { label: t('resourceMonitors'), icon: Monitor, color: '#d97706' },
+    security: { label: t('resourceSecurity'), icon: Shield, color: '#dc2626' },
+    visits: { label: t('resourceVisits'), icon: ClipboardList, color: '#0ea5e9' },
+    alerts: { label: t('resourceAlerts'), icon: Bell, color: '#f43f5e' },
+    reports: { label: t('resourceReports'), icon: FileBarChart, color: '#8b5cf6' },
+});
 
 const statusColors: Record<string, string> = {
     PAID: 'bg-green-100 text-green-700',
@@ -85,8 +85,8 @@ const statusColors: Record<string, string> = {
     CANCELLED: 'bg-slate-100 text-slate-500',
 };
 
-function UsageBar({ resource, data }: { resource: string; data: UsageResource }) {
-    const info = resourceLabels[resource];
+function UsageBar({ resource, data, t }: { resource: string; data: UsageResource, t: any }) {
+    const info = resourceLabels(t)[resource];
     const Icon = info.icon;
     const pct = data.limit === Infinity || data.limit === 0 ? 0 : Math.min(100, data.percentage);
     const isOver = data.extra > 0;
@@ -125,7 +125,7 @@ function UsageBar({ resource, data }: { resource: string; data: UsageResource })
             </div>
             {isOver && (
                 <p className="text-xs text-red-500 font-medium mt-2">
-                    Excedente: {data.extra} × ${data.rate.toFixed(2)} = ${data.overageCost.toFixed(2)}/mes
+                    {t('overageLabel')}: {data.extra} × ${data.rate.toFixed(2)} = ${data.overageCost.toFixed(2)}/{t('monthShort')}
                 </p>
             )}
         </div>
@@ -133,7 +133,7 @@ function UsageBar({ resource, data }: { resource: string; data: UsageResource })
 }
 
 export default function BillingPage() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const [usage, setUsage] = useState<UsageData | null>(null);
     const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
     const [invoices, setInvoices] = useState<InvoiceData[]>([]);
@@ -164,9 +164,9 @@ export default function BillingPage() {
         <div className="space-y-6 p-1">
             <div>
                 <h1 className="text-3xl font-black text-slate-900">
-                    {t('billing') || 'Facturación'}
+                    {t('billingTitle')}
                 </h1>
-                <p className="text-slate-400 font-medium mt-1">Monitorea tu consumo y facturación en tiempo real</p>
+                <p className="text-slate-400 font-medium mt-1">{t('billingSubtitle')}</p>
             </div>
 
             {/* Subscription & Estimated Bill */}
@@ -182,15 +182,15 @@ export default function BillingPage() {
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-4 w-fit px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-wider border border-indigo-100">
                                 <CreditCard size={14} />
-                                Plan Activo
+                                {t('activePlan')}
                             </div>
                             <p className="text-3xl font-black capitalize mb-1 text-slate-900 tracking-tight">{subscription.plan}</p>
-                            <p className="text-slate-500 text-lg font-bold">${subscription.amount.toFixed(2)}<span className="text-sm font-medium text-slate-400">/mes</span></p>
+                            <p className="text-slate-500 text-lg font-bold">${subscription.amount.toFixed(2)}<span className="text-sm font-medium text-slate-400">/{t('monthShort')}</span></p>
 
                             <div className="mt-6 flex items-center gap-2 text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
                                 <Clock size={16} className="text-indigo-500" />
                                 <span className="text-sm font-bold">
-                                    <span className="text-slate-900">{subscription.daysRemaining}</span> días restantes
+                                    <span className="text-slate-900">{subscription.daysRemaining}</span> {t('daysRemaining')}
                                 </span>
                             </div>
                         </div>
@@ -207,13 +207,13 @@ export default function BillingPage() {
                         >
                             <div className="flex items-center gap-2 mb-4 text-slate-400 text-sm font-bold">
                                 <TrendingUp size={16} />
-                                Excedentes Actuales
+                                {t('currentOverage')}
                             </div>
                             <p className="text-3xl font-black text-slate-900">
                                 ${usage.totalOverage.toFixed(2)}
                             </p>
                             <p className="text-slate-400 text-sm mt-1">
-                                {usage.totalOverage > 0 ? 'Se cobrarán en la próxima factura' : 'Sin excedentes este período'}
+                                {usage.totalOverage > 0 ? t('willBeCharged') : t('noOverage')}
                             </p>
                         </motion.div>
 
@@ -225,13 +225,13 @@ export default function BillingPage() {
                         >
                             <div className="flex items-center gap-2 mb-4 text-slate-400 text-sm font-bold">
                                 <Activity size={16} />
-                                Total Estimado
+                                {t('estimatedTotal')}
                             </div>
                             <p className="text-3xl font-black text-slate-900">
                                 ${usage.estimatedTotal.toFixed(2)}
                             </p>
                             <p className="text-slate-400 text-sm mt-1">
-                                Plan ${usage.planPrice} + Excedentes ${usage.totalOverage.toFixed(2)}
+                                {t('planBase')} ${usage.planPrice} {t('plusOverage')} ${usage.totalOverage.toFixed(2)}
                             </p>
                         </motion.div>
                     </>
@@ -246,7 +246,7 @@ export default function BillingPage() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {Object.entries(usage.resources).map(([key, data]) => (
-                            <UsageBar key={key} resource={key} data={data} />
+                            <UsageBar key={key} resource={key} data={data} t={t} />
                         ))}
                     </div>
                 </div>
@@ -256,30 +256,30 @@ export default function BillingPage() {
             <div>
                 <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
                     <FileText size={20} className="text-indigo-600" />
-                    Historial de Facturas
+                    {t('invoiceHistory')}
                 </h2>
                 {invoices.length === 0 ? (
                     <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center">
                         <FileText className="text-slate-300 mx-auto mb-3" size={40} />
-                        <p className="text-slate-400 font-medium">No hay facturas aún</p>
+                        <p className="text-slate-400 font-medium">{t('noInvoices')}</p>
                     </div>
                 ) : (
                     <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
                         <table className="w-full">
                             <thead>
                                 <tr className="bg-slate-50/80 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
-                                    <th className="px-5 py-3">Período</th>
-                                    <th className="px-5 py-3">Plan Base</th>
-                                    <th className="px-5 py-3">Excedentes</th>
-                                    <th className="px-5 py-3">Total</th>
-                                    <th className="px-5 py-3">Estado</th>
+                                    <th className="px-5 py-3">{t('period')}</th>
+                                    <th className="px-5 py-3">{t('basePlan')}</th>
+                                    <th className="px-5 py-3">{t('overage')}</th>
+                                    <th className="px-5 py-3">{t('total')}</th>
+                                    <th className="px-5 py-3">{t('billingStatus')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                                 {invoices.map((inv) => (
                                     <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="px-5 py-3 text-sm text-slate-700 font-medium">
-                                            {new Date(inv.billingPeriodStart).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
+                                            {new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}
                                         </td>
                                         <td className="px-5 py-3 text-sm text-slate-600">${inv.amount.toFixed(2)}</td>
                                         <td className="px-5 py-3 text-sm text-slate-600">

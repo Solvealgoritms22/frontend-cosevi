@@ -24,7 +24,7 @@ interface Space {
 const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
 export default function ReportsPage() {
-    const { t } = useTranslation()
+    const { t, language } = useTranslation()
     const { data: visitsResponse } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher)
     const { data: spaces } = useSWR<Space[]>("/spaces", fetcher)
     const { addNotification } = useNotifications()
@@ -72,7 +72,7 @@ export default function ReportsPage() {
                 <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
                     <div className="hidden sm:flex items-center gap-3 px-6 py-3 bg-white/40 border border-white/60 rounded-2xl shadow-sm">
                         <Calendar size={18} className="text-blue-500" />
-                        <span className="text-sm font-black text-slate-700 uppercase tracking-widest">{new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                        <span className="text-sm font-black text-slate-700 uppercase tracking-widest">{new Date().toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}</span>
                     </div>
                     <GlassButton
                         onClick={handleDownloadPDF}
@@ -95,11 +95,11 @@ export default function ReportsPage() {
                         <div className="flex items-center gap-2 sm:gap-6 shrink-0">
                             <div className="flex items-center gap-2 px-2 sm:px-3 py-1 bg-blue-50/50 border border-blue-100/50 rounded-full">
                                 <span className="size-1.5 sm:size-2 rounded-full bg-blue-500 shadow-sm" />
-                                <span className="text-fluid-label font-black text-blue-600 uppercase tracking-widest">Active</span>
+                                <span className="text-fluid-label font-black text-blue-600 uppercase tracking-widest">{t('reportsChartActive')}</span>
                             </div>
                             <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-slate-50/50 border border-slate-100/50 rounded-full">
                                 <span className="size-2 rounded-full bg-slate-300 shadow-sm" />
-                                <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">Target</span>
+                                <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{t('reportsChartTarget')}</span>
                             </div>
                         </div>
                     </div>
@@ -141,54 +141,55 @@ export default function ReportsPage() {
                             />
                             <div className="size-32 sm:size-40 rounded-full bg-white/60 backdrop-blur-md shadow-2xl border border-white flex flex-col items-center justify-center animate-pulse-subtle">
                                 <span className="text-3xl sm:text-5xl font-black text-slate-800 tracking-tighter tabular-nums">{residentPercent}%</span>
-                                <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1 text-center max-w-full truncate px-2">{t('preAuthorized')}</span>
+                                <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1 text-center max-w-full truncate px-2">{t('reportsStatusPreAuthorized')}</span>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Legend */}
-                        <div className="flex flex-row sm:flex-col gap-3 sm:gap-4 overflow-x-auto sm:overflow-visible w-full sm:w-auto px-4 sm:px-0">
-                            {[
-                                { label: 'Active', value: residentPercent, color: 'bg-emerald-500' },
-                                { label: 'Pending', value: guestPercent, color: 'bg-blue-400' },
-                                { label: 'Other', value: staffPercent, color: 'bg-blue-200' }
-                            ].map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/40 border border-white/60 rounded-2xl shadow-sm hover:scale-105 transition-transform cursor-default shrink-0">
-                                    <span className={cn("size-2.5 rounded-full shadow-sm", item.color)} />
-                                    <div className="flex flex-col">
-                                        <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
-                                        <span className="text-xs sm:text-sm font-black text-slate-800 tabular-nums">{item.value}%</span>
-                                    </div>
+                    {/* Legend */}
+                    <div className="flex flex-row sm:flex-col gap-3 sm:gap-4 overflow-x-auto sm:overflow-visible w-full sm:w-auto px-4 sm:px-0">
+                        {[
+                            { label: t('reportsChartActive'), value: residentPercent, color: 'bg-emerald-500' },
+                            { label: t('pendingApproval'), value: guestPercent, color: 'bg-blue-400' },
+                            { label: t('other') || 'Other', value: staffPercent, color: 'bg-blue-200' }
+                        ].map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/40 border border-white/60 rounded-2xl shadow-sm hover:scale-105 transition-transform cursor-default shrink-0">
+                                <span className={cn("size-2.5 rounded-full shadow-sm", item.color)} />
+                                <div className="flex flex-col">
+                                    <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
+                                    <span className="text-xs sm:text-sm font-black text-slate-800 tabular-nums">{item.value}%</span>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </GlassCard>
             </div>
+        </GlassCard>
+            </div >
 
-            <div className="glass-panel border-white/60 bg-linear-to-br from-blue-500/10 to-blue-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
-                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                    <div className="size-16 sm:size-20 rounded-3xl bg-blue-500 flex items-center justify-center text-white shadow-2xl shadow-blue-500/30 shrink-0">
-                        <Activity size={40} />
-                    </div>
-                    <div className="text-center sm:text-left">
-                        <h4 className="text-2xl sm:text-3xl font-black tracking-tighter text-slate-800 flex items-center justify-center sm:justify-start gap-3">
-                            {t('smartPerception')}
-                            <ArrowUpRight className="text-emerald-500" size={24} />
-                        </h4>
-                        <p className="text-slate-500 max-w-lg font-medium tracking-tight text-base sm:text-lg mt-1">
-                            Current occupancy analysis: <strong>{visitsArray.length}</strong> total interactions recorded with <strong>{spacesArray.length}</strong> active parking nodes.
-                        </p>
-                    </div>
+        <div className="glass-panel border-white/60 bg-linear-to-br from-blue-500/10 to-blue-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
+            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                <div className="size-16 sm:size-20 rounded-3xl bg-blue-500 flex items-center justify-center text-white shadow-2xl shadow-blue-500/30 shrink-0">
+                    <Activity size={40} />
                 </div>
-                <GlassButton
-                    onClick={() => addNotification({ title: 'System Insight', message: 'Action plan generated based on current occupancy data. Forwarding to security supervisor...', type: 'success' })}
-                    variant="primary"
-                    glow
-                    className="h-16 px-10 text-lg shadow-2xl shadow-blue-500/20 w-full xl:w-auto"
-                >
-                    {t('reviewInsights')}
-                </GlassButton>
+                <div className="text-center sm:text-left">
+                    <h4 className="text-2xl sm:text-3xl font-black tracking-tighter text-slate-800 flex items-center justify-center sm:justify-start gap-3">
+                        {t('smartPerception')}
+                        <ArrowUpRight className="text-emerald-500" size={24} />
+                    </h4>
+                    <p className="text-slate-500 max-w-lg font-medium tracking-tight text-base sm:text-lg mt-1">
+                        {t('reportsOccupancyAnalysis')}
+                    </p>
+                </div>
             </div>
-        </motion.div>
+            <GlassButton
+                onClick={() => addNotification({ title: t('reportsSystemInsights'), message: t('reportsActionPlan') || "Action plan generated based on current occupancy data. Forwarding to security supervisor...", type: 'success' })}
+                variant="primary"
+                glow
+                className="h-16 px-10 text-lg shadow-2xl shadow-blue-500/20 w-full xl:w-auto"
+            >
+                {t('reportsReviewInsights')}
+            </GlassButton>
+        </div>
+        </motion.div >
     )
 }

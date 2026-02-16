@@ -59,30 +59,30 @@ export default function SettingsPage() {
         try {
             const res = await api.post('/tenants/api-key');
             setTenant({ ...tenant, apiKey: res.data.apiKey });
-            toast.success('API Key generada correctamente');
+            toast.success(t('settingsToastApiKeyGenerated'));
         } catch (error) {
-            toast.error('Error al generar API Key');
+            toast.error(t('settingsToastApiKeyError'));
         }
     }
 
     const baseSections = [
         { id: 'general', title: t('settings'), icon: Settings },
-        { id: 'brand', title: 'Marca', icon: Palette },
+        { id: 'brand', title: t('settingsBrandTitle'), icon: Palette },
         { id: 'security', title: t('security'), icon: ShieldCheck },
     ]
 
     const settingsSections = tenant?.plan?.toLowerCase().includes('elite')
-        ? [...baseSections, { id: 'integrations', title: 'Integraciones', icon: Webhook }]
+        ? [...baseSections, { id: 'integrations', title: t('settingsIntegrationsTitle'), icon: Webhook }]
         : baseSections;
 
     const handlePurge = async () => {
         setIsPurging(true)
         try {
             await api.delete('/visits/purge')
-            toast.success("System data purged successfully")
+            toast.success(t('settingsToastPurgeSuccess'))
             setIsConfirmOpen(false)
         } catch (error) {
-            toast.error("Failed to purge system data")
+            toast.error(t('settingsToastPurgeError'))
         } finally {
             setIsPurging(false)
         }
@@ -93,11 +93,11 @@ export default function SettingsPage() {
         if (!file) return
 
         if (!file.type.startsWith('image/')) {
-            toast.error('Solo se permiten archivos de imagen')
+            toast.error(t('settingsToastLogoFormatError'))
             return
         }
         if (file.size > 5 * 1024 * 1024) {
-            toast.error('El archivo no puede ser mayor a 5MB')
+            toast.error(t('settingsToastLogoSizeError'))
             return
         }
 
@@ -109,9 +109,9 @@ export default function SettingsPage() {
                 headers: { 'Content-Type': 'multipart/form-data' },
             })
             setLogoUrl(res.data.url)
-            toast.success('Logo subido correctamente')
+            toast.success(t('settingsToastLogoSuccess'))
         } catch {
-            toast.error('Error al subir el logo')
+            toast.error(t('settingsToastLogoError'))
         } finally {
             setUploading(false)
         }
@@ -140,9 +140,9 @@ export default function SettingsPage() {
             }
             localStorage.setItem('cosevi_branding', JSON.stringify(brandingData))
 
-            toast.success('Marca actualizada correctamente')
+            toast.success(t('settingsToastBrandSuccess'))
         } catch {
-            toast.error('Error al guardar la configuración de marca')
+            toast.error(t('settingsToastBrandError'))
         } finally {
             setSaving(false)
         }
@@ -249,8 +249,8 @@ export default function SettingsPage() {
                                             <Upload size={24} />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-black tracking-tight text-slate-800">Logo de la Organización</h3>
-                                            <p className="text-sm text-slate-400 font-medium">Sube el logo que aparecerá en el panel y apps móviles</p>
+                                            <h3 className="text-xl font-black tracking-tight text-slate-800">{t('settingsBrandLogoTitle')}</h3>
+                                            <p className="text-sm text-slate-400 font-medium">{t('settingsBrandLogoDesc')}</p>
                                         </div>
                                     </div>
 
@@ -267,7 +267,7 @@ export default function SettingsPage() {
                                                 ) : (
                                                     <div className="text-center">
                                                         <Upload size={32} className="mx-auto text-slate-300 mb-2" />
-                                                        <p className="text-xs text-slate-400 font-medium">Sin logo</p>
+                                                        <p className="text-xs text-slate-400 font-medium">{t('settingsBrandNoLogo')}</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -303,19 +303,19 @@ export default function SettingsPage() {
                                                 {uploading ? (
                                                     <>
                                                         <div className="size-4 border-2 border-violet-300 border-t-violet-600 rounded-full animate-spin" />
-                                                        Subiendo...
+                                                        {t('settingsBrandUploading')}
                                                     </>
                                                 ) : (
                                                     <>
                                                         <Upload size={16} />
-                                                        Seleccionar Imagen
+                                                        {t('settingsBrandSelectImage')}
                                                     </>
                                                 )}
                                             </label>
                                             <div className="space-y-1">
-                                                <p className="text-xs text-slate-400">Formatos: PNG, JPG, SVG</p>
-                                                <p className="text-xs text-slate-400">Tamaño máximo: 5MB</p>
-                                                <p className="text-xs text-slate-400">Recomendado: 400×200px con fondo transparente</p>
+                                                <p className="text-xs text-slate-400">{t('settingsBrandFormats')}</p>
+                                                <p className="text-xs text-slate-400">{t('settingsBrandMaxSize')}</p>
+                                                <p className="text-xs text-slate-400">{t('settingsBrandRecommended')}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -328,15 +328,15 @@ export default function SettingsPage() {
                                             <Palette size={24} />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-black tracking-tight text-slate-800">Paleta de Colores</h3>
-                                            <p className="text-sm text-slate-400 font-medium">Define los colores de tu marca para personalizar la interfaz</p>
+                                            <h3 className="text-xl font-black tracking-tight text-slate-800">{t('settingsBrandPaletteTitle')}</h3>
+                                            <p className="text-sm text-slate-400 font-medium">{t('settingsBrandPaletteDesc')}</p>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {/* Primary Color */}
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black uppercase tracking-widest text-slate-400">Color Primario</label>
+                                            <label className="text-xs font-black uppercase tracking-widest text-slate-400">{t('settingsBrandPrimaryColor')}</label>
                                             <div className="flex items-center gap-4">
                                                 <div className="relative">
                                                     <input
@@ -354,14 +354,14 @@ export default function SettingsPage() {
                                                         className="w-full h-14 px-5 bg-slate-50 border border-slate-200 rounded-2xl font-mono font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm uppercase"
                                                         maxLength={7}
                                                     />
-                                                    <p className="text-xs text-slate-400 mt-1">Usado en botones, enlaces y acentos</p>
+                                                    <p className="text-xs text-slate-400 mt-1">{t('settingsBrandPrimaryDesc')}</p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         {/* Secondary Color */}
                                         <div className="space-y-4">
-                                            <label className="text-xs font-black uppercase tracking-widest text-slate-400">Color Secundario</label>
+                                            <label className="text-xs font-black uppercase tracking-widest text-slate-400">{t('settingsBrandSecondaryColor')}</label>
                                             <div className="flex items-center gap-4">
                                                 <div className="relative">
                                                     <input
@@ -379,7 +379,7 @@ export default function SettingsPage() {
                                                         className="w-full h-14 px-5 bg-slate-50 border border-slate-200 rounded-2xl font-mono font-bold text-slate-800 outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm uppercase"
                                                         maxLength={7}
                                                     />
-                                                    <p className="text-xs text-slate-400 mt-1">Usado en fondos y elementos secundarios</p>
+                                                    <p className="text-xs text-slate-400 mt-1">{t('settingsBrandSecondaryDesc')}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,7 +387,7 @@ export default function SettingsPage() {
 
                                     {/* Live Preview */}
                                     <div className="mt-8 pt-8 border-t border-slate-100">
-                                        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Vista Previa</p>
+                                        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">{t('settingsBrandPreview')}</p>
                                         <div className="rounded-2xl overflow-hidden border border-slate-200">
                                             {/* Mock header */}
                                             <div className="h-14 flex items-center px-6 gap-4" style={{ backgroundColor: secondaryColor }}>
@@ -396,7 +396,7 @@ export default function SettingsPage() {
                                                 ) : (
                                                     <div className="w-8 h-8 rounded-lg bg-white/20" />
                                                 )}
-                                                <span className="text-white/80 font-bold text-sm">Mi Organización</span>
+                                                <span className="text-white/80 font-bold text-sm">{t('settingsBrandMockOrg')}</span>
                                             </div>
                                             {/* Mock content */}
                                             <div className="p-6 bg-slate-50 space-y-3">
@@ -410,10 +410,10 @@ export default function SettingsPage() {
                                                 </div>
                                                 <div className="flex gap-3 mt-4">
                                                     <button className="px-4 py-2 rounded-xl text-white text-xs font-bold" style={{ backgroundColor: primaryColor }}>
-                                                        Botón Primario
+                                                        {t('settingsBrandMockPrimaryBtn')}
                                                     </button>
                                                     <button className="px-4 py-2 rounded-xl text-xs font-bold border-2" style={{ borderColor: primaryColor, color: primaryColor }}>
-                                                        Botón Secundario
+                                                        {t('settingsBrandMockSecondaryBtn')}
                                                     </button>
                                                 </div>
                                             </div>
@@ -434,10 +434,10 @@ export default function SettingsPage() {
                                         {saving ? (
                                             <span className="flex items-center gap-3">
                                                 <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                Guardando...
+                                                {t('settingsBrandSaving')}
                                             </span>
                                         ) : (
-                                            'Guardar Marca'
+                                            t('settingsBrandSave')
                                         )}
                                     </GlassButton>
                                 </div>
@@ -496,29 +496,29 @@ export default function SettingsPage() {
                                             <Webhook size={24} />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-black tracking-tight text-slate-800">API & Integraciones</h3>
-                                            <p className="text-sm text-slate-400 font-medium">Gestiona el acceso para hardware externo y sistemas de terceros</p>
+                                            <h3 className="text-xl font-black tracking-tight text-slate-800">{t('settingsIntegrationsApiTitle')}</h3>
+                                            <p className="text-sm text-slate-400 font-medium">{t('settingsIntegrationsApiDesc')}</p>
                                         </div>
                                     </div>
 
                                     <div className="space-y-6">
                                         {/* API Key Card */}
                                         <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
-                                            <h4 className="font-bold text-slate-800 mb-2">Tu API Key Secreta</h4>
-                                            <p className="text-sm text-slate-500 mb-4">Usa esta llave para autenticar tus dispositivos IoT y lectores de placas.</p>
+                                            <h4 className="font-bold text-slate-800 mb-2">{t('settingsIntegrationsApiKeyTitle')}</h4>
+                                            <p className="text-sm text-slate-500 mb-4">{t('settingsIntegrationsApiKeyDesc')}</p>
 
                                             <div className="flex items-center gap-3">
                                                 <div className="flex-1 h-12 bg-white border border-slate-200 rounded-xl px-4 flex items-center font-mono text-sm text-slate-600 truncate">
-                                                    {tenant?.apiKey || 'No hay llave generada'}
+                                                    {tenant?.apiKey || t('settingsIntegrationsNoKey')}
                                                 </div>
                                                 <button
                                                     onClick={() => {
                                                         navigator.clipboard.writeText(tenant?.apiKey || '');
-                                                        toast.success('API Key copiada al portapapeles');
+                                                        toast.success(t('settingsToastApiKeyCopied'));
                                                     }}
                                                     className="h-12 px-4 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-colors font-medium text-sm"
                                                 >
-                                                    Copiar
+                                                    {t('settingsIntegrationsCopy')}
                                                 </button>
                                             </div>
                                         </div>
@@ -529,12 +529,12 @@ export default function SettingsPage() {
                                                 variant="secondary"
                                                 className="border-red-200 text-red-600 hover:bg-red-50"
                                             >
-                                                {tenant?.apiKey ? 'Rotar API Key' : 'Generar API Key'}
+                                                {tenant?.apiKey ? t('settingsIntegrationsRotate') : t('settingsIntegrationsGenerate')}
                                             </GlassButton>
                                         </div>
                                         {tenant?.apiKey && (
                                             <p className="text-xs text-red-400 text-right mt-2">
-                                                Rotar la llave invalidará la anterior inmediatamente.
+                                                {t('settingsIntegrationsWarning')}
                                             </p>
                                         )}
                                     </div>
@@ -548,12 +548,12 @@ export default function SettingsPage() {
                                                 <Database size={24} />
                                             </div>
                                             <div>
-                                                <h3 className="text-xl font-black tracking-tight text-slate-800">Hardware Conectado</h3>
-                                                <p className="text-sm text-slate-400 font-medium">Gestiona cámaras LPR, barreras y sensores IoT</p>
+                                                <h3 className="text-xl font-black tracking-tight text-slate-800">{t('settingsIntegrationsHardwareTitle')}</h3>
+                                                <p className="text-sm text-slate-400 font-medium">{t('settingsIntegrationsHardwareDesc')}</p>
                                             </div>
                                         </div>
                                         <GlassButton variant="primary" icon={Settings} glow>
-                                            Conectar Nuevo
+                                            {t('settingsIntegrationsConnectNew')}
                                         </GlassButton>
                                     </div>
 
@@ -562,9 +562,9 @@ export default function SettingsPage() {
                                         <div className="size-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                                             <Database size={32} className="text-slate-300" />
                                         </div>
-                                        <h4 className="text-slate-900 font-bold mb-1">No hay dispositivos conectados</h4>
+                                        <h4 className="text-slate-900 font-bold mb-1">{t('settingsIntegrationsNoDevices')}</h4>
                                         <p className="text-slate-400 text-sm max-w-sm mb-6">
-                                            Conecta tus dispositivos IoT usando el API Key generado arriba para verlos aquí.
+                                            {t('settingsIntegrationsConnectDesc')}
                                         </p>
                                         <div className="flex gap-2">
                                             <span className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono text-slate-500">LPR-CAM-01</span>

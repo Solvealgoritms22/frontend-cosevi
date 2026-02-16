@@ -21,15 +21,7 @@ import { SafeImage } from "@/components/ui/safe-image"
 
 const fetcher = (url: string) => api.get(url).then((res) => res.data)
 
-const visitSchema = z.object({
-    visitorName: z.string().min(3, "Name must be at least 3 characters"),
-    visitorIdNumber: z.string().min(5, "ID Number is required"),
-    licensePlate: z.string().min(4, "License plate is required"),
-    validFrom: z.string().min(1, "Start date is required"),
-    validUntil: z.string().min(1, "End date is required"),
-})
-
-type VisitFormValues = z.infer<typeof visitSchema>
+// Moved schema inside component to use translations
 
 interface Visit {
     id: string;
@@ -57,6 +49,16 @@ export default function VisitorsPage() {
     const { t, language } = useTranslation()
     const { data: visitsResponse, mutate, isLoading, error } = useSWR<{ data: Visit[], meta: any }>("/visits", fetcher)
     const { addNotification } = useNotifications()
+    const visitSchema = z.object({
+        visitorName: z.string().min(3, t('zodNameMin')),
+        visitorIdNumber: z.string().min(5, t('zodIdRequired')),
+        licensePlate: z.string().min(4, t('zodPlateRequired')),
+        validFrom: z.string().min(1, t('zodStartDateRequired')),
+        validUntil: z.string().min(1, t('zodEndDateRequired')),
+    })
+
+    type VisitFormValues = z.infer<typeof visitSchema>
+
     const { register, handleSubmit, reset, formState: { errors } } = useForm<VisitFormValues>({
         resolver: zodResolver(visitSchema),
         defaultValues: {
@@ -87,8 +89,8 @@ export default function VisitorsPage() {
         setCurrentPage(1)
     }, [searchQuery, statusFilter])
 
-    if (error) return <div className="p-8 text-red-600 italic font-bold">Failed to load access logs. Please verify connection.</div>
-    if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">Synchronizing with ENTRA Cloud...</div>
+    if (error) return <div className="p-8 text-red-600 italic font-bold">{t('errorLoadLogs')}</div>
+    if (isLoading) return <div className="p-8 text-slate-400 animate-pulse italic">{t('loadingSync')}</div>
 
     const visitsArray = visitsResponse?.data || []
 
@@ -105,10 +107,10 @@ export default function VisitorsPage() {
 
     const handleExportCSV = () => {
         if (filteredVisits.length === 0) {
-            addNotification({ title: 'Warning', message: 'No data to export', type: 'warning' })
+            addNotification({ title: t('warning') || 'Warning', message: t('noVisitsFound') || 'No data to export', type: 'warning' })
             return
         }
-        const headers = ['Visitor Name', 'ID Number', 'License Plate', 'Status', 'Host', 'Created At']
+        const headers = [t('csvVisitorName'), t('csvIdNumber'), t('csvLicensePlate'), t('csvStatus'), t('csvHost'), t('csvCreatedAt')]
         const csvContent = [
             headers.join(','),
             ...filteredVisits.map((v) => [
@@ -116,7 +118,7 @@ export default function VisitorsPage() {
                 `"${v.visitorIdNumber || ''}"`,
                 `"${v.licensePlate || ''}"`,
                 `"${v.status || ''}"`,
-                `"${v.host?.name || 'Self-check'}"`,
+                `"${v.host?.name || t('selfCheck')}"`,
                 `"${new Date(v.createdAt).toLocaleString()}"`
             ].join(','))
         ].join('\n')
@@ -125,7 +127,7 @@ export default function VisitorsPage() {
         link.href = URL.createObjectURL(blob)
         link.download = `visitors_export_${new Date().toISOString().split('T')[0]}.csv`
         link.click()
-        addNotification({ title: 'Success', message: `Exported ${filteredVisits.length} records`, type: 'success' })
+        addNotification({ title: t('success') || 'Success', message: `${t('exportedRecords')} ${filteredVisits.length}`, type: 'success' })
     }
 
     const handleCreateVisit = async (data: VisitFormValues) => {
@@ -137,12 +139,12 @@ export default function VisitorsPage() {
                 validFrom: new Date(data.validFrom).toISOString(),
                 validUntil: new Date(data.validUntil).toISOString(),
             })
-            addNotification({ title: 'Success', message: 'Visit created successfully', type: 'success' })
+            addNotification({ title: t('success') || 'Success', message: t('visitCreated'), type: 'success' })
             setIsCreateModalOpen(false)
             mutate()
             reset()
         } catch (error: any) {
-            addNotification({ title: 'Error', message: error.response?.data?.message || 'Failed to create visit', type: 'error' })
+            addNotification({ title: t('error') || 'Error', message: error.response?.data?.message || t('visitCreateError'), type: 'error' })
         } finally {
             setIsSubmitting(false)
         }
@@ -151,10 +153,10 @@ export default function VisitorsPage() {
     const handleDeleteVisit = async (id: string) => {
         try {
             await api.delete(`/visits/${id}`)
-            addNotification({ title: 'Success', message: 'Visit deleted', type: 'success' })
+            addNotification({ title: t('success') || 'Success', message: t('visitDeleted'), type: 'success' })
             mutate()
         } catch (error: any) {
-            addNotification({ title: 'Error', message: error.response?.data?.message || 'Failed to delete visit', type: 'error' })
+            addNotification({ title: t('error') || 'Error', message: error.response?.data?.message || t('visitDeleteError'), type: 'error' })
         }
     }
 
@@ -212,7 +214,7 @@ export default function VisitorsPage() {
                                 )}
                             >
                                 <Filter size={24} className={statusFilter !== 'ALL' ? "text-blue-500" : "text-slate-500"} />
-                                <span className="sm:hidden ml-3 text-xs font-black uppercase tracking-widest text-slate-500">Filter</span>
+                                <span className="sm:hidden ml-3 text-xs font-black uppercase tracking-widest text-slate-500">{t('filterMobile')}</span>
                             </button>
                             {showFilterDropdown && (
                                 <div className="absolute right-0 top-full mt-6 z-50 bg-white rounded-[2.5rem] shadow-2xl p-4 min-w-[240px] border border-slate-100 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -229,7 +231,11 @@ export default function VisitorsPage() {
                                                     statusFilter === status ? "bg-blue-50 text-blue-600 shadow-sm" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 "
                                                 )}
                                             >
-                                                {status === 'ALL' ? t('allActivity') : status.replace('_', ' ')}
+                                                {status === 'ALL' ? t('allActivity') :
+                                                    status === 'PENDING' ? t('statusPending') :
+                                                        status === 'CHECKED_IN' ? t('statusCheckedIn') :
+                                                            status === 'CHECKED_OUT' ? t('statusCheckedOut') :
+                                                                status}
                                             </button>
                                         ))}
                                     </div>
@@ -276,11 +282,17 @@ export default function VisitorsPage() {
                                                                     visit.status === 'PENDING' ? "bg-amber-50 text-amber-700 border-amber-100 " :
                                                                         "bg-red-50 text-red-700 border-red-100 "
                                                         )}>
-                                                            {visit.status.replace('_', ' ')}
+                                                            {visit.status === 'PENDING' ? t('statusPending') :
+                                                                visit.status === 'CHECKED_IN' ? t('statusCheckedIn') :
+                                                                    visit.status === 'CHECKED_OUT' ? t('statusCheckedOut') :
+                                                                        visit.status === 'APPROVED' ? t('statusApproved') :
+                                                                            visit.status === 'DENIED' ? t('statusDenied') :
+                                                                                visit.status === 'EXPIRED' ? t('statusExpired') :
+                                                                                    visit.status}
                                                         </span>
                                                         <div className="flex items-center gap-2 px-3 py-1 bg-slate-50/50 rounded-lg border border-slate-100/50">
                                                             <span className="text-fluid-label font-black text-slate-400 uppercase tracking-widest">{t('host')}:</span>
-                                                            <span className="text-fluid-label font-bold text-slate-600 uppercase tracking-tight truncate max-w-[80px] sm:max-w-none">{visit.host?.name || "Self-check"}</span>
+                                                            <span className="text-fluid-label font-bold text-slate-600 uppercase tracking-tight truncate max-w-[80px] sm:max-w-none">{visit.host?.name || t('selfCheck')}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -298,7 +310,13 @@ export default function VisitorsPage() {
                                                                 visit.status === 'PENDING' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                                                     "bg-red-50 text-red-600 border-red-100"
                                                     )}>
-                                                        {visit.status.replace('_', ' ')}
+                                                        {visit.status === 'PENDING' ? t('statusPending') :
+                                                            visit.status === 'CHECKED_IN' ? t('statusCheckedIn') :
+                                                                visit.status === 'CHECKED_OUT' ? t('statusCheckedOut') :
+                                                                    visit.status === 'APPROVED' ? t('statusApproved') :
+                                                                        visit.status === 'DENIED' ? t('statusDenied') :
+                                                                            visit.status === 'EXPIRED' ? t('statusExpired') :
+                                                                                visit.status}
                                                     </div>
                                                     <button
                                                         onClick={(e) => {
@@ -441,7 +459,13 @@ export default function VisitorsPage() {
                                             selectedVisit.status === 'PENDING' ? "bg-amber-50 text-amber-700 border-amber-100" :
                                                 "bg-red-50 text-red-700 border-red-100"
                                 )}>
-                                    {selectedVisit.status.replace('_', ' ')}
+                                    {selectedVisit.status === 'PENDING' ? t('statusPending') :
+                                        selectedVisit.status === 'CHECKED_IN' ? t('statusCheckedIn') :
+                                            selectedVisit.status === 'CHECKED_OUT' ? t('statusCheckedOut') :
+                                                selectedVisit.status === 'APPROVED' ? t('statusApproved') :
+                                                    selectedVisit.status === 'DENIED' ? t('statusDenied') :
+                                                        selectedVisit.status === 'EXPIRED' ? t('statusExpired') :
+                                                            selectedVisit.status}
                                 </span>
                             </div>
                             <div className="text-right">
@@ -469,7 +493,7 @@ export default function VisitorsPage() {
                             <div className="space-y-6">
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('host')}</span>
-                                    <p className="text-md font-bold text-slate-800 ">{selectedVisit.host?.name || "Self-check"}</p>
+                                    <p className="text-md font-bold text-slate-800 ">{selectedVisit.host?.name || t('selfCheck')}</p>
                                     <p className="text-xs text-slate-500">{selectedVisit.host?.email}</p>
                                 </div>
                                 <div className="space-y-1">

@@ -11,28 +11,28 @@ export default function MobileAppsPage() {
 
     const apps = [
         {
-            title: "Resident App",
-            role: "For Residents & Owners",
+            title: t('residentAppTitle'),
+            role: t('residentAppRole'),
             icon: User,
             color: "bg-blue-500",
             lightColor: "bg-blue-50",
             textColor: "text-blue-600",
             borderColor: "border-blue-100",
-            description: "Manage your visits, parking spots, and receive community alerts directly on your phone.",
-            features: ["Generate QR codes for visitors", "View assigned parking", "Receive security notifications"],
-            qrPlaceholderDetails: "Scan with Expo Go (Android) or Camera (iOS)"
+            description: t('residentAppDesc'),
+            features: [t('mobileAppsFeature1') || "Generate QR codes for visitors", t('mobileAppsFeature2') || "View assigned parking", t('mobileAppsFeature3') || "Receive security notifications"],
+            qrPlaceholderDetails: t('scanWithExpo') || "Scan with Expo Go (Android) or Camera (iOS)"
         },
         {
-            title: "Security App",
-            role: "For Guards & Security Personnel",
+            title: t('securityAppTitle'),
+            role: t('securityAppRole'),
             icon: ShieldCheck,
             color: "bg-emerald-500",
             lightColor: "bg-emerald-50",
             textColor: "text-emerald-600",
             borderColor: "border-emerald-100",
-            description: "Access control tools for verifying visitors and monitoring the premises in real-time.",
-            features: ["Scan visitor QR codes", "Log entries and exits", "Report incidents instantly"],
-            qrPlaceholderDetails: "Internal Security Use Only"
+            description: t('securityAppDesc'),
+            features: [t('mobileAppsFeature4') || "Scan visitor QR codes", t('mobileAppsFeature5') || "Log entries and exits", t('mobileAppsFeature6') || "Report incidents instantly"],
+            qrPlaceholderDetails: t('internalSecurityUse') || "Internal Security Use Only"
         }
     ];
 
@@ -51,10 +51,10 @@ export default function MobileAppsPage() {
                             <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Mobile Ecosystem</span>
                         </div>
                         <h1 className="text-4xl sm:text-5xl font-black text-slate-800 tracking-tighter">
-                            Download <span className="text-blue-500">Mobile Apps</span>
+                            {t('downloadApps')}
                         </h1>
                         <p className="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
-                            Access the full power of the platform on the go. Install the apps via Expo Go for development and testing.
+                            {t('mobileAppsSubtitle')}
                         </p>
                     </div>
 
@@ -63,11 +63,11 @@ export default function MobileAppsPage() {
                             <QrCode size={28} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-slate-800">How to install?</h3>
+                            <h3 className="font-bold text-slate-800">{t('howToInstall')}</h3>
                             <p className="text-sm text-slate-500 mt-1 leading-snug">
-                                1. Download <strong>Expo Go</strong> from App Store or Google Play.
+                                1. {t('installStep1')}
                                 <br />
-                                2. Scan the specialized QR codes below.
+                                2. {t('installStep2')}
                             </p>
                         </div>
                     </GlassCard>
@@ -154,8 +154,7 @@ export default function MobileAppsPage() {
             <div className="glass-panel p-6 rounded-3xl border border-white/60 bg-slate-50/50 flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
                 <Info size={24} className="text-slate-400" />
                 <p className="text-sm font-medium text-slate-500 max-w-2xl">
-                    For production deployments, verify you are using the correct release channels.
-                    These QR codes are intended for the <strong>development</strong> and <strong>staging</strong> environments via Expo Go.
+                    {t('mobileAppsPlatformInfo') || "For production deployments, verify you are using the correct release channels. These QR codes are intended for the development and staging environments via Expo Go."}
                 </p>
             </div>
         </motion.div>
