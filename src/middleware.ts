@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
     const isLandingPage = request.nextUrl.pathname === '/';
     const isKioskPage = request.nextUrl.pathname.startsWith('/kiosk');
 
-    const isPublicLegalPage = ['/privacy', '/terms', '/contact'].includes(request.nextUrl.pathname);
+    const isPublicLegalPage = ['/privacy', '/terms', '/contact', '/payment-success', '/payment-cancelled'].includes(request.nextUrl.pathname);
 
     // If trying to access admin pages without token, redirect to login
     // Allow root (landing), login, register, kiosk and legal pages
