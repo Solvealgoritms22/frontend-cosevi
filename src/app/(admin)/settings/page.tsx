@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/confirm-dialog"
 import { GlassButton } from "@/components/ui/glass-button"
 import { useTranslation } from "@/context/translation-context"
-import api, { API_BASE_URL } from "@/lib/api"
+import api, { API_BASE_URL, BASE_URL } from "@/lib/api"
 import { toast } from "sonner"
 import Image from "next/image"
 
@@ -149,7 +149,7 @@ export default function SettingsPage() {
     }
 
     const fullLogoUrl = logoUrl
-        ? logoUrl.startsWith('http') ? logoUrl : `${API_BASE_URL}${logoUrl}`
+        ? logoUrl.startsWith('http') ? logoUrl : `${BASE_URL}${logoUrl}`
         : null
 
     return (

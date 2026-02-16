@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { User, Shield } from "lucide-react";
-import { API_BASE_URL } from "@/lib/api";
+import { API_BASE_URL, BASE_URL } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/context/translation-context";
 
@@ -40,7 +40,7 @@ export function UserAvatar({
 
     const getImageUrl = (url: string) => {
         if (url.startsWith("http") || url.startsWith("data:")) return url;
-        return `${API_BASE_URL}${url}`;
+        return `${BASE_URL}${url}`;
     };
 
     if (src && !error) {

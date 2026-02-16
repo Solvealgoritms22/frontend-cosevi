@@ -22,7 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import api, { API_BASE_URL } from "@/lib/api";
+import api, { API_BASE_URL, BASE_URL } from "@/lib/api";
 import { useTranslation } from "@/context/translation-context";
 import { UserAvatar } from "@/components/user-avatar";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -103,7 +103,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             const saved = localStorage.getItem("cosevi_branding");
             if (saved) {
                 const b = JSON.parse(saved);
-                if (b.logoUrl) setCustomLogo(`${API_BASE_URL.replace('/api', '')}${b.logoUrl}`);
+                if (b.logoUrl) setCustomLogo(`${BASE_URL}${b.logoUrl}`);
                 if (b.name) setOrgName(b.name);
             }
         } catch { }
