@@ -5,6 +5,7 @@ import { AdminHeader } from "@/components/admin-header";
 import { Toaster } from "sonner";
 import { AdminFooter } from "@/components/admin-footer";
 import { AuthGuard } from "@/components/auth-guard";
+import { SubscriptionBanner } from "@/components/subscription-banner";
 import React, { useState } from "react";
 
 export default function AdminLayout({
@@ -16,6 +17,7 @@ export default function AdminLayout({
 
     return (
         <AuthGuard>
+            <SubscriptionBanner />
             <div className="flex h-screen overflow-hidden w-full relative sm:gap-6 p-1 sm:p-4 lg:p-6">
                 <AdminSidebar
                     isOpen={isSidebarOpen}

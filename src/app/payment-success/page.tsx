@@ -11,14 +11,15 @@ function PaymentSuccessContent() {
     const searchParams = useSearchParams();
     const registrationId = searchParams.get('registration');
     const paypalToken = searchParams.get('token');
+    const subscriptionId = searchParams.get('subscription_id');
 
     const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
     const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
-        if (!registrationId || !paypalToken) {
+        if (!registrationId || (!paypalToken && !subscriptionId)) {
             setStatus('error');
-            setErrorMsg('Datos de pago incompletos.');
+            setErrorMsg('Datos de pago o suscripción incompletos.');
             return;
         }
 
@@ -26,7 +27,7 @@ function PaymentSuccessContent() {
             try {
                 const res = await api.post('/registrations/confirm', {
                     registrationId,
-                    paypalToken,
+                    paypalToken: subscriptionId || paypalToken,
                 });
 
                 // Persist tenantId for the subsequent login
