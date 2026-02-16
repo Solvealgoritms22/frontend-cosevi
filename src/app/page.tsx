@@ -289,29 +289,29 @@ export default function LandingPage() {
                             <div className="absolute inset-0 bg-linear-to-tr from-[#2563eb]/20 to-[#2563eb]/20 rounded-full blur-[100px]" />
 
                             {/* Resident Card */}
-                            <div className="relative w-[320px] h-auto bg-[#1e293b] rounded-[40px] border-8 border-[#0f172a] shadow-2xl flex flex-col items-center p-8 z-10 -rotate-6 hover:rotate-0 transition-all duration-700 group hover:scale-105">
+                            <div className="relative w-[280px] md:w-[320px] h-auto bg-[#1e293b] rounded-[30px] md:rounded-[40px] border-4 md:border-8 border-[#0f172a] shadow-2xl flex flex-col items-center p-6 md:p-8 z-10 -rotate-3 md:-rotate-6 hover:rotate-0 transition-all duration-700 group hover:scale-105">
                                 {/* Glossy effect */}
                                 <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent rounded-[32px] pointer-events-none" />
 
                                 {/* Avatar */}
-                                <div className="w-24 h-24 rounded-full bg-[#2563eb] flex items-center justify-center mb-5 ring-8 ring-[#0f172a] shadow-lg relative z-10">
+                                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#2563eb] flex items-center justify-center mb-4 md:mb-5 ring-4 md:ring-8 ring-[#0f172a] shadow-lg relative z-10">
                                     <span className="text-3xl font-bold text-white">DL</span>
                                     <div className="absolute bottom-0 right-0 w-6 h-6 bg-emerald-500 border-4 border-[#0f172a] rounded-full" />
                                 </div>
 
                                 {/* User Info */}
                                 <div className="text-blue-400 text-xs font-black tracking-[0.2em] uppercase mb-2">RESIDENTE</div>
-                                <h3 className="text-2xl font-bold text-white mb-1">Damian Lopez</h3>
-                                <p className="text-slate-400 text-sm mb-6 font-medium">dlopez@cubs.com</p>
+                                <h3 className="text-xl md:text-2xl font-bold text-white mb-1">Damian Lopez</h3>
+                                <p className="text-slate-400 text-xs md:text-sm mb-4 md:mb-6 font-medium">dlopez@cubs.com</p>
 
                                 {/* Directory Tag */}
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-8 shadow-inner">
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs md:text-sm font-bold mb-6 md:mb-8 shadow-inner">
                                     <Building2 size={16} />
                                     <span>Torre A - 402</span>
                                 </div>
 
                                 {/* QR Code Container */}
-                                <div className="w-full aspect-square bg-white rounded-3xl p-4 flex items-center justify-center shadow-inner relative overflow-hidden group-hover:shadow-[0_0_30px_rgba(37,99,235,0.3)] transition-shadow duration-500">
+                                <div className="w-full aspect-square bg-white rounded-2xl md:rounded-3xl p-3 md:p-4 flex items-center justify-center shadow-inner relative overflow-hidden group-hover:shadow-[0_0_30px_rgba(37,99,235,0.3)] transition-shadow duration-500">
                                     <div className="absolute inset-0 bg-linear-to-tr from-blue-50 to-transparent opacity-50" />
                                     {/* Using a clear QR code image */}
                                     <img

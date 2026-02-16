@@ -3,21 +3,19 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
-    const isLoginPage = request.nextUrl.pathname === '/login';
-    const isRegisterPage = request.nextUrl.pathname === '/register';
+    const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password'].includes(request.nextUrl.pathname);
     const isLandingPage = request.nextUrl.pathname === '/';
     const isKioskPage = request.nextUrl.pathname.startsWith('/kiosk');
-
     const isPublicLegalPage = ['/privacy', '/terms', '/contact', '/payment-success', '/payment-cancelled'].includes(request.nextUrl.pathname);
 
     // If trying to access admin pages without token, redirect to login
-    // Allow root (landing), login, register, kiosk and legal pages
-    if (!token && !isLoginPage && !isRegisterPage && !isKioskPage && !isLandingPage && !isPublicLegalPage) {
+    // Allow root (landing), auth pages, kiosk and legal pages
+    if (!token && !isAuthPage && !isKioskPage && !isLandingPage && !isPublicLegalPage) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // If logged in and trying to access login page, redirect to dashboard
-    if (token && isLoginPage) {
+    // If logged in and trying to access auth pages, redirect to dashboard
+    if (token && isAuthPage) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
