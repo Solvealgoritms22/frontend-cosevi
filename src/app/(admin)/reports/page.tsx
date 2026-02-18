@@ -163,7 +163,7 @@ export default function ReportsPage() {
                         ))}
                     </div>
                 </GlassCard>
-            </div >
+            </div>
 
             <div className="glass-panel border-white/60 bg-linear-to-br from-blue-500/10 to-blue-600/5 rounded-4xl p-6 sm:p-10 flex flex-col xl:flex-row items-center justify-between gap-10 shadow-2xl mx-4">
                 <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
@@ -189,6 +189,6 @@ export default function ReportsPage() {
                     {t('reportsReviewInsights')}
                 </GlassButton>
             </div>
-        </motion.div >
+        </motion.div>
     )
 }
