@@ -177,12 +177,12 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                 </div>
 
                 <nav className="flex-1 px-3 py-2 space-y-2 overflow-y-auto custom-scrollbar">
-                    {items.map((item) => {
-                        const isActive = pathname === item.href;
-                        const Icon = item.icon;
-                        return (
-                            <TooltipProvider key={item.href} delayDuration={0}>
-                                <Tooltip>
+                    <TooltipProvider delayDuration={500}>
+                        {items.map((item) => {
+                            const isActive = pathname === item.href;
+                            const Icon = item.icon;
+                            return (
+                                <Tooltip key={item.href} delayDuration={500}>
                                     <TooltipTrigger asChild>
                                         <Link
                                             href={item.href}
@@ -215,14 +215,14 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                         </Link>
                                     </TooltipTrigger>
                                     {collapsed && (
-                                        <TooltipContent side="right" className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                        <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
                                             <p>{item.title}</p>
                                         </TooltipContent>
                                     )}
                                 </Tooltip>
-                            </TooltipProvider>
-                        );
-                    })}
+                            );
+                        })}
+                    </TooltipProvider>
                 </nav>
 
                 <div
@@ -237,18 +237,23 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                             collapsed ? "justify-center flex-col" : ""
                         )}
                     >
-                        <div
-                            className="size-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-blue-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden"
-                            title={userName}
-                        >
-                            <UserAvatar
-                                src={user?.profileImage}
-                                name={userName}
-                                role={userRole}
-                                showInitials
-                                iconSize={16}
-                            />
-                        </div>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div className="size-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-blue-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden">
+                                    <UserAvatar
+                                        src={user?.profileImage}
+                                        name={userName}
+                                        role={userRole}
+                                        showInitials
+                                        iconSize={16}
+                                    />
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                <p>{userName}</p>
+                            </TooltipContent>
+                        </Tooltip>
+
                         {!collapsed && (
                             <div className="flex-1 min-w-0 overflow-hidden">
                                 <p className="text-sm font-semibold text-slate-800 truncate">
@@ -259,16 +264,23 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                 </p>
                             </div>
                         )}
-                        <button
-                            onClick={() => setShowLogoutConfirm(true)}
-                            className={cn(
-                                "flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all",
-                                collapsed ? "size-8 mt-2" : "size-8 shrink-0"
-                            )}
-                            title="Log out"
-                        >
-                            <LogOut size={16} />
-                        </button>
+
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => setShowLogoutConfirm(true)}
+                                    className={cn(
+                                        "flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all",
+                                        collapsed ? "size-8 mt-2" : "size-8 shrink-0"
+                                    )}
+                                >
+                                    <LogOut size={16} />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                <p>{t("logout") || "Cerrar Sesión"}</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 </div>
             </aside>
