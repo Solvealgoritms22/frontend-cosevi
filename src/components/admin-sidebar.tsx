@@ -132,52 +132,52 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     isMobile && (isOpen ? "translate-x-0" : "-translate-x-full")
                 )}
             >
-                <button
-                    onClick={() => setCollapsed(!collapsed)}
-                    className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-blue-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
-                >
-                    {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-                </button>
-
-                {isMobile && (
+                <TooltipProvider delayDuration={500}>
                     <button
-                        onClick={onClose}
-                        className="absolute top-4 right-4 p-2 rounded-lg bg-slate-100 text-slate-500 lg:hidden hover:text-slate-900 transition-colors"
+                        onClick={() => setCollapsed(!collapsed)}
+                        className="absolute -right-3 top-10 bg-white border border-slate-200 p-1 rounded-full shadow-md text-slate-500 hover:text-blue-600 hidden lg:flex items-center justify-center transition-transform hover:scale-110 z-40"
                     >
-                        <X size={20} />
+                        {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
                     </button>
-                )}
 
-                <div
-                    className={cn(
-                        "flex flex-col items-center gap-4 transition-all duration-300",
-                        collapsed ? "py-8 px-2" : "p-8"
+                    {isMobile && (
+                        <button
+                            onClick={onClose}
+                            className="absolute top-4 right-4 p-2 rounded-lg bg-slate-100 text-slate-500 lg:hidden hover:text-slate-900 transition-colors"
+                        >
+                            <X size={20} />
+                        </button>
                     )}
-                >
+
                     <div
                         className={cn(
-                            "relative flex items-center justify-center shrink-0 transition-all overflow-hidden",
-                            collapsed ? "size-10 my-4" : "w-40 h-24"
+                            "flex flex-col items-center gap-4 transition-all duration-300",
+                            collapsed ? "py-8 px-2" : "p-8"
                         )}
                     >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src={collapsed ? "/favicon.png" : (customLogo || "/logo-official.png")}
-                            alt={orgName}
-                            className="object-contain w-full h-full"
-                        />
-                    </div>
-                    {!collapsed && (
-                        <div className="text-center w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">
-                                {orgName}
-                            </p>
+                        <div
+                            className={cn(
+                                "relative flex items-center justify-center shrink-0 transition-all overflow-hidden",
+                                collapsed ? "size-10 my-4" : "w-40 h-24"
+                            )}
+                        >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={collapsed ? "/favicon.png" : (customLogo || "/logo-official.png")}
+                                alt={orgName}
+                                className="object-contain w-full h-full"
+                            />
                         </div>
-                    )}
-                </div>
+                        {!collapsed && (
+                            <div className="text-center w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">
+                                    {orgName}
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
-                <nav className="flex-1 px-3 py-2 space-y-2 overflow-y-auto custom-scrollbar">
-                    <TooltipProvider delayDuration={500}>
+                    <nav className="flex-1 px-3 py-2 space-y-2 overflow-y-auto custom-scrollbar">
                         {items.map((item) => {
                             const isActive = pathname === item.href;
                             const Icon = item.icon;
@@ -222,67 +222,67 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                 </Tooltip>
                             );
                         })}
-                    </TooltipProvider>
-                </nav>
+                    </nav>
 
-                <div
-                    className={cn(
-                        "p-4 border-t border-slate-100 bg-slate-50/50 lg:rounded-b-3xl",
-                        collapsed ? "px-2" : "px-4"
-                    )}
-                >
                     <div
                         className={cn(
-                            "flex items-center gap-3 transition-all",
-                            collapsed ? "justify-center flex-col" : ""
+                            "p-4 border-t border-slate-100 bg-slate-50/50 lg:rounded-b-3xl",
+                            collapsed ? "px-2" : "px-4"
                         )}
                     >
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <div className="size-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-blue-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden">
-                                    <UserAvatar
-                                        src={user?.profileImage}
-                                        name={userName}
-                                        role={userRole}
-                                        showInitials
-                                        iconSize={16}
-                                    />
+                        <div
+                            className={cn(
+                                "flex items-center gap-3 transition-all",
+                                collapsed ? "justify-center flex-col" : ""
+                            )}
+                        >
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="size-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-blue-700 font-bold text-xs ring-2 ring-white cursor-help overflow-hidden">
+                                        <UserAvatar
+                                            src={user?.profileImage}
+                                            name={userName}
+                                            role={userRole}
+                                            showInitials
+                                            iconSize={16}
+                                        />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                    <p>{userName}</p>
+                                </TooltipContent>
+                            </Tooltip>
+
+                            {!collapsed && (
+                                <div className="flex-1 min-w-0 overflow-hidden">
+                                    <p className="text-sm font-semibold text-slate-800 truncate">
+                                        {userName}
+                                    </p>
+                                    <p className="text-[10px] text-slate-500 font-medium truncate opacity-80">
+                                        {userRole}
+                                    </p>
                                 </div>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
-                                <p>{userName}</p>
-                            </TooltipContent>
-                        </Tooltip>
+                            )}
 
-                        {!collapsed && (
-                            <div className="flex-1 min-w-0 overflow-hidden">
-                                <p className="text-sm font-semibold text-slate-800 truncate">
-                                    {userName}
-                                </p>
-                                <p className="text-[10px] text-slate-500 font-medium truncate opacity-80">
-                                    {userRole}
-                                </p>
-                            </div>
-                        )}
-
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <button
-                                    onClick={() => setShowLogoutConfirm(true)}
-                                    className={cn(
-                                        "flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all",
-                                        collapsed ? "size-8 mt-2" : "size-8 shrink-0"
-                                    )}
-                                >
-                                    <LogOut size={16} />
-                                </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
-                                <p>{t("logout") || "Cerrar Sesión"}</p>
-                            </TooltipContent>
-                        </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        onClick={() => setShowLogoutConfirm(true)}
+                                        className={cn(
+                                            "flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all",
+                                            collapsed ? "size-8 mt-2" : "size-8 shrink-0"
+                                        )}
+                                    >
+                                        <LogOut size={16} />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent side="right" sideOffset={10} className="font-semibold bg-slate-800 border-slate-700 text-white shadow-xl">
+                                    <p>{t("logout") || "Cerrar Sesión"}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </div>
                     </div>
-                </div>
+                </TooltipProvider>
             </aside>
 
             <ConfirmDialog
