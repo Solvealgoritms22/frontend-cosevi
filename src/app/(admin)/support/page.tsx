@@ -49,7 +49,14 @@ export default function SupportPage() {
                         <h3 className="text-xl font-bold text-slate-800">{t('supportEmailTitle')}</h3>
                         <p className="text-slate-500 mt-2 font-medium">{t('supportEmailDesc')}</p>
                     </div>
-                    <GlassButton variant="secondary" className="w-full mt-auto" icon={Send}>{t('supportSendEmail')}</GlassButton>
+                    <GlassButton
+                        variant="secondary"
+                        className="w-full mt-auto"
+                        icon={Send}
+                        onClick={() => window.location.href = 'mailto:darlingf1998@gmail.com'}
+                    >
+                        {t('supportSendEmail')}
+                    </GlassButton>
                 </GlassCard>
 
                 <GlassCard className="p-8 text-center flex flex-col items-center gap-6 border-white/60 hover:-translate-y-1 transition-transform duration-300">
@@ -60,7 +67,14 @@ export default function SupportPage() {
                         <h3 className="text-xl font-bold text-slate-800">{t('supportPriorityTitle')}</h3>
                         <p className="text-slate-500 mt-2 font-medium">{t('supportPriorityDesc')}</p>
                     </div>
-                    <GlassButton variant="ghost" className="w-full mt-auto border border-slate-200" icon={Phone}>+1 (800) 123-4567</GlassButton>
+                    <GlassButton
+                        variant="ghost"
+                        className="w-full mt-auto border border-slate-200"
+                        icon={Phone}
+                        onClick={() => window.location.href = 'tel:+18094017444'}
+                    >
+                        +1 (809) 401-7444
+                    </GlassButton>
                 </GlassCard>
             </div>
 

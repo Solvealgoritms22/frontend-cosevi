@@ -21,6 +21,9 @@ import {
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useTranslation } from '@/context/translation-context';
+import { ConfirmDialog } from '@/components/confirm-dialog';
+import { toast } from 'sonner';
+import { XCircle } from 'lucide-react';
 
 interface UsageResource {
     current: number;
@@ -138,19 +141,41 @@ export default function BillingPage() {
     const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
     const [invoices, setInvoices] = useState<InvoiceData[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+    const [cancelling, setCancelling] = useState(false);
 
     useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = () => {
+        setLoading(true);
         Promise.all([
-            api.get('/billing/usage').then(r => r.data).catch(() => null),
-            api.get('/billing/subscription').then(r => r.data).catch(() => null),
-            api.get('/billing/invoices').then(r => r.data).catch(() => []),
+            api.get('/billing/usage').then((r: any) => r.data).catch(() => null),
+            api.get('/billing/subscription').then((r: any) => r.data).catch(() => null),
+            api.get('/billing/invoices').then((r: any) => r.data).catch(() => []),
         ]).then(([u, s, i]) => {
             setUsage(u);
             setSubscription(s);
             setInvoices(i);
             setLoading(false);
         });
-    }, []);
+    };
+
+    const handleCancelSubscription = async () => {
+        setCancelling(true);
+        try {
+            await api.patch('/billing/cancel-subscription');
+            toast.success(t('subscriptionCancelledSuccess'));
+            loadData();
+        } catch (error) {
+            toast.error(t('subscriptionCancelledError'));
+            console.error('Cancellation error:', error);
+        } finally {
+            setCancelling(false);
+            setIsCancelDialogOpen(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -193,6 +218,16 @@ export default function BillingPage() {
                                     <span className="text-slate-900">{subscription.daysRemaining}</span> {t('daysRemaining')}
                                 </span>
                             </div>
+
+                            {subscription.status !== 'CANCELLED' && (
+                                <button
+                                    onClick={() => setIsCancelDialogOpen(true)}
+                                    className="mt-4 w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors"
+                                >
+                                    <XCircle size={14} />
+                                    {t('cancelSubscription')}
+                                </button>
+                            )}
                         </div>
                     </motion.div>
                 )}
@@ -303,6 +338,17 @@ export default function BillingPage() {
                     </div>
                 )}
             </div>
+
+            <ConfirmDialog
+                isOpen={isCancelDialogOpen}
+                onClose={() => setIsCancelDialogOpen(false)}
+                onConfirm={handleCancelSubscription}
+                title={t('cancelSubscriptionConfirmTitle')}
+                message={t('cancelSubscriptionConfirmMessage')}
+                confirmText={cancelling ? t('processing') : t('cancelSubscriptionAction')}
+                cancelText={t('cancel')}
+                variant="destructive"
+            />
         </div>
     );
 }

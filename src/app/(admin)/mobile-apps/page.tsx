@@ -164,7 +164,7 @@ export default function MobileAppsPage() {
             </div>
 
             {/* Platform Info */}
-            <div className="glass-panel hidden md:flex p-6 rounded-3xl border border-white/60 bg-slate-50/50 flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
+            <div className="glass-panel hidden p-6 rounded-3xl border border-white/60 bg-slate-50/50 flex-col items-center justify-center gap-6 text-center">
                 <Info size={24} className="text-slate-400" />
                 <p className="text-sm font-medium text-slate-500 max-w-2xl">
                     {t('mobileAppsPlatformInfo') || "For production deployments, verify you are using the correct release channels. These QR codes are intended for the development and staging environments via Expo Go."}

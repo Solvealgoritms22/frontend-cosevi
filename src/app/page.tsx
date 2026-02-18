@@ -60,6 +60,7 @@ export default function LandingPage() {
                 t('upTo15Guards'),
                 t('sosSystem'),
                 t('advancedReports'),
+                t('brandCustomization'),
                 t('prioritySupport'),
             ],
             isPopular: true,
