@@ -42,10 +42,10 @@ api.interceptors.response.use(
     }
 );
 
-export const uploadImage = async (file: File): Promise<string> => {
+export const uploadImage = async (file: File, type: 'profile-image' | 'visit-attachment' | 'logo' = 'profile-image'): Promise<string> => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await api.post('/uploads/profile-image', formData, {
+    const response = await api.post(`/uploads/${type}`, formData, {
         headers: {
             'Content-Type': undefined,
         },

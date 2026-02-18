@@ -3,7 +3,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { GlassButton } from "@/components/ui/glass-button";
 import { useTranslation } from "@/context/translation-context";
-import { Smartphone, ShieldCheck, User, QrCode, Download, ExternalLink, Info } from "lucide-react";
+import { Smartphone, ShieldCheck, User, Home, QrCode, Download, ExternalLink, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -14,7 +14,7 @@ export default function MobileAppsPage() {
         {
             title: t('residentAppTitle'),
             role: t('residentAppRole'),
-            icon: User,
+            icon: Home,
             color: "bg-emerald-500",
             lightColor: "bg-emerald-50",
             textColor: "text-emerald-600",
@@ -164,7 +164,7 @@ export default function MobileAppsPage() {
             </div>
 
             {/* Platform Info */}
-            <div className="glass-panel p-6 rounded-3xl border border-white/60 bg-slate-50/50 flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
+            <div className="glass-panel hidden md:flex p-6 rounded-3xl border border-white/60 bg-slate-50/50 flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
                 <Info size={24} className="text-slate-400" />
                 <p className="text-sm font-medium text-slate-500 max-w-2xl">
                     {t('mobileAppsPlatformInfo') || "For production deployments, verify you are using the correct release channels. These QR codes are intended for the development and staging environments via Expo Go."}
