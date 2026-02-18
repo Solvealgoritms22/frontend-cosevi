@@ -57,10 +57,32 @@ export default function UsersPage() {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [tenantInfo, setTenantInfo] = useState<any>(null);
 
     useEffect(() => {
         fetchUsers();
+        fetchProfile();
+        fetchTenant();
     }, []);
+
+    const fetchProfile = async () => {
+        try {
+            const response = await api.get("/auth/profile");
+            setCurrentUser(response.data);
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+        }
+    };
+
+    const fetchTenant = async () => {
+        try {
+            const response = await api.get("/tenants/me");
+            setTenantInfo(response.data);
+        } catch (error) {
+            console.error("Error fetching tenant info:", error);
+        }
+    };
 
     useEffect(() => {
         filterUsers();
@@ -264,6 +286,12 @@ export default function UsersPage() {
                                             <p className="text-sm font-bold text-slate-400 mt-1 opacity-80 break-all">
                                                 {user.email}
                                             </p>
+                                            {tenantInfo?.adminEmail === user.email && (
+                                                <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-500 text-white rounded-lg text-[9px] font-black uppercase tracking-tighter shadow-sm shadow-blue-500/20">
+                                                    <Shield size={10} />
+                                                    {t('primaryAdmin') || 'Admin Principal'}
+                                                </div>
+                                            )}
                                             <div className="flex flex-wrap gap-2 mt-4">
                                                 {user.idNumber && (
                                                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
@@ -332,7 +360,14 @@ export default function UsersPage() {
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(user)}
-                                                className="size-14 rounded-2xl bg-red-50 border border-transparent hover:border-red-100 hover:bg-white flex items-center justify-center text-red-400 transition-all duration-500 hover:shadow-lg hover:scale-105"
+                                                disabled={currentUser?.id === user.id || tenantInfo?.adminEmail === user.email}
+                                                className={cn(
+                                                    "size-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm",
+                                                    (currentUser?.id === user.id || tenantInfo?.adminEmail === user.email)
+                                                        ? "bg-slate-50 text-slate-300 cursor-not-allowed grayscale"
+                                                        : "bg-red-50 border border-transparent hover:border-red-100 hover:bg-white text-red-400 hover:shadow-lg hover:scale-105"
+                                                )}
+                                                title={currentUser?.id === user.id ? t('cannotDeleteSelf') || "No puedes eliminarte a ti mismo" : tenantInfo?.adminEmail === user.email ? "Dueño de la suscripción" : t('delete')}
                                             >
                                                 <Trash2 size={20} />
                                             </button>
