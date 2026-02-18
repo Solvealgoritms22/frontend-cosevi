@@ -18,6 +18,8 @@ import {
     ClipboardList,
     Bell,
     FileBarChart,
+    Printer,
+    ChevronLeft,
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useTranslation } from '@/context/translation-context';
@@ -142,7 +144,14 @@ export default function BillingPage() {
     const [invoices, setInvoices] = useState<InvoiceData[]>([]);
     const [loading, setLoading] = useState(true);
     const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+    const [isUpgradeDialogOpen, setIsUpgradeDialogOpen] = useState(false);
+    const [targetPlan, setTargetPlan] = useState<string | null>(null);
+    const [upgrading, setUpgrading] = useState(false);
     const [cancelling, setCancelling] = useState(false);
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         loadData();
@@ -162,19 +171,123 @@ export default function BillingPage() {
         });
     };
 
+    const handleUpgradeSubscription = async (plan: string) => {
+        setUpgrading(true);
+        try {
+            const response: any = await api.post('/billing/upgrade-subscription', { plan });
+            if (response.data.approvalUrl) {
+                toast.info(t('redirectingToPayPal'));
+                window.location.href = response.data.approvalUrl;
+            } else {
+                toast.success(t('upgradeSuccess'));
+                loadData();
+            }
+        } catch (error: any) {
+            toast.error(t('upgradeError'));
+            console.error('Upgrade error:', error);
+        } finally {
+            setUpgrading(false);
+            setIsUpgradeDialogOpen(false);
+        }
+    };
+
     const handleCancelSubscription = async () => {
         setCancelling(true);
         try {
             await api.patch('/billing/cancel-subscription');
             toast.success(t('subscriptionCancelledSuccess'));
             loadData();
-        } catch (error) {
-            toast.error(t('subscriptionCancelledError'));
+        } catch (error: any) {
+            const errorMsg = error.response?.data?.message || error.message;
+            if (errorMsg === 'CANCELLATION_BLOCKED_PENDING_DEBT') {
+                toast.error(t('cancellationBlockedPendingDebt'));
+            } else if (errorMsg === 'CANCELLATION_BLOCKED_OVERAGES') {
+                toast.error(t('cancellationBlockedOverages'));
+            } else {
+                toast.error(t('subscriptionCancelledError'));
+            }
             console.error('Cancellation error:', error);
         } finally {
             setCancelling(false);
             setIsCancelDialogOpen(false);
         }
+    };
+
+    const handlePrintInvoice = (inv: InvoiceData) => {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) return;
+
+        const date = new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', year: 'numeric' });
+
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Invoice - ${date}</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 40px; color: #333; }
+                        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 40px; }
+                        .logo { font-size: 24px; font-weight: bold; color: #4f46e5; }
+                        .invoice-info { text-align: right; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th { background: #f9fafb; text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+                        td { padding: 12px; border-bottom: 1px solid #eee; }
+                        .totals { margin-top: 40px; text-align: right; }
+                        .total-row { font-size: 18px; font-weight: bold; margin-top: 10px; }
+                        .footer { margin-top: 100px; font-size: 12px; color: #999; text-align: center; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="logo">ENTRAR</div>
+                        <div class="invoice-info">
+                            <h1 style="margin: 0; font-size: 20px;">INVOICE</h1>
+                            <p style="margin: 5px 0;">#${inv.id.slice(-8).toUpperCase()}</p>
+                            <p style="margin: 5px 0;">${date}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 40px;">
+                        <h3 style="margin-bottom: 10px;">Billing Details</h3>
+                        <p style="margin: 2px 0;">Status: <strong>${inv.status}</strong></p>
+                        <p style="margin: 2px 0;">Period: ${new Date(inv.billingPeriodStart).toLocaleDateString()} - ${new Date(inv.billingPeriodEnd).toLocaleDateString()}</p>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th style="text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base Plan Subscription</td>
+                                <td style="text-align: right;">$${inv.amount.toFixed(2)}</td>
+                            </tr>
+                            ${inv.overageAmount > 0 ? `
+                            <tr>
+                                <td>Resource Overages</td>
+                                <td style="text-align: right;">$${inv.overageAmount.toFixed(2)}</td>
+                            </tr>
+                            ` : ''}
+                        </tbody>
+                    </table>
+
+                    <div class="totals">
+                        <div class="total-row">Total: $${inv.totalAmount.toFixed(2)} USD</div>
+                    </div>
+
+                    <div class="footer">
+                        &copy; ${new Date().getFullYear()} ENTRAR. All rights reserved.
+                    </div>
+                    
+                    <script>
+                        window.onload = function() { window.print(); window.close(); }
+                    </script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
     };
 
     if (loading) {
@@ -219,15 +332,33 @@ export default function BillingPage() {
                                 </span>
                             </div>
 
-                            {subscription.status !== 'CANCELLED' && (
-                                <button
-                                    onClick={() => setIsCancelDialogOpen(true)}
-                                    className="mt-4 w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors"
-                                >
-                                    <XCircle size={14} />
-                                    {t('cancelSubscription')}
-                                </button>
-                            )}
+                            <div className="mt-4 flex flex-col gap-2">
+                                {subscription.status !== 'CANCELLED' && (
+                                    <>
+                                        {['starter', 'premium', 'elite']
+                                            .indexOf(subscription.plan.toLowerCase()) < 2 && (
+                                                <button
+                                                    onClick={() => {
+                                                        const nextPlan = subscription.plan.toLowerCase() === 'starter' ? 'premium' : 'elite';
+                                                        setTargetPlan(nextPlan);
+                                                        setIsUpgradeDialogOpen(true);
+                                                    }}
+                                                    className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm"
+                                                >
+                                                    <TrendingUp size={14} />
+                                                    {t('upgradePlan')}
+                                                </button>
+                                            )}
+                                        <button
+                                            onClick={() => setIsCancelDialogOpen(true)}
+                                            className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors"
+                                        >
+                                            <XCircle size={14} />
+                                            {t('cancelSubscription')}
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 )}
@@ -275,15 +406,61 @@ export default function BillingPage() {
 
             {/* Usage Bars */}
             {usage && (
-                <div>
-                    <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-
+                <div className="space-y-4">
+                    <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+                        {t('currentUsage')}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {Object.entries(usage.resources).map(([key, data]) => (
                             <UsageBar key={key} resource={key} data={data} t={t} />
                         ))}
                     </div>
+
+                    {/* Overage Rates Table */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-8 bg-blue-50/50 border border-blue-100 rounded-3xl p-6 md:p-8"
+                    >
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+                                    <div className="size-8 rounded-lg bg-blue-500 text-white flex items-center justify-center">
+                                        <TrendingUp size={18} />
+                                    </div>
+                                    {t('overageRatesTitle')}
+                                </h3>
+                                <p className="text-slate-500 font-medium text-sm mt-1">{t('overageRatesSubtitle')}</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {Object.entries(resourceLabels(t)).map(([key, info]) => {
+                                const rates: Record<string, string> = {
+                                    units: '1.50',
+                                    parking: '0.75',
+                                    monitors: '10.00',
+                                    security: '5.00',
+                                    visits: '0.25',
+                                    alerts: '0.50',
+                                    reports: '1.00',
+                                };
+                                return (
+                                    <div key={key} className="bg-white/60 border border-white rounded-2xl p-4 flex items-center gap-4">
+                                        <div className="size-10 rounded-xl flex items-center justify-center bg-white shadow-sm border border-slate-100">
+                                            <info.icon size={20} style={{ color: info.color }} />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-tight">{info.label}</p>
+                                            <p className="text-base font-black text-slate-700">
+                                                ${rates[key]} <span className="text-xs font-medium text-slate-400 capitalize">/ {t('unit')}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </motion.div>
                 </div>
             )}
 
@@ -299,45 +476,101 @@ export default function BillingPage() {
                         <p className="text-slate-400 font-medium">{t('noInvoices')}</p>
                     </div>
                 ) : (
-                    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="bg-slate-50/80 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
-                                    <th className="px-5 py-3">{t('period')}</th>
-                                    <th className="px-5 py-3">{t('basePlan')}</th>
-                                    <th className="px-5 py-3">{t('overage')}</th>
-                                    <th className="px-5 py-3">{t('total')}</th>
-                                    <th className="px-5 py-3">{t('billingStatus')}</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {invoices.map((inv) => (
-                                    <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-5 py-3 text-sm text-slate-700 font-medium">
-                                            {new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}
-                                        </td>
-                                        <td className="px-5 py-3 text-sm text-slate-600">${inv.amount.toFixed(2)}</td>
-                                        <td className="px-5 py-3 text-sm text-slate-600">
-                                            {inv.overageAmount > 0 ? (
-                                                <span className="text-red-600 font-bold">${inv.overageAmount.toFixed(2)}</span>
-                                            ) : (
-                                                '$0.00'
-                                            )}
-                                        </td>
-                                        <td className="px-5 py-3 text-sm font-bold text-slate-900">${inv.totalAmount.toFixed(2)}</td>
-                                        <td className="px-5 py-3">
-                                            <span className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${statusColors[inv.status] || 'bg-slate-100 text-slate-500'}`}>
-                                                {inv.status === 'PAID' && <CheckCircle size={10} />}
-                                                {inv.status}
-                                            </span>
-                                        </td>
+                    <div className="space-y-4">
+                        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="bg-slate-50/80 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
+                                        <th className="px-5 py-4">{t('period')}</th>
+                                        <th className="px-5 py-4">{t('basePlan')}</th>
+                                        <th className="px-5 py-4">{t('overage')}</th>
+                                        <th className="px-5 py-4">{t('total')}</th>
+                                        <th className="px-5 py-4">{t('billingStatus')}</th>
+                                        <th className="px-5 py-4 text-right"></th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {invoices
+                                        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                                        .map((inv) => (
+                                            <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors group">
+                                                <td className="px-5 py-4 text-sm text-slate-700 font-bold">
+                                                    {new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}
+                                                </td>
+                                                <td className="px-5 py-4 text-sm text-slate-600 font-medium">${inv.amount.toFixed(2)}</td>
+                                                <td className="px-5 py-4 text-sm text-slate-600">
+                                                    {inv.overageAmount > 0 ? (
+                                                        <span className="text-red-600 font-bold">${inv.overageAmount.toFixed(2)}</span>
+                                                    ) : (
+                                                        '$0.00'
+                                                    )}
+                                                </td>
+                                                <td className="px-5 py-4 text-sm font-black text-slate-900">${inv.totalAmount.toFixed(2)}</td>
+                                                <td className="px-5 py-4">
+                                                    <span className={`inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${statusColors[inv.status] || 'bg-slate-100 text-slate-500'}`}>
+                                                        {inv.status === 'PAID' && <CheckCircle size={10} />}
+                                                        {inv.status}
+                                                    </span>
+                                                </td>
+                                                <td className="px-5 py-4 text-right">
+                                                    <button
+                                                        onClick={() => handlePrintInvoice(inv)}
+                                                        className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all active:scale-90"
+                                                        title={t('printInvoice')}
+                                                    >
+                                                        <Printer size={18} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Pagination Controls */}
+                        {invoices.length > itemsPerPage && (
+                            <div className="flex items-center justify-between px-2 py-4">
+                                <p className="text-xs font-bold text-slate-400 italic">
+                                    {t('showing')} <span className="text-slate-900">{(currentPage - 1) * itemsPerPage + 1}</span> - <span className="text-slate-900">{Math.min(currentPage * itemsPerPage, invoices.length)}</span> {t('of')} <span className="text-slate-900">{invoices.length}</span>
+                                </p>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        <ChevronLeft size={14} />
+                                        {t('previous')}
+                                    </button>
+                                    <div className="flex items-center px-4 bg-slate-50 rounded-xl border border-slate-100">
+                                        <span className="text-xs font-black text-slate-900">
+                                            {t('page')} {currentPage} {t('of')} {Math.ceil(invoices.length / itemsPerPage)}
+                                        </span>
+                                    </div>
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.min(Math.ceil(invoices.length / itemsPerPage), p + 1))}
+                                        disabled={currentPage === Math.ceil(invoices.length / itemsPerPage)}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        {t('next')}
+                                        <ChevronRight size={14} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
+
+            <ConfirmDialog
+                isOpen={isUpgradeDialogOpen}
+                onClose={() => setIsUpgradeDialogOpen(false)}
+                onConfirm={() => targetPlan && handleUpgradeSubscription(targetPlan)}
+                title={t('upgradePlanConfirmTitle')}
+                message={t('upgradePlanConfirmMessage').replace('{plan}', targetPlan || '')}
+                confirmText={upgrading ? t('upgrading') : t('upgradePlanAction')}
+                cancelText={t('cancel')}
+            />
 
             <ConfirmDialog
                 isOpen={isCancelDialogOpen}
