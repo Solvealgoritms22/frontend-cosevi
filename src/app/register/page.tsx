@@ -268,7 +268,7 @@ function RegisterForm() {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Confirmar Contraseña</label>
                                 <div className="relative">
-                                    <ShieldCheck className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                    <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                     <input
                                         type="password"
                                         required
