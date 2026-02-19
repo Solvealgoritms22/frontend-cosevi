@@ -290,7 +290,9 @@ export default function BillingPage() {
                 </head>
                 <body>
                     <div class="header">
-                        <div class="logo">ENTRAR</div>
+                        <div class="logo">
+                            <img src="/logo-landing.png" alt="ENTRAR" style="height: 50px; width: auto; display: block;" />
+                        </div>
                         <div class="invoice-info">
                             <h1 style="margin: 0; font-size: 20px;">INVOICE</h1>
                             <p style="margin: 5px 0;">#${inv.id.slice(-8).toUpperCase()}</p>
@@ -506,13 +508,13 @@ export default function BillingPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {Object.entries(resourceLabels(t)).map(([key, info]) => {
                                 const rates: Record<string, string> = {
-                                    units: '1.50',
-                                    parking: '0.75',
-                                    monitors: '10.00',
-                                    security: '5.00',
-                                    visits: '0.25',
-                                    alerts: '0.50',
-                                    reports: '1.00',
+                                    units: '0.25',
+                                    parking: '0.10',
+                                    monitors: '1.00',
+                                    security: '0.50',
+                                    visits: '0.01',
+                                    alerts: '0.02',
+                                    reports: '0.05',
                                 };
                                 return (
                                     <div key={key} className="bg-white/60 border border-white rounded-2xl p-4 flex items-center gap-4">
@@ -547,53 +549,55 @@ export default function BillingPage() {
                 ) : (
                     <div className="space-y-4">
                         <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                            <table className="w-full">
-                                <thead>
-                                    <tr className="bg-slate-50/80 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
-                                        <th className="px-5 py-4">{t('period')}</th>
-                                        <th className="px-5 py-4">{t('basePlan')}</th>
-                                        <th className="px-5 py-4">{t('overage')}</th>
-                                        <th className="px-5 py-4">{t('total')}</th>
-                                        <th className="px-5 py-4">{t('billingStatus')}</th>
-                                        <th className="px-5 py-4 text-right"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {invoices
-                                        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-                                        .map((inv) => (
-                                            <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors group">
-                                                <td className="px-5 py-4 text-sm text-slate-700 font-bold">
-                                                    {new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}
-                                                </td>
-                                                <td className="px-5 py-4 text-sm text-slate-600 font-medium">${inv.amount.toFixed(2)}</td>
-                                                <td className="px-5 py-4 text-sm text-slate-600">
-                                                    {inv.overageAmount > 0 ? (
-                                                        <span className="text-red-600 font-bold">${inv.overageAmount.toFixed(2)}</span>
-                                                    ) : (
-                                                        '$0.00'
-                                                    )}
-                                                </td>
-                                                <td className="px-5 py-4 text-sm font-black text-slate-900">${inv.totalAmount.toFixed(2)}</td>
-                                                <td className="px-5 py-4">
-                                                    <span className={`inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${statusColors[inv.status] || 'bg-slate-100 text-slate-500'}`}>
-                                                        {inv.status === 'PAID' && <CheckCircle size={10} />}
-                                                        {inv.status}
-                                                    </span>
-                                                </td>
-                                                <td className="px-5 py-4 text-right">
-                                                    <button
-                                                        onClick={() => handlePrintInvoice(inv)}
-                                                        className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all active:scale-90"
-                                                        title={t('printInvoice')}
-                                                    >
-                                                        <Printer size={18} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </table>
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="bg-slate-50/80 text-left text-xs font-bold uppercase tracking-wider text-slate-400 whitespace-nowrap">
+                                            <th className="px-5 py-4">{t('period')}</th>
+                                            <th className="px-5 py-4">{t('basePlan')}</th>
+                                            <th className="px-5 py-4">{t('overage')}</th>
+                                            <th className="px-5 py-4">{t('total')}</th>
+                                            <th className="px-5 py-4">{t('billingStatus')}</th>
+                                            <th className="px-4 py-4 text-right"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100 whitespace-nowrap">
+                                        {invoices
+                                            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                                            .map((inv) => (
+                                                <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors group">
+                                                    <td className="px-5 py-4 text-sm text-slate-700 font-bold">
+                                                        {new Date(inv.billingPeriodStart).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', year: 'numeric' })}
+                                                    </td>
+                                                    <td className="px-5 py-4 text-sm text-slate-600 font-medium">${inv.amount.toFixed(2)}</td>
+                                                    <td className="px-5 py-4 text-sm text-slate-600">
+                                                        {inv.overageAmount > 0 ? (
+                                                            <span className="text-red-600 font-bold">${inv.overageAmount.toFixed(2)}</span>
+                                                        ) : (
+                                                            '$0.00'
+                                                        )}
+                                                    </td>
+                                                    <td className="px-5 py-4 text-sm font-black text-slate-900">${inv.totalAmount.toFixed(2)}</td>
+                                                    <td className="px-5 py-4">
+                                                        <span className={`inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${statusColors[inv.status] || 'bg-slate-100 text-slate-500'}`}>
+                                                            {inv.status === 'PAID' && <CheckCircle size={10} />}
+                                                            {inv.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-5 py-4 text-right">
+                                                        <button
+                                                            onClick={() => handlePrintInvoice(inv)}
+                                                            className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all active:scale-90"
+                                                            title={t('printInvoice')}
+                                                        >
+                                                            <Printer size={18} />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         {/* Pagination Controls */}

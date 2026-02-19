@@ -21,7 +21,7 @@ export default function TermsPage() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src="/logo-landing.png"
-                                    alt="ENTRA"
+                                    alt="ENTRAR"
                                     className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
                                 />
                             </div>
