@@ -162,19 +162,39 @@ export default function BillingPage() {
     const itemsPerPage = 5;
 
     useEffect(() => {
-        loadData();
-
         const reactivated = searchParams.get('reactivated');
         const cancelled = searchParams.get('cancelled');
+        const subscriptionId = searchParams.get('subscription_id');
+
+        const finalizeReactivation = async (id: string) => {
+            try {
+                await api.post('/billing/finalize-reactivation', {
+                    paypalSubscriptionId: id
+                });
+                toast.success('Your subscription has been successfully reactivated!');
+                // Wait a bit and reload data to reflect the ACTIVE status
+                setTimeout(() => loadData(), 500);
+            } catch (err) {
+                console.error('Failed to finalize reactivation:', err);
+                toast.error('Reactivation successful on PayPal, but sync failed. Please refresh.');
+            }
+        };
 
         if (reactivated === 'true') {
-            toast.success('Your subscription has been successfully reactivated!');
+            if (subscriptionId) {
+                finalizeReactivation(subscriptionId);
+            } else {
+                toast.success('Your subscription reactivation process has completed!');
+                loadData();
+            }
             // Clean URL
             router.replace('/billing');
         } else if (cancelled === 'true') {
             toast.info('Reactivation process was cancelled.');
             router.replace('/billing');
         }
+
+        loadData();
     }, [searchParams]);
 
     const loadData = () => {
