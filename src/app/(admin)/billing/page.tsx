@@ -151,10 +151,10 @@ export default function BillingPage() {
     const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
     const [invoices, setInvoices] = useState<InvoiceData[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
-    const [isUpgradeDialogOpen, setIsUpgradeDialogOpen] = useState(false);
     const [targetPlan, setTargetPlan] = useState<string | null>(null);
-    const [upgrading, setUpgrading] = useState(false);
+    const [isChangePlanDialogOpen, setIsChangePlanDialogOpen] = useState(false);
+    const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+    const [changingPlan, setChangingPlan] = useState(false);
     const [cancelling, setCancelling] = useState(false);
 
     // Pagination state
@@ -213,33 +213,33 @@ export default function BillingPage() {
         });
     };
 
-    const handleUpgradeSubscription = async (plan: string) => {
-        setUpgrading(true);
+    const handleChangeSubscription = async (plan: string) => {
+        setChangingPlan(true);
         try {
-            const response: any = await api.post('/billing/upgrade-subscription', { plan });
+            const response: any = await api.post('/billing/change-subscription', { plan });
             if (response.data.approvalUrl) {
                 toast.info(t('redirectingToPayPal'));
                 window.location.href = response.data.approvalUrl;
             } else {
-                toast.success(t('upgradeSuccess'));
+                toast.success(t('changeSuccess'));
                 loadData();
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message || error.message;
             if (errorMsg === 'UPGRADE_BLOCKED_MANUAL_PLAN') {
                 toast.error(t('upgradeBlockedManualPlan'));
-            } else if (errorMsg === 'You can only upgrade to a higher tier plan') {
+            } else if (errorMsg === 'Target plan is already active') {
                 toast.info('Your plan has already been updated. Refreshing...');
                 loadData();
             } else if (errorMsg === 'Invalid target plan') {
                 toast.error(errorMsg);
             } else {
-                toast.error(t('upgradeError'));
+                toast.error(t('changeError'));
             }
-            console.error('Upgrade error:', error);
+            console.error('Plan change error:', error);
         } finally {
-            setUpgrading(false);
-            setIsUpgradeDialogOpen(false);
+            setChangingPlan(false);
+            setIsChangePlanDialogOpen(false);
         }
     };
 
@@ -431,19 +431,13 @@ export default function BillingPage() {
                                     </button>
                                 ) : (
                                     <>
-                                        {['starter', 'premium', 'elite'].indexOf(subscription.plan.toLowerCase()) < 2 && (
-                                            <button
-                                                onClick={() => {
-                                                    const nextPlan = subscription.plan.toLowerCase() === 'starter' ? 'premium' : 'elite';
-                                                    setTargetPlan(nextPlan);
-                                                    setIsUpgradeDialogOpen(true);
-                                                }}
-                                                className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm"
-                                            >
-                                                <TrendingUp size={14} />
-                                                {t('upgradePlan')}
-                                            </button>
-                                        )}
+                                        <button
+                                            onClick={() => setIsChangePlanDialogOpen(true)}
+                                            className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm"
+                                        >
+                                            <TrendingUp size={14} />
+                                            {t('changePlan')}
+                                        </button>
                                         <button
                                             onClick={() => setIsCancelDialogOpen(true)}
                                             className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors"
@@ -660,13 +654,48 @@ export default function BillingPage() {
             </div>
 
             <ConfirmDialog
-                isOpen={isUpgradeDialogOpen}
-                onClose={() => setIsUpgradeDialogOpen(false)}
-                onConfirm={() => targetPlan && handleUpgradeSubscription(targetPlan)}
-                title={t('upgradePlanConfirmTitle')}
-                message={t('upgradePlanConfirmMessage').replace('{plan}', targetPlan || '')}
-                confirmText={upgrading ? t('upgrading') : t('upgradePlanAction')}
+                isOpen={isChangePlanDialogOpen}
+                onClose={() => {
+                    setIsChangePlanDialogOpen(false);
+                    setTargetPlan(null);
+                }}
+                onConfirm={() => targetPlan && handleChangeSubscription(targetPlan)}
+                title={t('changePlanConfirmTitle')}
+                message={
+                    <div className="space-y-4">
+                        <p className="text-sm text-slate-500">{t('selectPlan')}:</p>
+                        <div className="grid grid-cols-1 gap-2">
+                            {['starter', 'premium', 'elite'].map((plan) => {
+                                const isCurrent = plan === subscription?.plan.toLowerCase();
+                                return (
+                                    <button
+                                        key={plan}
+                                        onClick={() => setTargetPlan(plan)}
+                                        disabled={isCurrent}
+                                        className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all ${targetPlan === plan
+                                            ? 'border-indigo-600 bg-indigo-50 ring-2 ring-indigo-600/20'
+                                            : isCurrent
+                                                ? 'border-slate-100 bg-slate-50 opacity-60 cursor-not-allowed'
+                                                : 'border-slate-100 hover:border-indigo-200'
+                                            }`}
+                                    >
+                                        <span className="capitalize font-bold text-slate-900">{plan}</span>
+                                        {isCurrent && <span className="text-[10px] font-black uppercase text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{t('currentPlanLabel')}</span>}
+                                        {targetPlan === plan && <CheckCircle className="text-indigo-600" size={16} />}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {targetPlan && (
+                            <p className="text-xs text-amber-600 font-medium pt-2 border-t border-slate-100">
+                                {t('changePlanConfirmMessage').replace('{plan}', targetPlan)}
+                            </p>
+                        )}
+                    </div>
+                }
+                confirmText={changingPlan ? t('changingPlan') : t('changePlanAction')}
                 cancelText={t('cancel')}
+                disabledConfirm={!targetPlan || changingPlan}
             />
 
             <ConfirmDialog

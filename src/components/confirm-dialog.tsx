@@ -16,10 +16,11 @@ interface ConfirmDialogProps {
     onClose: () => void;
     onConfirm: () => void;
     title: string;
-    message: string;
+    message: React.ReactNode;
     confirmText?: string;
     cancelText?: string;
     variant?: 'default' | 'destructive' | 'danger';
+    disabledConfirm?: boolean;
 }
 
 export function ConfirmDialog({
@@ -31,6 +32,7 @@ export function ConfirmDialog({
     confirmText = 'Confirm',
     cancelText = 'Cancel',
     variant = 'default',
+    disabledConfirm = false,
 }: ConfirmDialogProps) {
     const handleConfirm = () => {
         onConfirm();
@@ -54,8 +56,10 @@ export function ConfirmDialog({
                     </AlertDialogCancel>
                     <AlertDialogAction
                         onClick={handleConfirm}
+                        disabled={disabledConfirm}
                         className={cn(
                             "rounded-xl font-bold active:scale-95 transition-all px-8",
+                            disabledConfirm ? "opacity-50 cursor-not-allowed" : "",
                             variant === 'destructive' || variant === 'danger'
                                 ? 'bg-red-600 text-white hover:bg-red-700'
                                 : 'bg-blue-600 text-white hover:bg-blue-700'
