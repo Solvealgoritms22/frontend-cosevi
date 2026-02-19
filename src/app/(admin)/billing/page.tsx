@@ -183,7 +183,12 @@ export default function BillingPage() {
                 loadData();
             }
         } catch (error: any) {
-            toast.error(t('upgradeError'));
+            const errorMsg = error.response?.data?.message || error.message;
+            if (errorMsg === 'Invalid target plan' || errorMsg === 'You can only upgrade to a higher tier plan') {
+                toast.error(errorMsg);
+            } else {
+                toast.error(t('upgradeError'));
+            }
             console.error('Upgrade error:', error);
         } finally {
             setUpgrading(false);

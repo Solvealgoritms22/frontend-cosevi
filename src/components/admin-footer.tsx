@@ -31,7 +31,7 @@ export function AdminFooter() {
                 </div>
                 <div className="text-right">
                     <p className="text-[10px] font-medium text-slate-400">
-                        © 2026 Consejo de Seguridad Vial
+                        © 2026 ENTRAR. All rights reserved.
                     </p>
                 </div>
             </div>
