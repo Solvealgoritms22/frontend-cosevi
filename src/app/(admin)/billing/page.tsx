@@ -96,7 +96,7 @@ const statusColors: Record<string, string> = {
 function UsageBar({ resource, data, t }: { resource: string; data: UsageResource, t: any }) {
     const info = resourceLabels(t)[resource];
     const Icon = info.icon;
-    const pct = data.limit === Infinity || data.limit === 0 ? 0 : Math.min(100, data.percentage);
+    const pct = data.limit === null || data.limit === Infinity || data.limit === 0 ? 0 : Math.min(100, data.percentage);
     const isOver = data.extra > 0;
 
     return (
@@ -109,7 +109,9 @@ function UsageBar({ resource, data, t }: { resource: string; data: UsageResource
                     <div>
                         <p className="text-sm font-bold text-slate-700">{info.label}</p>
                         <p className="text-xs text-slate-400">
-                            {data.limit === Infinity ? data.current : `${data.current} / ${data.limit}`}
+                            {data.limit === Infinity || data.limit === null
+                                ? data.current
+                                : `${data.current} / ${data.limit}`}
                         </p>
                     </div>
                 </div>
