@@ -20,11 +20,13 @@ import {
     FileBarChart,
     Printer,
     ChevronLeft,
+    Repeat
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useTranslation } from '@/context/translation-context';
 import { ConfirmDialog } from '@/components/confirm-dialog';
 import { toast } from 'sonner';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { XCircle } from 'lucide-react';
 
 interface UsageResource {
@@ -139,6 +141,9 @@ function UsageBar({ resource, data, t }: { resource: string; data: UsageResource
 
 export default function BillingPage() {
     const { t, language } = useTranslation();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const [reactivating, setReactivating] = useState(false);
     const [usage, setUsage] = useState<UsageData | null>(null);
     const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
     const [invoices, setInvoices] = useState<InvoiceData[]>([]);
@@ -155,7 +160,19 @@ export default function BillingPage() {
 
     useEffect(() => {
         loadData();
-    }, []);
+
+        const reactivated = searchParams.get('reactivated');
+        const cancelled = searchParams.get('cancelled');
+
+        if (reactivated === 'true') {
+            toast.success('Your subscription has been successfully reactivated!');
+            // Clean URL
+            router.replace('/billing');
+        } else if (cancelled === 'true') {
+            toast.info('Reactivation process was cancelled.');
+            router.replace('/billing');
+        }
+    }, [searchParams]);
 
     const loadData = () => {
         setLoading(true);
@@ -186,7 +203,10 @@ export default function BillingPage() {
             const errorMsg = error.response?.data?.message || error.message;
             if (errorMsg === 'UPGRADE_BLOCKED_MANUAL_PLAN') {
                 toast.error(t('upgradeBlockedManualPlan'));
-            } else if (errorMsg === 'Invalid target plan' || errorMsg === 'You can only upgrade to a higher tier plan') {
+            } else if (errorMsg === 'You can only upgrade to a higher tier plan') {
+                toast.info('Your plan has already been updated. Refreshing...');
+                loadData();
+            } else if (errorMsg === 'Invalid target plan') {
                 toast.error(errorMsg);
             } else {
                 toast.error(t('upgradeError'));
@@ -195,6 +215,28 @@ export default function BillingPage() {
         } finally {
             setUpgrading(false);
             setIsUpgradeDialogOpen(false);
+        }
+    };
+
+    const handleReactivateSubscription = async () => {
+        setReactivating(true);
+        try {
+            // Default to previously active plan or starter if unknown
+            const planToReactivate = subscription?.plan || 'starter';
+
+            const response: any = await api.post('/billing/reactivate-subscription', {
+                plan: planToReactivate
+            });
+
+            if (response.data.approvalUrl) {
+                toast.info(t('redirectingToPayPal'));
+                window.location.href = response.data.approvalUrl;
+            }
+        } catch (error: any) {
+            toast.error('Failed to initiate reactivation.');
+            console.error(error);
+        } finally {
+            setReactivating(false);
         }
     };
 
@@ -340,22 +382,30 @@ export default function BillingPage() {
                             </div>
 
                             <div className="mt-4 flex flex-col gap-2">
-                                {subscription.status !== 'CANCELLED' && (
+                                {(subscription.status === 'CANCELLED' || subscription.status === 'SUSPENDED' || subscription.status === 'EXPIRED') ? (
+                                    <button
+                                        onClick={handleReactivateSubscription}
+                                        disabled={reactivating}
+                                        className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-green-600 text-white text-xs font-bold hover:bg-green-700 transition-colors shadow-sm disabled:opacity-50"
+                                    >
+                                        <Repeat size={14} />
+                                        {reactivating ? 'Procesando...' : 'Reactivar Suscripción'}
+                                    </button>
+                                ) : (
                                     <>
-                                        {['starter', 'premium', 'elite']
-                                            .indexOf(subscription.plan.toLowerCase()) < 2 && (
-                                                <button
-                                                    onClick={() => {
-                                                        const nextPlan = subscription.plan.toLowerCase() === 'starter' ? 'premium' : 'elite';
-                                                        setTargetPlan(nextPlan);
-                                                        setIsUpgradeDialogOpen(true);
-                                                    }}
-                                                    className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm"
-                                                >
-                                                    <TrendingUp size={14} />
-                                                    {t('upgradePlan')}
-                                                </button>
-                                            )}
+                                        {['starter', 'premium', 'elite'].indexOf(subscription.plan.toLowerCase()) < 2 && (
+                                            <button
+                                                onClick={() => {
+                                                    const nextPlan = subscription.plan.toLowerCase() === 'starter' ? 'premium' : 'elite';
+                                                    setTargetPlan(nextPlan);
+                                                    setIsUpgradeDialogOpen(true);
+                                                }}
+                                                className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-sm"
+                                            >
+                                                <TrendingUp size={14} />
+                                                {t('upgradePlan')}
+                                            </button>
+                                        )}
                                         <button
                                             onClick={() => setIsCancelDialogOpen(true)}
                                             className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors"
