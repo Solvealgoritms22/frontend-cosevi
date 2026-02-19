@@ -136,7 +136,15 @@ function RegisterForm() {
             const res = await api.post('/registrations/pending', payload);
             setSuccess(true);
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Error al registrar. Intenta nuevamente.');
+            const message = err.response?.data?.message;
+            if (message === 'EMAIL_ALREADY_REGISTERED') {
+                setError('Este correo ya está registrado. Redirigiendo al inicio de sesión...');
+                setTimeout(() => {
+                    router.push('/login');
+                }, 2000);
+            } else {
+                setError(message || 'Error al registrar. Intenta nuevamente.');
+            }
         } finally {
             setLoading(false);
         }
