@@ -191,6 +191,16 @@ export default function BillingPage() {
                 toast.info('Reactivation process was cancelled.');
                 router.replace('/billing');
                 loadData();
+            } else if (searchParams.get('upgrade') === 'success') {
+                toast.success(t('changeSuccess'));
+                // Notify banner for real-time synchronization
+                window.dispatchEvent(new CustomEvent('subscription-updated'));
+                router.replace('/billing');
+                loadData();
+            } else if (searchParams.get('upgrade') === 'cancel') {
+                toast.info('Plan change was cancelled.');
+                router.replace('/billing');
+                loadData();
             } else {
                 // Normal load if no params
                 loadData();
