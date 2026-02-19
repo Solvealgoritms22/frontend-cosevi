@@ -174,6 +174,8 @@ export default function BillingPage() {
                             paypalSubscriptionId: subscriptionId
                         });
                         toast.success('Your subscription has been successfully reactivated!');
+                        // Notify banner
+                        window.dispatchEvent(new CustomEvent('subscription-updated'));
                     } catch (err) {
                         console.error('Failed to finalize reactivation:', err);
                         toast.error('Reactivation successful on PayPal, but sync failed. Please refresh.');
@@ -268,6 +270,8 @@ export default function BillingPage() {
         try {
             await api.patch('/billing/cancel-subscription');
             toast.success(t('subscriptionCancelledSuccess'));
+            // Notify banner
+            window.dispatchEvent(new CustomEvent('subscription-updated'));
             loadData();
         } catch (error: any) {
             const errorMsg = error.response?.data?.message || error.message;

@@ -21,7 +21,15 @@ export function SubscriptionBanner() {
                 console.error('Failed to fetch subscription status for banner:', err);
             }
         };
+
         fetchStatus();
+
+        // Listen for global subscription updates
+        window.addEventListener('subscription-updated', fetchStatus);
+
+        return () => {
+            window.removeEventListener('subscription-updated', fetchStatus);
+        };
     }, []);
 
     if (!status || status === 'ACTIVE' || !isVisible) return null;
