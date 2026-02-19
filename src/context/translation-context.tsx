@@ -231,6 +231,7 @@ const translations: Record<Language, Record<string, string>> = {
         previous: 'Previous',
         next: 'Next',
         page: 'Page',
+        hardwareMonitor: 'Hardware Monitor',
         // Documentation
         docSystem: 'System',
         docTitle: 'Documentation',
@@ -1070,6 +1071,7 @@ const translations: Record<Language, Record<string, string>> = {
         confirmPassword: 'Confirmar Contraseña',
         passwordsDoNotMatch: 'Las contraseñas no coinciden',
         redirectingToPayPal: 'Redirigiendo a PayPal...',
+        hardwareMonitor: 'Monitoreo de Hardware',
     }
 };
 
