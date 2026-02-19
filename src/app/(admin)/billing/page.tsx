@@ -20,7 +20,8 @@ import {
     FileBarChart,
     Printer,
     ChevronLeft,
-    Repeat
+    Repeat,
+    Calendar
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useTranslation } from '@/context/translation-context';
@@ -367,17 +368,26 @@ export default function BillingPage() {
                         <div className="absolute top-0 right-0 size-32 bg-linear-to-br from-indigo-500/10 to-violet-500/10 rounded-bl-full -mr-8 -mt-8" />
 
                         <div className="relative z-10">
-                            <div className="flex items-center gap-2 mb-4 w-fit px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-wider border border-indigo-100">
+                            <div className={`flex items-center gap-2 mb-4 w-fit px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${subscription.status === 'ACTIVE'
+                                ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                                : subscription.status === 'CANCELLED' && subscription.daysRemaining > 0
+                                    ? 'bg-amber-50 text-amber-600 border-amber-100'
+                                    : 'bg-red-50 text-red-600 border-red-100'
+                                }`}>
                                 <CreditCard size={14} />
-                                {t('activePlan')}
+                                {subscription.status === 'ACTIVE'
+                                    ? t('activePlan')
+                                    : subscription.status === 'CANCELLED' && subscription.daysRemaining > 0
+                                        ? 'Cancelación Pendiente'
+                                        : subscription.status === 'CANCELLED' ? 'Cancelado' : subscription.status}
                             </div>
                             <p className="text-3xl font-black capitalize mb-1 text-slate-900 tracking-tight">{subscription.plan}</p>
                             <p className="text-slate-500 text-lg font-bold">${subscription.amount.toFixed(2)}<span className="text-sm font-medium text-slate-400">/{t('monthShort')}</span></p>
 
                             <div className="mt-6 flex items-center gap-2 text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
-                                <Clock size={16} className="text-indigo-500" />
+                                <Calendar size={16} className="text-indigo-500" />
                                 <span className="text-sm font-bold">
-                                    <span className="text-slate-900">{subscription.daysRemaining}</span> {t('daysRemaining')}
+                                    {t('validUntil')}: <span className="text-slate-900">{new Date(subscription.currentPeriodEnd).toLocaleDateString()}</span>
                                 </span>
                             </div>
 
