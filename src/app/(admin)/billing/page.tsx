@@ -184,7 +184,9 @@ export default function BillingPage() {
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message || error.message;
-            if (errorMsg === 'Invalid target plan' || errorMsg === 'You can only upgrade to a higher tier plan') {
+            if (errorMsg === 'UPGRADE_BLOCKED_MANUAL_PLAN') {
+                toast.error(t('upgradeBlockedManualPlan'));
+            } else if (errorMsg === 'Invalid target plan' || errorMsg === 'You can only upgrade to a higher tier plan') {
                 toast.error(errorMsg);
             } else {
                 toast.error(t('upgradeError'));
