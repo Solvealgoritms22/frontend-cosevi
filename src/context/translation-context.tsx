@@ -382,6 +382,8 @@ const translations: Record<Language, Record<string, string>> = {
         visitDeleteError: 'Failed to delete visit',
         exportedRecords: 'Exported records',
         filterMobile: 'Filter',
+        redirectingToPayPal: 'Redirecting to PayPal...',
+        currentUsage: 'Current Usage',
         // Pricing Features
         upTo50Units: 'Up to 50 units',
         upTo100Parking: 'Up to 100 parking spots',
@@ -945,6 +947,7 @@ const translations: Record<Language, Record<string, string>> = {
         zodPlateRequired: 'La placa es requerida',
         zodStartDateRequired: 'La fecha de inicio es requerida',
         zodEndDateRequired: 'La fecha de fin es requerida',
+        currentUsage: 'Uso Actual',
         statusAll: 'Todos',
         statusPending: 'Pendiente',
         statusCheckedIn: 'Entrada Reg.',
@@ -1042,6 +1045,7 @@ const translations: Record<Language, Record<string, string>> = {
         seeItInAction: 'Mira cómo ENTRA transforma la seguridad y conveniencia para complejos residenciales modernos.',
         confirmPassword: 'Confirmar Contraseña',
         passwordsDoNotMatch: 'Las contraseñas no coinciden',
+        redirectingToPayPal: 'Redirigiendo a PayPal...',
     }
 };
 
