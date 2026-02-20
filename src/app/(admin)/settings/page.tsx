@@ -259,10 +259,13 @@ export default function SettingsPage() {
                                         <div className="relative group">
                                             <div className="w-40 h-40 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden transition-all group-hover:border-violet-400">
                                                 {fullLogoUrl ? (
-                                                    <img
+                                                    <Image
                                                         src={fullLogoUrl}
                                                         alt="Logo"
-                                                        className="w-full h-full object-contain p-3"
+                                                        width={140}
+                                                        height={140}
+                                                        className="object-contain p-3"
+                                                        unoptimized
                                                     />
                                                 ) : (
                                                     <div className="text-center">
@@ -392,7 +395,7 @@ export default function SettingsPage() {
                                             {/* Mock header */}
                                             <div className="h-14 flex items-center px-6 gap-4" style={{ backgroundColor: secondaryColor }}>
                                                 {fullLogoUrl ? (
-                                                    <img src={fullLogoUrl} alt="Logo preview" className="h-8 w-auto object-contain" />
+                                                    <Image src={fullLogoUrl} alt="Logo preview" width={80} height={32} className="object-contain" unoptimized />
                                                 ) : (
                                                     <div className="w-8 h-8 rounded-lg bg-white/20" />
                                                 )}

@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
     LayoutDashboard,
     History,
@@ -162,10 +163,13 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                             )}
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                            <Image
                                 src={collapsed ? "/favicon.png" : (customLogo || "/logo-official.png")}
                                 alt={orgName}
-                                className="object-contain w-full h-full"
+                                fill
+                                className="object-contain"
+                                unoptimized={customLogo !== null}
+                                priority
                             />
                         </div>
                         {!collapsed && (

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Mail, Lock, User, Building2, MapPin, CheckCircle, Clock, Upload, ImageIcon, X, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api, { API_BASE_URL } from '@/lib/api';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from '@/context/translation-context';
 
@@ -380,7 +381,7 @@ function RegisterForm() {
                                         ) : logoPreview ? (
                                             <div className="relative">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={logoPreview} alt="Logo" className="max-h-16 object-contain" />
+                                                <Image src={logoPreview} alt="Logo" width={100} height={64} className="object-contain" unoptimized />
                                                 <button
                                                     type="button"
                                                     onClick={(e) => { e.stopPropagation(); setLogoUrl(''); setLogoPreview(''); }}
@@ -459,8 +460,7 @@ function RegisterForm() {
                                         <div>
                                             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Logo</p>
                                             <div className="mt-1">
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={logoPreview} alt="Logo Preview" className="h-10 object-contain" />
+                                                <Image src={logoPreview} alt="Logo Preview" width={80} height={40} className="object-contain" unoptimized />
                                             </div>
                                         </div>
                                     </div>
@@ -537,10 +537,12 @@ export default function RegisterPage() {
             >
                 <div className="relative w-48 h-24 flex items-center justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                         src="/logo-official.png"
                         alt="Entrar"
-                        className="object-contain w-full h-full drop-shadow-xl"
+                        fill
+                        className="object-contain drop-shadow-xl"
+                        priority
                     />
                 </div>
             </motion.div>

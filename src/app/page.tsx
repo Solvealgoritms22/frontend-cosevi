@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { AnimatePresence, motion } from "framer-motion";
 import {
     ShieldCheck,
@@ -126,10 +128,12 @@ export default function LandingPage() {
                     <div className="flex items-center gap-3">
                         <div className="relative w-28 h-14 md:w-40 md:h-22 flex items-center justify-center py-2">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                            <Image
                                 src="/logo-landing.png"
                                 alt="Entrar"
-                                className="object-contain w-full h-full"
+                                fill
+                                className="object-contain"
+                                priority
                             />
                         </div>
                     </div>
@@ -324,10 +328,12 @@ export default function LandingPage() {
                                 <div className="w-full aspect-square bg-white rounded-2xl md:rounded-3xl p-3 md:p-4 flex items-center justify-center shadow-inner relative overflow-hidden group-hover:shadow-[0_0_30px_rgba(37,99,235,0.3)] transition-shadow duration-500">
                                     <div className="absolute inset-0 bg-linear-to-tr from-blue-50 to-transparent opacity-50" />
                                     {/* Using a clear QR code image */}
-                                    <img
+                                    <Image
                                         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CoseviAccessControl-DamianLopez-Elite"
                                         alt="QR Access"
-                                        className="w-full h-full object-contain mix-blend-multiply opacity-90"
+                                        fill
+                                        className="object-contain mix-blend-multiply opacity-90"
+                                        unoptimized
                                     />
 
                                     {/* Scanning line animation */}
@@ -572,10 +578,11 @@ export default function LandingPage() {
                     <div className="flex items-center gap-3">
                         <div className="relative w-40 h-16 flex items-center justify-center">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                            <Image
                                 src="/logo-landing.png"
                                 alt="Entrar"
-                                className="object-contain w-full h-full"
+                                fill
+                                className="object-contain"
                             />
                         </div>
                     </div>

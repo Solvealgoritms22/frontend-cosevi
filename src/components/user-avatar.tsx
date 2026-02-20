@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { User, Shield } from "lucide-react";
 import { API_BASE_URL, BASE_URL } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -44,14 +45,20 @@ export function UserAvatar({
     };
 
     if (src && !error) {
-        return (
-            <img
-                src={getImageUrl(src)}
-                alt={name || t('userAvatar')}
-                className={cn("w-full h-full object-cover", className)}
-                onError={() => setError(true)}
-            />
-        );
+        if (src && !error) {
+            return (
+                <div className={cn("relative w-full h-full overflow-hidden", className)}>
+                    <Image
+                        src={getImageUrl(src)}
+                        alt={name || t('userAvatar')}
+                        fill
+                        className="object-cover"
+                        onError={() => setError(true)}
+                        unoptimized
+                    />
+                </div>
+            );
+        }
     }
 
     // Fallback logic

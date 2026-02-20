@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, ArrowLeft, Mail, Phone, MapPin, Send } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function ContactPage() {
@@ -29,10 +30,12 @@ export default function ContactPage() {
                         <div className="flex items-center gap-3">
                             <div className="relative w-40 h-22 flex items-center justify-center">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <Image
                                     src="/logo-landing.png"
                                     alt="ENTRAR"
-                                    className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full h-full"
+                                    fill
+                                    className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                                    priority
                                 />
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ShieldCheck, ArrowRight, ArrowLeft, Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api, { API_BASE_URL } from '@/lib/api';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from '@/context/translation-context';
 
@@ -105,10 +106,13 @@ export default function LoginPage() {
             >
                 <div className="relative w-64 h-24 flex items-center justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                         src={logoSrc}
                         alt={branding?.name || "Entrar"}
-                        className="object-contain drop-shadow-2xl w-full h-full"
+                        fill
+                        className="object-contain drop-shadow-2xl"
+                        unoptimized
+                        priority
                     />
                 </div>
                 {branding?.name && (
